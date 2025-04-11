@@ -34,8 +34,15 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass = "org.example.App"
+    mainClass.set("org.example.App")
 }
+
+tasks.withType<Jar> {
+    manifest {
+        attributes["Main-Class"] = "org.example.App"
+    }
+}
+
 
 tasks.named<Test>("test") {
     // Use JUnit Platform for unit tests.
