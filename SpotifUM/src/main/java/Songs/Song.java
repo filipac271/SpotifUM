@@ -1,4 +1,4 @@
-package Entidades;
+package Songs;
 
 public class Song implements Cloneable {
     private String nome;

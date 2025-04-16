@@ -1,7 +1,7 @@
 
 package controller;
 
-import Entidades.Song;
+import Songs.Song;
 import io.Input;
 
 public class App {

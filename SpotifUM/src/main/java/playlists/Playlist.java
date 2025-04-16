@@ -1,7 +1,10 @@
-package Entidades;
+package playlists;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import Songs.Song;
+
 import java.util.ArrayList;
 
 public abstract class Playlist {
