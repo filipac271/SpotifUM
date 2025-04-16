@@ -1,21 +1,55 @@
 
 package controller;
 
-import Songs.Song;
+import java.util.Scanner;
+
 import io.Input;
 
 public class App {
 
-    public static void main(String[] args) {
-        // Criando uma instância de Song
-        Song song = new Song("Música Exemplo", "Artista Exemplo", "Editora Exemplo", 
-                             "Letra da música aqui...", "Pauta da música", 
-                             "Pop", 210);
+    public void mainLoop() {
+        Scanner sc = new Scanner(System.in); 
+    
+        while (true) {
 
+            int option;
+    
+            try {
+                option = sc.nextInt();
+            } catch (Exception e) {
+                System.out.println("Entrada inválida. Tente novamente.");
+                sc.nextLine(); 
+                continue;
+            }
+    
+            switch (option) {
+                case 1:
+                    System.out.println("A tentar iniciar sessao");
+                    
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    System.out.println("A sair...");
+                    return; 
+                default:
+                    System.out.println("Opção inválida");
+                    break;
+            }
+        }
+    }
+    
+
+    public static void main(String[] args) {
         // Criando uma instância de IO
         Input io = new Input();
-        
-        // Reproduzindo a música (imprimindo a letra)
-        io.playSong(song);
+        App app = new App();
+
+        io.mainMenu();
+
+        app.mainLoop();
+
     }
 }

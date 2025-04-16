@@ -14,5 +14,16 @@ public class Input {
         System.out.println(song.getLetra()); 
     }
 
+
+
+    public void mainMenu(){
+        System.out.println("1. Iniciar Sessão");
+        System.out.println("2. Criar conta");
+        System.out.println("3. Criar Álbum");
+        System.out.println("4. Fechar o programa");
+        System.out.println("Prima o número correspondente à opção que deseja executar:");
+    }
+    
+
   
 }
