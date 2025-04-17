@@ -72,12 +72,15 @@ public class PlaylistTematica extends Playlist {
 
     @Override
     public String toString() {
-        return "PlaylistTematica{" +
-                "nome='" + getNome() + '\'' +
-                ", genero='" + genero + '\'' +
-                ", duracaoMaxima=" + duracaoMaxima +
-                ", duracaoAtual=" + getDuracaoAtual() +
-                ", numMusicas=" + tamanho() +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("PlaylistTematica{")
+          .append("nome='").append(getNome()).append('\'')
+          .append(", genero='").append(genero).append('\'')
+          .append(", duracaoMaxima=").append(duracaoMaxima)
+          .append(", duracaoAtual=").append(getDuracaoAtual())
+          .append(", numMusicas=").append(tamanho())
+          .append('}');
+        return sb.toString();
     }
+    
 }

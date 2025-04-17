@@ -28,7 +28,9 @@ public class SongMultimedia extends Song {
 
     @Override
     public String toString() {
-        return super.toString() + ", videoUrl=" + this.videoUrl;
+        StringBuilder sb = new StringBuilder(super.toString());
+        sb.append(", videoUrl=").append(this.videoUrl);
+        return sb.toString();
     }
 
     @Override

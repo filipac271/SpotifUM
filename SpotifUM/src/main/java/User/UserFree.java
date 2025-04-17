@@ -6,5 +6,7 @@ public class UserFree extends User {
     {
         setPontos(pontos+5);
     }
+
+
     
 }
