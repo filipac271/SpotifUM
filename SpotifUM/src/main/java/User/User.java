@@ -60,6 +60,6 @@ public abstract class User {
         this.pontos=pontos;
     }
 
-   
-   
+//     @Override
+//    public abstract User clone();
 }
