@@ -1,7 +1,5 @@
 package io;
-import java.util.Scanner;
-
-import Songs.Song;
+import Song.Song;
 
 public class Input {
 

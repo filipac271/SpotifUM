@@ -34,12 +34,18 @@ public class App {
                     break;
                 case 4:
                     System.out.println("A sair...");
-                    return; 
+                    break; 
                 default:
                     System.out.println("Opção inválida");
                     break;
             }
+
+            if (option == 4) {
+                break; // Sair do while
+            }
         }
+    
+       sc.close();
     }
     
 

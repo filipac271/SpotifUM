@@ -1,4 +1,4 @@
-package Songs;
+package Song;
 
 public class Song implements Cloneable {
     private String nome;

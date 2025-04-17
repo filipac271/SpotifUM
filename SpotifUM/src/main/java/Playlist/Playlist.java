@@ -1,9 +1,9 @@
-package playlists;
+package Playlist;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import Songs.Song;
+import Song.Song;
 
 import java.util.ArrayList;
 
