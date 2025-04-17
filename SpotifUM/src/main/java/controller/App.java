@@ -9,7 +9,8 @@ public class App {
 
     public void mainLoop() {
         Scanner sc = new Scanner(System.in); 
-    
+        Input io = new Input();
+
         while (true) {
 
             int option;
@@ -25,7 +26,7 @@ public class App {
             switch (option) {
                 case 1:
                     System.out.println("A tentar iniciar sessao");
-                    
+                    io.createUserMenu();
                     break;
                 case 2:
                     break;

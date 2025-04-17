@@ -1,4 +1,6 @@
 package io;
+import java.util.Scanner;
+
 import Songs.Song;
 
 public class Input {
@@ -24,6 +26,30 @@ public class Input {
         System.out.println("Prima o número correspondente à opção que deseja executar:");
     }
     
+    public void createUserMenu (){
+
+        Scanner sc = new Scanner(System.in);
+
+
+        System.out.println("Digite o seu Nome: ");
+        String nome = sc.nextLine();
+        System.out.println("Digite o seu Email: ");
+        String email = sc.nextLine(); 
+        System.out.println("Digite a sua Morada: ");
+        String morada = sc.nextLine(); 
+
+        
+        //Criar user
+
+
+        System.out.println("A sua conta foi criada com sucesso "+ nome);
+
+        System.out.println("Nome: " + nome + "  Email: " + email + "  Morada: " + morada);
+
+
+
+
+    }
 
   
 }
