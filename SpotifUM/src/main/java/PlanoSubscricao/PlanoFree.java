@@ -1,4 +1,4 @@
-package org.example.PlanoSubscricao;
+package PlanoSubscricao;
 
 public class PlanoFree implements PlanoSubscricao {
     public double calculaPontos(double pontos){

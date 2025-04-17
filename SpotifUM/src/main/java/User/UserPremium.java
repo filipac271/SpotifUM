@@ -1,6 +1,6 @@
-package org.example.User;
-import org.example.Playlist.Playlist;
-import org.example.Album.Album;
+package User;
+import Album.Album;
+import Playlist.Playlist;
 
 import java.util.List;
 

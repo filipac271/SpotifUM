@@ -1,10 +1,11 @@
-package org.example.Playlist;
+package Playlist;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.ArrayList;
 
-import org.example.Song.Song;
+import Song.Song;
+
+import java.util.ArrayList;
 
 public abstract class Playlist {
     private String nome;

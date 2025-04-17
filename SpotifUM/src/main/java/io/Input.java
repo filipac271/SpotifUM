@@ -1,5 +1,5 @@
 package io;
-import Songs.Song;
+import Song.Song;
 
 public class Input {
 

@@ -1,4 +1,4 @@
-package org.example.User;
+package User;
 
 public class UserPremiumBase extends UserPremium{
 

@@ -1,4 +1,4 @@
-package org.example.User;
+package User;
 
 public class UserFree extends User {
    

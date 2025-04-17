@@ -1,7 +1,8 @@
-package playlists;
+package Playlist;
 
-import Songs.Song;
 import java.util.List;
+
+import Song.Song;
 
 
 public class PlaylistTematica extends Playlist {

@@ -1,4 +1,4 @@
-package org.example.PlanoSubscricao;
+package PlanoSubscricao;
 
 public interface PlanoSubscricao {
 

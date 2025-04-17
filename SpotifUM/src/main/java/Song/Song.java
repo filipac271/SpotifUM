@@ -1,4 +1,4 @@
-package org.example.Song;
+package Song;
 
 public class Song implements Cloneable {
     private String nome;
@@ -134,5 +134,6 @@ public class Song implements Cloneable {
                pauta.equals(song.pauta) &&
                genero.equals(song.genero);
     }
+
 
 }
