@@ -1,26 +1,35 @@
 package Playlist;
 
 import java.util.List;
+import java.util.ListIterator;
 import java.util.stream.Collectors;
 
+
+
+import PlanoSubscricao.PlanoSubscricao;
 import Song.Song;
+
 
 import java.util.ArrayList;
 
 public abstract class Playlist {
     private String nome;
-    private List<Song> musicas;
+    protected List<Song> musicas;
+    private boolean publica;
 
-    public Playlist(String nome, List<Song> musicas) {
+    public Playlist(String nome, List<Song> musicas,boolean publica) {
         this.nome = nome;
         this.musicas = musicas.stream()
                               .map(song -> song.clone())
                               .collect(Collectors.toList());
+        this.publica=publica;
+
     }
     
     public Playlist() {
         this.nome = "";
         this.musicas = new ArrayList<>();
+        this.publica=false;
     }
 
     public Playlist(Playlist outra) {
@@ -28,6 +37,7 @@ public abstract class Playlist {
         this.musicas = outra.musicas.stream()
                 .map(song -> song.clone())
                 .collect(Collectors.toList());
+        this.publica=outra.publica;
 
     }
 
@@ -52,6 +62,16 @@ public abstract class Playlist {
                               .collect(Collectors.toList());
     }
     
+    public boolean getPublica()
+    {
+        return this.publica;
+    }
+
+    public void setPublica(boolean publica)
+    {
+        this.publica=publica;
+    }
+
 
     public void adicionarMusica(Song musica) {
         musicas.add(musica.clone());
@@ -73,5 +93,28 @@ public abstract class Playlist {
         return musicas.size();
     }
 
-    public abstract void reproduzir(); 
+ /* 
+    public void reproduzir(PlanoSubscricao plano)
+    {
+        
+            ListIterator<Song> musicas =this.musicas.listIterator();
+            while(musicas.hasNext())
+            {
+                 Song s=musicas.next();
+                 s.reproduzirMusica();
+
+                 //?????????? Como sabemos se o user quer avançar ou retroceder
+               while(plano.podeAvancarRetroceder() && musicas.hasPrevious())
+               {
+                 musicas.previous(); 
+                 s.reproduzirMusica();
+               }
+               while(plano.podeAvancarRetroceder() && musicas.hasNext())
+               {
+                 musicas.next(); 
+                 s.reproduzirMusica();
+               }
+            }
+    } */
 }
+

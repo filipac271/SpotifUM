@@ -1,13 +1,16 @@
 package User;
 
-public abstract class User {
+import PlanoSubscricao.PlanoSubscricao;
+
+public class User {
     
     private String nome;
     private String email;
     private String morada;
     private double pontos;
+    private PlanoSubscricao plano;
+
    
-    public abstract void adicionarPontos(int p) ;
     
     public User()
     {
@@ -15,15 +18,17 @@ public abstract class User {
         this.email="";
         this.morada="";
         this.pontos=0;
+        this.plano=null;
         
     }
     public User(String nome, String email, 
-                String morada,double pontos)
+                String morada,double pontos,PlanoSubscricao plano)
     {
         this.nome=nome;
         this.email=email;
         this.morada=morada;
-        this.pontos=0;
+        this.pontos=plano.calculaPontos(0);
+        this.plano=plano;
     }
     public User(User user)
     {
@@ -31,6 +36,7 @@ public abstract class User {
         this.email=user.getEmail();
         this.morada=user.getMorada();
         this.pontos=user.getPontos();
+        this.plano=user.getPlano();
 
     }
 
@@ -46,6 +52,10 @@ public abstract class User {
     public double getPontos(){
         return this.pontos;
     }
+    public PlanoSubscricao getPlano()
+    {
+        return this.plano; 
+    }
 
     public void setNome(String nome) { 
         this.nome = nome; 
@@ -59,7 +69,14 @@ public abstract class User {
     public void setPontos(double pontos){
         this.pontos=pontos;
     }
-
+    public void setPlano(PlanoSubscricao plano)
+    {
+        this.plano=plano;
+    }
    
+    public int quantasPlaylists()
+    {
+        return this.plano.numPlaylists();
+    }
    
 }

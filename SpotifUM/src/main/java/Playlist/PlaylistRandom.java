@@ -1,5 +1,7 @@
 package Playlist;
 
-public class PlaylistRandom {
-    
+
+
+public class PlaylistRandom extends Playlist {
+ 
 }
