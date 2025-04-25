@@ -69,6 +69,7 @@ public class User {
     public void setPontos(double pontos){
         this.pontos=pontos;
     }
+
     public void setPlano(PlanoSubscricao plano)
     {
         this.plano=plano;
@@ -79,4 +80,9 @@ public class User {
         return this.plano.numPlaylists();
     }
    
+
+
+//     @Override
+//    public abstract User clone();
+
 }

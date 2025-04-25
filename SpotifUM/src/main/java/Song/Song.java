@@ -109,9 +109,30 @@ public class Song implements Cloneable {
 
     @Override
     public String toString() {
-        return "Song [nome=" + this.nome + ", interprete=" + this.interprete + ", editora=" + this.editora +
-               ", genero=" + this.genero + ", duracao=" + this.duracao + " segundos, numRep=" + this.numRep + "]";
+        StringBuilder sb = new StringBuilder();
+        sb.append("Song [nome=").append(this.nome)
+          .append(", interprete=").append(this.interprete)
+          .append(", editora=").append(this.editora)
+          .append(", genero=").append(this.genero)
+          .append(", duracao=").append(this.duracao)
+          .append(" segundos, numRep=").append(this.numRep)
+          .append("]");
+        return sb.toString();
     }
+
+    public String toCSVString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.nome).append(";")
+          .append(this.interprete).append(";")
+          .append(this.editora).append(";")
+          .append(this.letra).append(";")
+          .append(this.pauta).append(";")
+          .append(this.genero).append(";")
+          .append(this.duracao).append(";")
+          .append(this.numRep);
+        return sb.toString();
+    }
+    
     
     @Override
     public Song clone() {

@@ -1,4 +1,8 @@
 package io;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 import Song.Song;
 
 public class Input {
@@ -17,13 +21,85 @@ public class Input {
 
 
     public void mainMenu(){
-        System.out.println("1. Iniciar Sessão");
+        System.out.println("\n1. Iniciar Sessão");
         System.out.println("2. Criar conta");
         System.out.println("3. Criar Álbum");
         System.out.println("4. Fechar o programa");
         System.out.println("Prima o número correspondente à opção que deseja executar:");
     }
     
+    public void createUserMenu (){
+
+        Scanner sc = new Scanner(System.in);
+
+
+        System.out.println("Digite o seu Nome: ");
+        String nome = sc.nextLine();
+        System.out.println("Digite o seu Email: ");
+        String email = sc.nextLine(); 
+        System.out.println("Digite a sua Morada: ");
+        String morada = sc.nextLine(); 
+
+        
+        //Criar user
+
+
+        System.out.println("A sua conta foi criada com sucesso "+ nome);
+
+        System.out.println("Nome: " + nome + "  Email: " + email + "  Morada: " + morada);
+
+
+
+        sc.close();
+    }
+
+    public void createAlbumMenu (Scanner sc){
+        Persistencia ps = new Persistencia();
+
+        System.out.println("Digite o número de musicas que queres no album: ");
+        int numMusicas = sc.nextInt();
+        sc.nextLine();
+        System.out.println("Digite o nome do Album: ");
+        String nome = sc.nextLine(); 
+        System.out.println("Digite o artista do Album: ");
+        String artista = sc.nextLine(); 
+        List<Song> album = new ArrayList<>(); 
+
+
+        for (int i = 0; i < numMusicas; i++) {
+            System.out.println("Música " + (i + 1) + ":");
+        
+            System.out.print("  Digite o nome: ");
+            String nomeMusica = sc.nextLine();
+        
+            System.out.print("  Digite o intérprete: ");
+            String interprete = sc.nextLine();
+        
+            System.out.print("  Digite a editora: ");
+            String editora = sc.nextLine();
+        
+            System.out.print("  Digite a letra: ");
+            String letra = sc.nextLine();
+        
+            System.out.print("  Digite a pauta: ");
+            String pauta = sc.nextLine();
+        
+            System.out.print("  Digite o gênero: ");
+            String genero = sc.nextLine();
+        
+            System.out.print("  Digite a duração (em segundos): ");
+            int duracao = sc.nextInt();
+            sc.nextLine();
+        
+            Song musica = new Song(nomeMusica, interprete, editora, letra, pauta, genero, duracao);
+            ps.writeLine(musica.toCSVString(),"../../Albuns.csv");
+            album.add(musica);
+        }
+        System.out.println("O album " + nome +" do " + artista + " foi criado tendo um total de " + numMusicas + " músicas.");
+
+    }
+
+
 
   
 }
