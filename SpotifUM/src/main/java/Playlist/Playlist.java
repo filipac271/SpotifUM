@@ -15,8 +15,9 @@ import java.util.ArrayList;
 
 
     public abstract class Playlist {
-        private String nome;
-        private List<Song> musicas;
+        protected String nome;
+        protected List<Song> musicas;
+        private boolean publica;
 
         public Playlist(String nome, List<Song> musicas,boolean publica) {
             this.nome = nome;

@@ -10,7 +10,8 @@ public class PlaylistTematica extends Playlist {
     private final int duracaoMaxima;
 
     public PlaylistTematica(String nome, List<Song> musicas, String genero, int duracaoMaxima) {
-        super(nome, List.of()); // inicia vazia
+        //super(nome, List.of());
+        super(); // inicia vazia
         this.genero = genero;
         this.duracaoMaxima = duracaoMaxima;
 
@@ -21,7 +22,8 @@ public class PlaylistTematica extends Playlist {
     }
 
     public PlaylistTematica(String nome, String genero, int duracaoMaxima) {
-        super(nome, List.of());
+        //super(nome, List.of());
+        super();
         this.genero = genero;
         this.duracaoMaxima = duracaoMaxima;
     }

@@ -37,6 +37,7 @@ application {
     mainClass.set("controller.App")
 }
 
+
 tasks.withType<Jar> {
     manifest {
         attributes["Main-Class"] = "controller.App"
@@ -47,4 +48,8 @@ tasks.withType<Jar> {
 tasks.named<Test>("test") {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
+}
+
+tasks.named<JavaExec>("run") {
+    standardInput = System.`in`
 }

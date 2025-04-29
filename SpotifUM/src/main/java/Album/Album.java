@@ -1,13 +1,9 @@
 package Album;
 
-
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
-import PlanoSubscricao.PlanoSubscricao;
 import Song.Song;
 
 public class Album {
