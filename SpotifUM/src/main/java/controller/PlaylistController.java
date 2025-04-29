@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import Playlist.Playlist;
+import Song.Song;
 
 public class PlaylistController {
     
@@ -35,5 +36,19 @@ public class PlaylistController {
     // Verifica se uma playlist existe
     public boolean playlistExists(String name) {
         return playlistTable.containsKey(name);
+    }
+
+      public int numPlaylistsPublicas()
+    {
+        int numPublicas = 0;
+
+        for (Map.Entry<String, Playlist> entry : playlistTable.entrySet()) {
+            Playlist playlist = entry.getValue();
+            if (playlist.getPublica()) {
+                numPublicas++;
+            }
+        }
+
+        return numPublicas;
     }
 }

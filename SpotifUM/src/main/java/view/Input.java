@@ -1,12 +1,13 @@
-package io;
+package view;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import Song.Song;
-
+import controller.UserController;
 public class Input {
 
+    private UserController userController;
     // Método para reproduzir a música (imprimir a letra no terminal)
     public void playSong(Song song) {
         System.out.println("Reproduzindo a música: " + song.getNome());
@@ -27,14 +28,20 @@ public class Input {
         System.out.println("4. Fechar o programa");
         System.out.println("Prima o número correspondente à opção que deseja executar:");
     }
-    
-    public void createUserMenu (){
+    public void logInUserMenu(Scanner sc)
+    {
 
-        Scanner sc = new Scanner(System.in);
+    }
+    public void createUserMenu (Scanner sc){
 
-
+       
+        System.out.println("A iniciar sessao");
+        List<String> linhas = new ArrayList<>();
+        
         System.out.println("Digite o seu Nome: ");
         String nome = sc.nextLine();
+        System.out.println("Crie uma Password: ");
+        String password = sc.nextLine();
         System.out.println("Digite o seu Email: ");
         String email = sc.nextLine(); 
         System.out.println("Digite a sua Morada: ");
@@ -42,18 +49,18 @@ public class Input {
 
         
         //Criar user
+    
 
 
         System.out.println("A sua conta foi criada com sucesso "+ nome);
 
         System.out.println("Nome: " + nome + "  Email: " + email + "  Morada: " + morada);
 
-
-
-        sc.close();
     }
 
     public void createAlbumMenu (Scanner sc){
+
+        System.out.println("Criar um album");
         Persistencia ps = new Persistencia();
 
         System.out.println("Digite o número de musicas que queres no album: ");
@@ -99,7 +106,14 @@ public class Input {
 
     }
 
+    public void out()
+    {
+        System.out.println("A sair...");
+    }
 
-
+    public void optionError()
+    {
+        System.out.println("Entrada inválida. Tente novamente.");
+    }
   
 }

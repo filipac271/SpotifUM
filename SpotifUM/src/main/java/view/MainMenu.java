@@ -1,13 +1,9 @@
-
-package controller;
+package view;
 
 import java.util.Scanner;
 
-import view.Input;
-
-public class App {
-
-    public void mainLoop() {
+public class MainMenu {
+     public void mainLoop() {
         Scanner sc = new Scanner(System.in); 
         Input io = new Input();
 
@@ -19,27 +15,27 @@ public class App {
                 option = sc.nextInt();
                 sc.nextLine();
             } catch (Exception e) {
-                io.optionError();
+                System.out.println("Entrada inválida. Tente novamente.");
                 sc.nextLine(); 
                 continue;
             }
-
+    
             switch (option) {
                 case 1:
-                    io.logInUserMenu(sc);
+                    System.out.println("A tentar iniciar sessao");
+                    io.createUserMenu(sc);
                     break;
                 case 2:
-                    io.createUserMenu(sc);
-                    
                     break;
                 case 3:
+                    System.out.println("Bora lá criar um album");
                     io.createAlbumMenu(sc);
                     break;
                 case 4:
-                    io.out();
+                    System.out.println("A sair...");
                     break; 
                 default:
-                    io.optionError();
+                    System.out.println("Opção inválida");
                     break;
             }
 
@@ -51,11 +47,4 @@ public class App {
        sc.close();
     }
     
-
-    public static void main(String[] args) {
-        App app = new App();
-        
-        app.mainLoop();
-
-    }
 }

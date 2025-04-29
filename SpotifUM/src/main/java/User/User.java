@@ -5,6 +5,7 @@ import PlanoSubscricao.PlanoSubscricao;
 public class User {
     
     private String nome;
+    private String password;
     private String email;
     private String morada;
     private double pontos;
@@ -15,16 +16,18 @@ public class User {
     public User()
     {
         this.nome="";
+        this.password="";
         this.email="";
         this.morada="";
         this.pontos=0;
         this.plano=null;
         
     }
-    public User(String nome, String email, 
-                String morada,double pontos,PlanoSubscricao plano)
+    public User(String nome, String password, String email, 
+                String morada,PlanoSubscricao plano)
     {
         this.nome=nome;
+        this.password=password;
         this.email=email;
         this.morada=morada;
         this.pontos=plano.calculaPontos(0);
@@ -75,7 +78,7 @@ public class User {
         this.plano=plano;
     }
    
-    public int quantasPlaylists()
+    public int getNumPlaylists()
     {
         return this.plano.numPlaylists();
     }
