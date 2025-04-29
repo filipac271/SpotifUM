@@ -1,15 +1,18 @@
 package Playlist;
 
 import java.util.List;
+
 import java.util.stream.Collectors;
 
 import Song.Song;
 
 public class PlaylistRandom extends Playlist {
+  
 
-    public PlaylistRandom(PlaylistRandom playlist) {
-            super();
-        }
+    public PlaylistRandom(PlaylistRandom outra) {
+        super(outra.getNome(), outra.getMusicas(), outra.getPublica());
+    }
+    
         
  @Override
     public void reproduzir() {
@@ -23,4 +26,14 @@ public class PlaylistRandom extends Playlist {
     public PlaylistRandom clone() {
         return new PlaylistRandom(this);
     }
+  
 }
+
+
+
+
+
+
+
+  
+
