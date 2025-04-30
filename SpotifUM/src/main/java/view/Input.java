@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 import PlanoSubscricao.PlanoSubscricao;
 import Song.Song;
-import controller.UserController;
+import controller.Controller;
 public class Input {
 
    
@@ -30,14 +30,14 @@ public class Input {
         System.out.println("4. Fechar o programa");
         System.out.println("Prima o número correspondente à opção que deseja executar:");
     }
-    public void logInUserMenu(Scanner sc, UserController userController)
+    public void logInUserMenu(Scanner sc, Controller controller)
     {
           
         System.out.println("A iniciar sessao");
 
         System.out.println("Digite o seu Username: ");
         String username = sc.nextLine();
-        if( !(userController.userExists(username)))
+        if( !(controller.userExists(username)))
         {
             System.out.println("Utilizador não existe!");
         }
@@ -45,7 +45,7 @@ public class Input {
         {
             System.out.println("Digite a sua Password: ");
             String password=sc.nextLine();
-            if(!userController.authenticUser(username, password))
+            if(!controller.authenticUser(username, password))
             {
                 System.out.println("Password ou nome de Utilizador estão errados!");
                 //////////
@@ -74,7 +74,7 @@ public class Input {
         }
         return option;
     }
-    public void createUserMenu (Scanner sc, UserController userController){
+    public void createUserMenu (Scanner sc, Controller controller){
        
         
         System.out.println("Digite o seu Nome: ");
@@ -82,8 +82,8 @@ public class Input {
         System.out.println("Crie um username único: ");
         String username= sc.nextLine();
         System.out.println("daksjdasp" + username);
-        System.out.println(userController.userExists(username));
-        while(userController.userExists(username))
+        System.out.println(controller.userExists(username));
+        while(controller.userExists(username))
         {
             System.out.println("Este username já existe! Escolha outro: ");
             username= sc.nextLine();
@@ -96,8 +96,8 @@ public class Input {
         System.out.println("Digite a sua Morada: ");
         String morada = sc.nextLine(); 
         
-        PlanoSubscricao plano= userController.createPlano(sc);
-        userController.addUser(nome,username,password,email,morada,plano);
+        PlanoSubscricao plano= controller.createPlano(sc);
+        controller.addUser(nome,username,password,email,morada,plano);
         
         System.out.println("A sua conta foi criada com sucesso "+ nome);
 

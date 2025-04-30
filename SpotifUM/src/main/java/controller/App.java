@@ -10,7 +10,7 @@ public class App {
     public void mainLoop() {
         Scanner sc = new Scanner(System.in); 
         Input io = new Input();
-        UserController userController= new UserController();
+        Controller controller= new Controller();
         while (true) {
 
             int option;
@@ -26,10 +26,10 @@ public class App {
 
             switch (option) {
                 case 1:
-                    io.logInUserMenu(sc,userController);
+                    io.logInUserMenu(sc,controller);
                     break;
                 case 2:
-                    io.createUserMenu(sc,userController);  
+                    io.createUserMenu(sc,controller);  
                     break;
                 case 3:
                     io.createAlbumMenu(sc);
