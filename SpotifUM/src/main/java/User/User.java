@@ -5,6 +5,7 @@ import PlanoSubscricao.PlanoSubscricao;
 public class User {
     
     private String nome;
+    private String username;
     private String password;
     private String email;
     private String morada;
@@ -16,6 +17,7 @@ public class User {
     public User()
     {
         this.nome="";
+        this.username="";
         this.password="";
         this.email="";
         this.morada="";
@@ -23,10 +25,11 @@ public class User {
         this.plano=null;
         
     }
-    public User(String nome, String password, String email, 
+    public User(String nome, String username,String password, String email, 
                 String morada,PlanoSubscricao plano)
     {
         this.nome=nome;
+        this.username=username;
         this.password=password;
         this.email=email;
         this.morada=morada;
@@ -36,6 +39,8 @@ public class User {
     public User(User user)
     {
         this.nome=user.getNome();
+        this.username=user.getUsername();
+        this.password=user.getPassword();
         this.email=user.getEmail();
         this.morada=user.getMorada();
         this.pontos=user.getPontos();
@@ -46,6 +51,16 @@ public class User {
     public String getNome(){
         return this.nome;
     }
+
+    public String getUsername()
+    {
+        return this.username;
+    }
+    public String getPassword()
+    {
+        return this.password;
+    }
+
     public String getEmail(){
         return this.email;
     }
@@ -62,6 +77,14 @@ public class User {
 
     public void setNome(String nome) { 
         this.nome = nome; 
+    }
+    public void setUsername(String username)
+    {
+        this.username=username;
+    }
+    public void setPassword(String password)
+    {
+        this.password=password;
     }
     public void setEmail(String email) { 
         this.email = email;

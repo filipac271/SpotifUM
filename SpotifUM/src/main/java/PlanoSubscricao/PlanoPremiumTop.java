@@ -5,7 +5,7 @@ public class PlanoPremiumTop extends PlanoPremium{
     public PlanoPremiumTop()
     {  
         super();
-         this.nomePlano="premiumTop"; 
+         this.nomePlano="Premium Top"; 
     
     }
 
