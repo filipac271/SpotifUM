@@ -1,23 +1,44 @@
 package PlanoSubscricao;
 
-
-public class PlanoFree  extends PlanoSubscricao {
+/**
+ * Classe que representa o plano de subscrição gratuito ("Free").
+ * Herda de {@link PlanoSubscricao}. CONFIRMAR ISTO
+ */
+public class PlanoFree extends PlanoSubscricao {
     
-    public PlanoFree()
-    {
-        this.nomePlano="Free";
+    /**
+     * Construtor por omissão.
+     * Define o nome do plano como "Free".
+     */
+    public PlanoFree() {
+        this.nomePlano = "Free";
     }
-    public double calculaPontos(double pontos){
-        return pontos+5;
+
+    /**
+     * Calcula os pontos atribuídos a um utilizador deste plano.
+     * 
+     * @param pontos Pontos base a considerar.
+     * @return Pontos atualizados com pontos + 5.
+     */
+    public double calculaPontos(double pontos) {
+        return pontos + 5;
     }
-    public boolean podeAvancarRetroceder()
-    {
+
+    /**
+     * Verifica se o utilizador pode avançar ou retroceder músicas neste plano.
+     * 
+     * @return false, pois este plano não permite avançar ou retroceder.
+     */
+    public boolean podeAvancarRetroceder() {
         return false;
     }
-    public  int numPlaylists()
-    {
+
+    /**
+     * Indica o número de playlists que o utilizador pode ter neste plano.
+     * 
+     * @return 0, pois o plano gratuito não permite playlists.
+     */
+    public int numPlaylists() {
         return 0;
     }
-   
-    
 }
