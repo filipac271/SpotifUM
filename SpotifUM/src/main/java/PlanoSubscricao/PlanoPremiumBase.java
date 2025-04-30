@@ -6,7 +6,7 @@ public class PlanoPremiumBase extends PlanoPremium{
     public PlanoPremiumBase()
     {  
         super();
-         this.nomePlano="premiumBase"; 
+         this.nomePlano="Premium Base"; 
     
     }
     public double calculaPontos(double pontos)

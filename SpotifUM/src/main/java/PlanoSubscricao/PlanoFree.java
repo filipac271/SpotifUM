@@ -5,7 +5,7 @@ public class PlanoFree  extends PlanoSubscricao {
     
     public PlanoFree()
     {
-        this.nomePlano="free";
+        this.nomePlano="Free";
     }
     public double calculaPontos(double pontos){
         return pontos+5;

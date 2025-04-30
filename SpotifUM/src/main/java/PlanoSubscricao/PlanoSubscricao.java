@@ -7,9 +7,9 @@ public abstract class PlanoSubscricao {
     public abstract double calculaPontos(double pontos);
     public abstract boolean podeAvancarRetroceder();
     public abstract int numPlaylists();
-    public String getNome(PlanoSubscricao plano)
+    public String getNome()
     {
-        return plano.nomePlano;
+        return this.nomePlano;
     }
 
 } 
