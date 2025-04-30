@@ -2,9 +2,18 @@ package view;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.HashMap;
+import java.util.Map;
+
+import User.User;
 
 public class Persistencia {
 
@@ -36,4 +45,30 @@ public class Persistencia {
         }
     }
 
+    public static void saveUsers(Map<String, User> users) throws IOException {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("users.bin"))) {
+            oos.writeObject(users);
+        }
+    }
+    
+    
+    public static Map<String, User> loadUsers() throws IOException, ClassNotFoundException {
+        File f = new File("users.bin");
+        if (!f.exists()) return new HashMap<>(); // ficheiro ainda não existe
+    
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("users.bin"))) {
+            return (Map<String, User>) ois.readObject();
+        }
+    }
+
+
+
+
+
 }
+
+
+
+
+
+

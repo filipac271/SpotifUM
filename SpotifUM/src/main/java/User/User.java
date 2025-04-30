@@ -1,8 +1,10 @@
 package User;
 
+import java.io.Serializable;
+
 import PlanoSubscricao.PlanoSubscricao;
 
-public class User {
+public class User implements Serializable{
     
     private String nome;
     private String password;
