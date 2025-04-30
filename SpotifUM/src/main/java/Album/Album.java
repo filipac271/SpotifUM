@@ -6,19 +6,30 @@ import java.util.stream.Collectors;
 
 import Song.Song;
 
+/**
+ * Classe que representa um álbum de musicas, contém um nome, o artista, e uma lista de musicas.
+ */
 public class Album {
     private String nome;
     private String artista;
     private List<Song> album;
 
-
+    /**
+     * Construtor por omissão. Cria um álbum vazio com nome e artista vazios.
+     */
     public Album() {
         this.nome = "";
         this.artista = "";
         this.album = new ArrayList<>();
     }
 
-
+    /**
+     * Construtor parametrizado.
+     * 
+     * @param nome O nome do álbum.
+     * @param artista O nome do artista.
+     * @param albumList Lista de músicas a incluir no álbum (vão ser clonadas).
+     */
     public Album(String nome ,String artista, List<Song> albumList){
         this.nome = nome;
         this.artista = artista;
@@ -27,63 +38,109 @@ public class Album {
             .collect(Collectors.toList());
     }
 
-
+    /**
+     * Construtor de cópia.
+     * 
+     * @param outroAlbum Álbum a ser copiado.
+     */
     public Album(Album outroAlbum){
         this.nome = outroAlbum.getNome();
         this.artista = outroAlbum.getArtista();
         this.album = outroAlbum.getAlbum();
     }
 
+    /**
+     * Obtém o nome do álbum.
+     * 
+     * @return O nome do álbum.
+     */
     public String getNome() {
         return nome;
     }
 
+    /**
+     * Obtém o nome do artista.
+     * 
+     * @return O nome do artista.
+     */
     public String getArtista(){
         return artista;
     }
-    
+
+    /**
+     * Obtém a lista de músicas do álbum.
+     * 
+     * @return Uma cópia da lista de músicas.
+     */
     public List<Song> getAlbum() {
         return this.album.stream().map(song -> song.clone()).collect(Collectors.toList());
     }
-    
+
+    /**
+     * Define o nome do álbum.
+     * 
+     * @param nome O novo nome do álbum.
+     */
     public void setNome(String nome) {
         this.nome = nome;
     }
 
+    /**
+     * Define o nome do artista.
+     * 
+     * @param artista O novo nome do artista.
+     */
     public void setArtista(String artista) {
         this.artista = artista;
     }
 
+    /**
+     * Define a lista de músicas do álbum.
+     * 
+     * @param albumList Lista de músicas (serão clonadas).
+     */
     public void setAlbum(List<Song> albumList){
-
         this.album = albumList.stream()
             .map(song -> song.clone())  
             .collect(Collectors.toList());
-
     }
 
+    /**
+     * Adiciona uma música ao álbum.
+     * 
+     * @param song Música a adicionar (vai ser clonada).
+     */
     public void addSong(Song song) {
         album.add(song.clone());
     }
 
+    /**
+     * Remove uma música do álbum.
+     * 
+     * @param song Música a remover.
+     * @return true se a música foi removida com sucesso, false caso contrário.
+     */
     public boolean removeSong(Song song) {
         return album.remove(song);
     }
 
+    /**
+     * Representação textual do álbum.
+     * 
+     * @return Uma string com o nome, artista e lista de músicas.
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Álbum: ").append(nome).append("\n");
         sb.append("Artista: ").append(artista).append("\n");
         sb.append("Músicas:\n");
-    
+
         for (int i = 0; i < album.size(); i++) {
             sb.append("  ").append(i + 1).append(". ")
-              .append(album.get(i).toString()).append("\n");
+                .append(album.get(i).toString()).append("\n");
         }
-    
+
         return sb.toString();
     }
-    
-
 }
