@@ -1,10 +1,11 @@
 package PlanoSubscricao;
 
+
 /**
  * Classe que representa o plano de subscrição gratuito ("Free").
  * Herda de {@link PlanoSubscricao}. CONFIRMAR ISTO
  */
-public class PlanoFree extends PlanoSubscricao {
+public class PlanoFree extends PlanoSubscricao  {
     
     /**
      * Construtor por omissão.

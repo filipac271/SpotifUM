@@ -81,8 +81,7 @@ public class Input {
         String nome = sc.nextLine();
         System.out.println("Crie um username único: ");
         String username= sc.nextLine();
-        System.out.println("daksjdasp" + username);
-        System.out.println(controller.userExists(username));
+
         while(controller.userExists(username))
         {
             System.out.println("Este username já existe! Escolha outro: ");
@@ -119,7 +118,7 @@ public class Input {
         System.out.println("Digite o artista do Album: ");
         String artista = sc.nextLine(); 
         List<Song> album = new ArrayList<>(); 
-        controller.createAlbum(nome,artista);
+        // controller.createAlbum(nome,artista);
 
         for (int i = 0; i < numMusicas; i++) {
             System.out.println("Música " + (i + 1) + ":");
@@ -146,7 +145,7 @@ public class Input {
             int duracao = sc.nextInt();
             sc.nextLine();
             controller.addSong(nomeMusica, interprete, editora, letra, pauta, genero, duracao);
-            controller.addSongAlbum()
+            // controller.addSongAlbum();
             Song musica = new Song(nomeMusica, interprete, editora, letra, pauta, genero, duracao);
           
             album.add(musica);
