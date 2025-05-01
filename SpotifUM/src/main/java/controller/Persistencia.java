@@ -12,6 +12,7 @@ import java.util.Map;
 import Playlist.Playlist;
 import Song.Song;
 import User.User;
+import Album.Album;
 
 public class Persistencia {
 
@@ -52,6 +53,17 @@ public class Persistencia {
     }
 
 
+    @SuppressWarnings("unchecked")
+    public static Map<String, Album> loadAlbuns() throws IOException, ClassNotFoundException {
+        File f = new File("albuns.bin");
+        if (!f.exists())
+            return new HashMap<>(); // ficheiro ainda não existe
+
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("albuns.bin"))) {
+            return (Map<String, Album>) ois.readObject();
+        }
+    }
+
 
 
     
@@ -72,6 +84,12 @@ public class Persistencia {
     public static void saveSongs(Map<String, Song> songs) throws IOException {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("songs.bin"))) {
             oos.writeObject(songs);
+        }
+    }
+
+    public static void saveAlbum(Map<String, Album> Albums) throws IOException {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("albuns.bin"))) {
+            oos.writeObject(Albums);
         }
     }
 
