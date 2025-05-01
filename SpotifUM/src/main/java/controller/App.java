@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+import Album.Album;
 import Playlist.Playlist;
 import Song.Song;
 import User.User;
@@ -19,18 +20,22 @@ public class App {
         Map<String, User> users = new HashMap<>();
         Map<String, Playlist> playlists = new HashMap<>();
         Map<String, Song> songs = new HashMap<>();
+        Map<String, Album> albuns = new HashMap<>();
 
         // Usando try-catch para carregar os dados e substituir os valores vazios
         try {
             users = Persistencia.loadUsers();
             playlists = Persistencia.loadPlaylists();
             songs = Persistencia.loadSongs();
+            albuns = Persistencia.loadAlbuns();
+            System.out.println(albuns);
+
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace(); // Imprime o erro no console
             return; // Sai do método caso ocorra uma falha no carregamento dos dados
         }
 
-        Controller controller = new Controller(playlists, songs, users);
+        Controller controller = new Controller(playlists, songs, users,albuns);
 
         while (true) {
 

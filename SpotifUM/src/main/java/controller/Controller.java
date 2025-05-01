@@ -1,11 +1,12 @@
 package controller;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-
+import Album.Album;
 import PlanoSubscricao.PlanoFree;
 import PlanoSubscricao.PlanoPremiumBase;
 import PlanoSubscricao.PlanoPremiumTop;
@@ -17,41 +18,67 @@ import view.Input;
 
 public class Controller {
 
-      private Map<String, Playlist> playlistTable;
-      private Map<String, Song> songTable;
-      private Map<String, User> userTable;
-   
-      
-      public Controller() {
+    private Map<String, Playlist> playlistTable;
+    private Map<String, Song> songTable;
+    private Map<String, User> userTable;
+    private Map<String, Album> albumTable;
 
-          this.playlistTable = new HashMap<>();
-          this.songTable = new HashMap<>();
-          this.userTable = new HashMap<>();
-      }
+    public Controller() {
 
+        this.playlistTable = new HashMap<>();
+        this.songTable = new HashMap<>();
+        this.userTable = new HashMap<>();
+        this.albumTable = new HashMap<>();
+    }
 
-      public Controller (Map<String, Playlist> playListMap, Map<String, Song>  SongsMap , Map<String, User> UsersMap){
+    public Controller(Map<String, Playlist> playListMap, Map<String, Song> SongsMap, Map<String, User> UsersMap, Map<String, Album> albumMap) {
 
         this.playlistTable = playListMap;
         this.songTable = SongsMap;
         this.userTable = UsersMap;
-      }
+        this.albumTable = albumMap;
 
+    }
 
-      // Função que chama os métodos de salvar para users, playlists e songs
+    // Função que chama os métodos de salvar para users, playlists e songs
     public void saveAll() {
         try {
             Persistencia.saveUsers(userTable);
             Persistencia.savePlaylists(playlistTable);
             Persistencia.saveSongs(songTable);
+            Persistencia.saveAlbum(albumTable);
         } catch (IOException e) {
             System.out.println("Erro ao salvar dados: " + e.getMessage());
         }
     }
 
+    // ALBUNS
 
+    public void addAlbum(String name, String artista, List<Song> musicas) {
+        Album album = new Album(name, artista, musicas);
+        albumTable.put(name, album.clone());
+    }
 
-   // PLAYLIST
+    // Remove um álbum
+    public boolean removeAlbum(String name) {
+        if (albumTable.containsKey(name)) {
+            albumTable.remove(name);
+            return true;
+        }
+        return false;
+    }
+
+    // Obtém um álbum pelo nome
+    public Album getAlbum(String name) {
+        return albumTable.get(name).clone();
+    }
+
+    // Verifica se um álbum existe
+    public boolean albumExists(String name) {
+        return albumTable.containsKey(name);
+    }
+
+    // PLAYLIST
 
     // Adiciona uma playlist
     public void addPlaylist(String name, Playlist playlist) {
@@ -77,8 +104,7 @@ public class Controller {
         return playlistTable.containsKey(name);
     }
 
-    public int numPlaylistsPublicas()
-    {
+    public int numPlaylistsPublicas() {
         int numPublicas = 0;
 
         for (Map.Entry<String, Playlist> entry : playlistTable.entrySet()) {
@@ -91,11 +117,12 @@ public class Controller {
         return numPublicas;
     }
 
-    //  SONG
+    // SONG
 
     // Adiciona uma música à tabela
-    public void addSong(String nomeMusica,String interprete,String editora,String letra,String pauta,String genero,int duracao) {
-        Song song= new Song( nomeMusica, interprete, editora, letra, pauta, genero, duracao);
+    public void addSong(String nomeMusica, String interprete, String editora, String letra, String pauta, String genero,
+            int duracao) {
+        Song song = new Song(nomeMusica, interprete, editora, letra, pauta, genero, duracao);
         songTable.put(nomeMusica, song.clone());
     }
 
@@ -113,15 +140,13 @@ public class Controller {
         return songTable.get(title).clone();
     }
 
-
     // Verifica se uma música existe
     public boolean songExists(String title) {
         return songTable.containsKey(title);
     }
 
     // Devolve o nome da música mais ouvida
-    public String musicaMaisOuvida()
-    {
+    public String musicaMaisOuvida() {
         String maisReproduzida = null;
         int maiorNumRep = -1;
 
@@ -136,16 +161,15 @@ public class Controller {
         return maisReproduzida;
     }
 
-    //Devolve o nome do interprete mais escutado
-    public String interpreteMaisOuvido()
-    {
-           
-        Map<String, Integer> interpretes= new HashMap<>();
+    // Devolve o nome do interprete mais escutado
+    public String interpreteMaisOuvido() {
+
+        Map<String, Integer> interpretes = new HashMap<>();
 
         for (Song song : songTable.values()) {
-            String interprete = song.getInterprete(); 
+            String interprete = song.getInterprete();
             int numRep = song.getNumRep();
-            
+
             interpretes.put(interprete, interpretes.getOrDefault(interprete, 0) + numRep);
         }
 
@@ -159,18 +183,17 @@ public class Controller {
             }
         }
 
-       return interpreteMaisOuvido;
+        return interpreteMaisOuvido;
     }
 
-    public String generoMaisOuvido()
-    {
-           
-        Map<String, Integer> generos= new HashMap<>();
+    public String generoMaisOuvido() {
+
+        Map<String, Integer> generos = new HashMap<>();
 
         for (Song song : songTable.values()) {
-            String genero = song.getInterprete(); 
+            String genero = song.getInterprete();
             int numRep = song.getNumRep();
-            
+
             generos.put(genero, generos.getOrDefault(genero, 0) + numRep);
         }
 
@@ -184,19 +207,19 @@ public class Controller {
             }
         }
 
-       return generoMaisOuvido;
+        return generoMaisOuvido;
     }
-
 
     // USER
 
     // Adiciona um novo utilizador
-    public void addUser(String nome, String username,String password, String email, String morada,PlanoSubscricao plano ) {
-        plano= new PlanoFree();
-        User user= new User(nome,username,password,email,morada,plano);
+    public void addUser(String nome, String username, String password, String email, String morada,
+            PlanoSubscricao plano) {
+        plano = new PlanoFree();
+        User user = new User(nome, username, password, email, morada, plano);
         this.userTable.put(username, user);
     }
-    
+
     // Remove um utilizador pelo username
     public boolean removeUser(String username) {
         if (this.userTable.containsKey(username)) {
@@ -206,17 +229,15 @@ public class Controller {
         return false;
     }
 
-    public boolean authenticUser(String username,String password)
-    {
-        User user=userTable.get(username) ;
+    public boolean authenticUser(String username, String password) {
+        User user = userTable.get(username);
 
-         if ( user == null ) return false;
+        if (user == null)
+            return false;
 
-        return password.equals(user.getPassword()) ;
+        return password.equals(user.getPassword());
 
     }
-
-    
 
     // // Retorna um utilizador pelo username
     // public User getUser(String username) {
@@ -233,8 +254,7 @@ public class Controller {
         return userTable.containsKey(username);
     }
 
-    public String userMaisPontos()
-    {
+    public String userMaisPontos() {
         String userMaisPontos = null;
         double maiorNumPontos = -1;
 
@@ -249,10 +269,9 @@ public class Controller {
         return userMaisPontos;
     }
 
-    public User userMaisPlaylists()
-    {
+    public User userMaisPlaylists() {
         User userMaisPlaylists = null;
-        int maisPlaylists=-1;
+        int maisPlaylists = -1;
 
         for (Map.Entry<String, User> entry : userTable.entrySet()) {
             User user = entry.getValue();
@@ -265,35 +284,25 @@ public class Controller {
         return userMaisPlaylists;
     }
 
-    public PlanoSubscricao createPlano(Scanner sc)
-    {
-        Input io=new Input();
-        int op=io.createPlanoMenu(sc);
-        PlanoSubscricao plano=null;
+    public PlanoSubscricao createPlano(Scanner sc) {
+        Input io = new Input();
+        int op = io.createPlanoMenu(sc);
+        PlanoSubscricao plano = null;
 
         switch (op) {
             case 1:
-                plano=new PlanoFree();
+                plano = new PlanoFree();
                 break;
             case 2:
-                plano=new PlanoPremiumBase();
+                plano = new PlanoPremiumBase();
                 break;
             case 3:
-                plano=new PlanoPremiumTop();
-                break;    
+                plano = new PlanoPremiumTop();
+                break;
             default:
                 break;
         }
         return plano;
-        }
-
-        // ALBUM
-
-    //    public void createAlbum(String nome, String artista)
-    //    {
-    //          new Album(nome,artista,null);
-    //    }
-       
-    //     public void   addSongAlbum()
+    }
 
 }

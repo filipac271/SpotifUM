@@ -1,5 +1,6 @@
 package Album;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -9,7 +10,7 @@ import Song.Song;
 /**
  * Classe que representa um álbum de musicas, contém um nome, o artista, e uma lista de musicas.
  */
-public class Album {
+public class Album implements Serializable {
     private String nome;
     private String artista;
     private List<Song> album;
@@ -124,6 +125,9 @@ public class Album {
         return album.remove(song);
     }
 
+
+    
+
     /**
      * Representação textual do álbum.
      * 
@@ -143,4 +147,14 @@ public class Album {
 
         return sb.toString();
     }
+
+
+
+    @Override
+    public Album clone(){
+        return new Album(this);
+    }
+
+
+
 }

@@ -118,7 +118,6 @@ public class Input {
         System.out.println("Digite o artista do Album: ");
         String artista = sc.nextLine(); 
         List<Song> album = new ArrayList<>(); 
-        // controller.createAlbum(nome,artista);
 
         for (int i = 0; i < numMusicas; i++) {
             System.out.println("Música " + (i + 1) + ":");
@@ -145,11 +144,11 @@ public class Input {
             int duracao = sc.nextInt();
             sc.nextLine();
             controller.addSong(nomeMusica, interprete, editora, letra, pauta, genero, duracao);
-            // controller.addSongAlbum();
             Song musica = new Song(nomeMusica, interprete, editora, letra, pauta, genero, duracao);
           
             album.add(musica);
         }
+        controller.addAlbum(nome, artista, album);
         System.out.println("O album " + nome +" de " + artista + " foi criado tendo um total de " + numMusicas + " músicas.");
 
     }
