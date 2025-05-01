@@ -107,12 +107,11 @@ public class Input {
 
    
 
-    public void createAlbumMenu (Scanner sc){
+    public void createAlbumMenu (Scanner sc, Controller controller){
 
         System.out.println("Criar um album");
-        Persistencia ps = new Persistencia();
 
-        System.out.println("Digite o número de musicas que queres no album: ");
+        System.out.println("Digite o número de musicas do album: ");
         int numMusicas = sc.nextInt();
         sc.nextLine();
         System.out.println("Digite o nome do Album: ");
@@ -120,7 +119,7 @@ public class Input {
         System.out.println("Digite o artista do Album: ");
         String artista = sc.nextLine(); 
         List<Song> album = new ArrayList<>(); 
-
+        controller.createAlbum(nome,artista);
 
         for (int i = 0; i < numMusicas; i++) {
             System.out.println("Música " + (i + 1) + ":");
@@ -146,12 +145,13 @@ public class Input {
             System.out.print("  Digite a duração (em segundos): ");
             int duracao = sc.nextInt();
             sc.nextLine();
-        
+            controller.addSong(nomeMusica, interprete, editora, letra, pauta, genero, duracao);
+            controller.addSongAlbum()
             Song musica = new Song(nomeMusica, interprete, editora, letra, pauta, genero, duracao);
-            ps.writeLine(musica.toCSVString(),"../../Albuns.csv");
+          
             album.add(musica);
         }
-        System.out.println("O album " + nome +" do " + artista + " foi criado tendo um total de " + numMusicas + " músicas.");
+        System.out.println("O album " + nome +" de " + artista + " foi criado tendo um total de " + numMusicas + " músicas.");
 
     }
 
