@@ -26,13 +26,14 @@ public class App {
 
             switch (option) {
                 case 1:
+                     
                     io.logInUserMenu(sc,controller);
                     break;
                 case 2:
                     io.createUserMenu(sc,controller);  
                     break;
                 case 3:
-                    io.createAlbumMenu(sc);
+                    io.createAlbumMenu(sc,controller);
                     break;
                 case 4:
                     io.out();
