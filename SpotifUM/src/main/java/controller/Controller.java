@@ -1,12 +1,11 @@
 package controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-import javax.print.DocFlavor.STRING;
 
-import Album.Album;
 import PlanoSubscricao.PlanoFree;
 import PlanoSubscricao.PlanoPremiumBase;
 import PlanoSubscricao.PlanoPremiumTop;
@@ -29,6 +28,27 @@ public class Controller {
           this.songTable = new HashMap<>();
           this.userTable = new HashMap<>();
       }
+
+
+      public Controller (Map<String, Playlist> playListMap, Map<String, Song>  SongsMap , Map<String, User> UsersMap){
+
+        this.playlistTable = playListMap;
+        this.songTable = SongsMap;
+        this.userTable = UsersMap;
+      }
+
+
+      // Função que chama os métodos de salvar para users, playlists e songs
+    public void saveAll() {
+        try {
+            Persistencia.saveUsers(userTable);
+            Persistencia.savePlaylists(playlistTable);
+            Persistencia.saveSongs(songTable);
+        } catch (IOException e) {
+            System.out.println("Erro ao salvar dados: " + e.getMessage());
+        }
+    }
+
 
 
    // PLAYLIST
@@ -57,7 +77,7 @@ public class Controller {
         return playlistTable.containsKey(name);
     }
 
-      public int numPlaylistsPublicas()
+    public int numPlaylistsPublicas()
     {
         int numPublicas = 0;
 
@@ -190,9 +210,9 @@ public class Controller {
     {
         User user=userTable.get(username) ;
 
-         if ( userTable.get(username) ==null ) return false;
+         if ( user == null ) return false;
 
-        return username.equals(user.getPassword()) ;
+        return password.equals(user.getPassword()) ;
 
     }
 
@@ -269,11 +289,11 @@ public class Controller {
 
         // ALBUM
 
-       public void createAlbum(String nome, String artista)
-       {
-             new Album(nome,artista,null);
-       }
+    //    public void createAlbum(String nome, String artista)
+    //    {
+    //          new Album(nome,artista,null);
+    //    }
        
-        public void   addSongAlbum()
+    //     public void   addSongAlbum()
 
 }

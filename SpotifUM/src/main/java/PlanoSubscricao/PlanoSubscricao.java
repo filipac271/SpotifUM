@@ -1,12 +1,14 @@
 package PlanoSubscricao;
 
+import java.io.Serializable;
+
 /**
  * Classe abstrata que define a estrutura base de um plano de subscrição.
  * 
  * Cada plano concreto deve implementar os métodos abstratos definidos nesta classe,
  * como o cálculo de pontos, permissões de navegação nas músicas e número de playlists permitidas.
  */
-public abstract class PlanoSubscricao {
+public abstract class PlanoSubscricao implements Serializable {
     
     /**
      * Nome do tipo de plano de subscrição.

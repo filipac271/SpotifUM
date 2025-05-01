@@ -1,7 +1,5 @@
 package Playlist;
 
-import java.util.List;
-import java.util.stream.Collectors;
 
 import Song.Song;
 
@@ -10,7 +8,7 @@ import Song.Song;
  * 
  * Esta playlist reproduz as músicas aleatorias, isto é imprime as letras de cada música no terminal.
  */
-public class PlaylistRandom extends Playlist {
+public class PlaylistRandom extends Playlist  {
 
     /**
      * Construtor de cópia.
