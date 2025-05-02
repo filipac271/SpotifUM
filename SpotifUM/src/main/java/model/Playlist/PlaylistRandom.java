@@ -1,6 +1,8 @@
 package model.Playlist;
 
 
+import java.util.List;
+
 import model.Song.Song;
 
 /**
@@ -19,6 +21,9 @@ public class PlaylistRandom extends Playlist  {
         super(outra.getNome(), outra.getMusicas(), outra.getPublica());
     }
 
+    public PlaylistRandom(String nome, List<Song> musicas, boolean publica ){
+        super(nome, musicas, publica);
+    }
 
     
 

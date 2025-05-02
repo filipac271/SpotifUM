@@ -2,6 +2,7 @@ package controller;
 
 import java.util.List;
 
+
 import model.Model;
 import model.Album.Album;
 import model.PlanoSubscricao.PlanoFree;
@@ -9,6 +10,7 @@ import model.PlanoSubscricao.PlanoPremiumBase;
 import model.PlanoSubscricao.PlanoPremiumTop;
 import model.PlanoSubscricao.PlanoSubscricao;
 import model.Playlist.Playlist;
+import model.Playlist.PlaylistRandom;
 import model.Song.Song;
 import model.User.User;
 
@@ -67,6 +69,10 @@ public class Controller {
 
     public boolean playlistExists(String name) {
         return model.playlistExists(name);
+    }
+
+    public PlaylistRandom createPlaylistRandom(){
+        return model.createPlaylistRandom();
     }
 
     // SONG
@@ -132,5 +138,7 @@ public class Controller {
     public boolean userExists(String username) {
         return model.userExists(username);
     }
+
+
 
 }

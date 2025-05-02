@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,6 +9,7 @@ import java.util.Map;
 import java.io.IOException;
 
 import model.Playlist.Playlist;
+import model.Playlist.PlaylistRandom;
 import model.Song.Song;
 import model.User.User;
 import model.Album.Album;
@@ -99,10 +102,10 @@ public class Model {
     }
 
     // === Playlist ===
-    //Depois fazer algo em relaçaõ ao tipo de playlist
+    // Depois fazer algo em relaçaõ ao tipo de playlist
     // public void addPlaylist(String nome, List<Song> musicas, boolean publica) {
-    //     Playlist playlist = new Playlist(nome, musicas, publica);
-    //     playlistTable.put(nome, playlist);
+    // Playlist playlist = new Playlist(nome, musicas, publica);
+    // playlistTable.put(nome, playlist);
     // }
 
     public Playlist getPlaylist(String name) {
@@ -117,12 +120,25 @@ public class Model {
         return playlistTable.containsKey(name);
     }
 
+    public PlaylistRandom createPlaylistRandom() {
+        List<Song> todasAsMusicas = new ArrayList<>(songTable.values());
+
+        Collections.shuffle(todasAsMusicas);
+
+        PlaylistRandom playlist = null;
+
+        playlist = new PlaylistRandom("random", todasAsMusicas, false);
+
+        return playlist;
+
+    }
+
     // === Album ===
     public void addAlbum(String nome, String artista, List<Song> albumList) {
         Album album = new Album(nome, artista, albumList);
         albumTable.put(nome, album);
     }
-    
+
     public Album getAlbum(String name) {
         return albumTable.get(name).clone();
     }

@@ -200,4 +200,46 @@ public class View {
         System.out.println("Entrada inválida. Tente novamente.");
     }
 
+
+
+    public void createUserMenu(Scanner sc, Controller controller, String username) {
+        System.out.println("Seja bem-vindo/a, " + username);
+
+        String tipoPlano = controller.getUser(username).getPlano().getNome();
+
+
+        System.out.println("\nAqui estão as opções para Plano"+ tipoPlano);
+
+        switch (tipoPlano){
+            case "Free":
+                createUserFreeMenu(sc, controller);
+                break;
+
+            // case "Premium Base":
+            //     createUserPremiumBaseMenu();
+            //     break;
+
+            // case "Premium Top":
+            //     createuserPTMenu();
+            //     break;     
+
+        }
+
+        
+
+    }
+
+    public void createUserFreeMenu(Scanner sc, Controller controller){
+        System.out.println("\nTemos as melhores músicas para ouvir!");
+        System.out.println("\nPressione 1 para ouvir música");
+    
+        String opcao = sc.nextLine();
+    
+        if (opcao.equals("1")) {
+            controller.createPlaylistRandom().reproduzir();  // Cria a playlist no controller e depois reproduz-la
+        } else {
+            System.out.println("Opção inválida. Para mais opções dê upgrade do plano!");
+        }
+
+    }
 }
