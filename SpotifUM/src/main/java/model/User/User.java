@@ -1,8 +1,8 @@
-package User;
+package model.User;
 
 import java.io.Serializable;
 
-import PlanoSubscricao.PlanoSubscricao;
+import model.PlanoSubscricao.PlanoSubscricao;
 
 public class User implements Serializable{
     
@@ -110,7 +110,9 @@ public class User implements Serializable{
    
 
 
-//     @Override
-//    public abstract User clone();
+    @Override
+    public User clone(){
+        return new User(this);
+    };
 
 }

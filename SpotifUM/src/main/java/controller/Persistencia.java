@@ -9,10 +9,10 @@ import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import Playlist.Playlist;
-import Song.Song;
-import User.User;
-import Album.Album;
+import model.User.User;
+import model.Song.Song;
+import model.Album.Album;
+import model.Playlist.Playlist;
 
 public class Persistencia {
 

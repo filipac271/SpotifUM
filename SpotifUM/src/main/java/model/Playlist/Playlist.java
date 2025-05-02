@@ -1,10 +1,10 @@
-package Playlist;
+package model.Playlist;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.ArrayList;
 
-import Song.Song;
+import model.Song.Song;
 import java.io.Serializable;
 
 
