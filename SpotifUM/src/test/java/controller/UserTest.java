@@ -11,12 +11,14 @@ import User.User;
 public class UserTest {
     
     @Test
-    public void userTest() {
-        PlanoSubscricao plano = new PlanoFree();
-        User user = new User("Joao", "Joao4810", "password123", "joao@gmail.com", "rua do Faial", plano);
+    public void userTest()
+    {
+        PlanoSubscricao plano= new PlanoFree();
+        //nome, username, password, email, morada, pontos, plano
+        User user= new User("Joao","JotaJota", "password123", "joao@gmail.com", "rua do Faial",plano);
 
         assertEquals("Joao", user.getNome());
-        assertEquals("Joao4810", user.getUsername());
+        assertEquals("JotaJota", user.getUsername());
         assertEquals("password123", user.getPassword());
         assertEquals("joao@gmail.com", user.getEmail());
         assertEquals("rua do Faial", user.getMorada());

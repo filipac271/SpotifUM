@@ -2,6 +2,8 @@ package controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -12,6 +14,7 @@ import PlanoSubscricao.PlanoPremiumBase;
 import PlanoSubscricao.PlanoPremiumTop;
 import PlanoSubscricao.PlanoSubscricao;
 import Playlist.Playlist;
+import Playlist.PlaylistRandom;
 import Song.Song;
 import User.User;
 import view.Input;
@@ -303,6 +306,19 @@ public class Controller {
                 break;
         }
         return plano;
+    }
+
+    public PlaylistRandom createPlaylistRandom(){
+        List<Song> todasAsMusicas = new ArrayList<>(songTable.values());
+
+        Collections.shuffle(todasAsMusicas);
+
+        PlaylistRandom playlist = null;
+
+        playlist = new PlaylistRandom("random", todasAsMusicas, false);
+
+        return playlist;
+
     }
 
 }

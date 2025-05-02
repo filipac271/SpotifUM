@@ -30,9 +30,10 @@ public class Input {
         System.out.println("4. Fechar o programa");
         System.out.println("Prima o número correspondente à opção que deseja executar:");
     }
-    public void logInUserMenu(Scanner sc, Controller controller)
+
+    public String logInUserMenu(Scanner sc, Controller controller)
     {
-          
+        
         System.out.println("A iniciar sessao");
 
         System.out.println("Digite o seu Username: ");
@@ -56,6 +57,7 @@ public class Input {
                 //O que se faz ao iniciar sessao
             }
         }
+        return username;
 
     }
     public int createPlanoMenu(Scanner sc)
@@ -103,6 +105,7 @@ public class Input {
         System.out.println("Nome: " + nome +"\nUsername"+username+ "\nEmail: " + email + "\nMorada: " + morada+"\nPlano: "+ plano.getNome());
 
     }
+
 
    
 
@@ -152,6 +155,53 @@ public class Input {
         System.out.println("O album " + nome +" de " + artista + " foi criado tendo um total de " + numMusicas + " músicas.");
 
     }
+
+    public void createUserMenu(Scanner sc, Controller controller, String username) {
+        System.out.println("Seja bem-vindo/a, " + username);
+
+        String tipoPlano = controller.getUser(username).getPlano().getNome();
+
+
+        System.out.println("\nAqui estão as opções para Plano"+ tipoPlano);
+
+        switch (tipoPlano){
+            case "Free":
+                createUserFreeMenu(sc, controller);
+                break;
+
+            // case "Premium Base":
+            //     createUserPremiumBaseMenu();
+            //     break;
+
+            // case "Premium Top":
+            //     createuserPTMenu();
+            //     break;     
+
+        }
+
+        
+
+    }
+
+    public void createUserFreeMenu(Scanner sc, Controller controller){
+        System.out.println("\nTemos as melhores músicas para ouvir!");
+        System.out.println("\nPressione 1 para ouvir música");
+    
+        String opcao = sc.nextLine();
+    
+        if (opcao.equals("1")) {
+            controller.createPlaylistRandom().reproduzir();  // Cria a playlist no controller e depois reproduz-la
+        } else {
+            System.out.println("Opção inválida. Para mais opções dê upgrade do plano!");
+        }
+
+    }
+    
+
+
+
+
+
 
     public void out()
     {
