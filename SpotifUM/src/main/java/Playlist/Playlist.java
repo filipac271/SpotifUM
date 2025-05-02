@@ -4,8 +4,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.ArrayList;
 
-import PlanoSubscricao.PlanoSubscricao;
 import Song.Song;
+import java.io.Serializable;
+
 
 /**
  * Classe abstrata que representa uma playlist de músicas.
@@ -14,7 +15,7 @@ import Song.Song;
  * e oferece funcionalidades como adicionar, remover e calcular a duração total.
  * Subclasses devem implementar os métodos {@code clone} e {@code reproduzir}.
  */
-public abstract class Playlist {
+public abstract class Playlist implements Serializable{
 
     /**
      * Nome da playlist.

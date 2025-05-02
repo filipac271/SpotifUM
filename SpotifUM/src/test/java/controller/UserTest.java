@@ -21,8 +21,7 @@ public class UserTest {
         assertEquals("JotaJota", user.getUsername());
         assertEquals("password123", user.getPassword());
         assertEquals("joao@gmail.com", user.getEmail());
-        assertEquals("rua do Faial",user.getMorada() );
+        assertEquals("rua do Faial", user.getMorada());
         assertEquals(plano, user.getPlano());
-
     }
 }
