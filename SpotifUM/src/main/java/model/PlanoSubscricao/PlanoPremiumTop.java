@@ -1,4 +1,4 @@
-package PlanoSubscricao;
+package model.PlanoSubscricao;
 
 /**
  * Classe que representa o plano de subscrição "Premium Top".

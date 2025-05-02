@@ -1,4 +1,4 @@
-package Song;
+package model.Song;
 import java.io.Serializable;
 
 public class Song implements Cloneable, Serializable{
@@ -121,18 +121,6 @@ public class Song implements Cloneable, Serializable{
         return sb.toString();
     }
 
-    public String toCSVString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(this.nome).append(";")
-          .append(this.interprete).append(";")
-          .append(this.editora).append(";")
-          .append(this.letra).append(";")
-          .append(this.pauta).append(";")
-          .append(this.genero).append(";")
-          .append(this.duracao).append(";")
-          .append(this.numRep);
-        return sb.toString();
-    }
     
     
     @Override

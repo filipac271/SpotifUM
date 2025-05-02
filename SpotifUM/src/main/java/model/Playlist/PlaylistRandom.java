@@ -1,9 +1,9 @@
-package Playlist;
+package model.Playlist;
 
 
 import java.util.List;
 
-import Song.Song;
+import model.Song.Song;
 
 /**
  * Classe que representa uma playlist do tipo aleatório.
@@ -24,6 +24,8 @@ public class PlaylistRandom extends Playlist  {
     public PlaylistRandom(String nome, List<Song> musicas, boolean publica ){
         super(nome, musicas, publica);
     }
+
+    
 
     /**
      * Reproduz todas as músicas da playlist.

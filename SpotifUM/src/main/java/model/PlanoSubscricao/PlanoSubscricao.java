@@ -1,4 +1,4 @@
-package PlanoSubscricao;
+package model.PlanoSubscricao;
 
 import java.io.Serializable;
 

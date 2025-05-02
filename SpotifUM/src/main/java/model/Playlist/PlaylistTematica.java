@@ -1,8 +1,8 @@
-package Playlist;
+package model.Playlist;
 
 import java.util.List;
 
-import Song.Song;
+import model.Song.Song;
 
 /**
  * Representa uma playlist temática com restrições de género musical e duração máxima.
