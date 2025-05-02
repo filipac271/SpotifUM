@@ -14,10 +14,12 @@ public class UserTest {
     public void userTest()
     {
         PlanoSubscricao plano= new PlanoFree();
-        User user= new User("Joao","password123", "joao@gmail.com", "rua do Faial",plano);
+        //nome, username, password, email, morada, pontos, plano
+        User user= new User("Joao","JotaJota", "password123", "joao@gmail.com", "rua do Faial",plano);
 
         assertEquals("Joao", user.getNome());
-        assertEquals("password123", user);
+        assertEquals("JotaJota", user.getUsername());
+        assertEquals("password123", user.getPassword());
         assertEquals("joao@gmail.com", user.getEmail());
         assertEquals("rua do Faial",user.getMorada() );
         assertEquals(plano, user.getPlano());
