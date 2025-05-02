@@ -92,7 +92,7 @@ public class View {
                 //////////
             } else {
                 System.out.println("Bem vindo de volta " + username);
-                // O que se faz ao iniciar sessao
+                userMenu(sc,username);
             }
         }
 
@@ -202,7 +202,7 @@ public class View {
 
 
 
-    public void createUserMenu(Scanner sc, Controller controller, String username) {
+    public void userMenu(Scanner sc, String username) {
         System.out.println("Seja bem-vindo/a, " + username);
 
         String tipoPlano = controller.getUser(username).getPlano().getNome();
