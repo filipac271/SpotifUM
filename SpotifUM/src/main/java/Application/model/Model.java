@@ -1,4 +1,4 @@
-package model;
+package Application.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,13 +8,13 @@ import java.util.Map;
 
 import java.io.IOException;
 
-import model.Playlist.Playlist;
-import model.Playlist.PlaylistRandom;
-import model.Song.Song;
-import model.User.User;
-import model.Album.Album;
-import model.PlanoSubscricao.PlanoSubscricao;
-import controller.Persistencia;
+import Application.model.Playlist.Playlist;
+import Application.model.Playlist.PlaylistRandom;
+import Application.model.Song.Song;
+import Application.model.User.User;
+import Application.model.Album.Album;
+import Application.model.PlanoSubscricao.PlanoSubscricao;
+import Application.controller.Persistencia;
 
 public class Model {
 

@@ -1,18 +1,18 @@
-package controller;
+package Application.controller;
 
 import java.util.List;
 
 
-import model.Model;
-import model.Album.Album;
-import model.PlanoSubscricao.PlanoFree;
-import model.PlanoSubscricao.PlanoPremiumBase;
-import model.PlanoSubscricao.PlanoPremiumTop;
-import model.PlanoSubscricao.PlanoSubscricao;
-import model.Playlist.Playlist;
-import model.Playlist.PlaylistRandom;
-import model.Song.Song;
-import model.User.User;
+import Application.model.Model;
+import Application.model.Album.Album;
+import Application.model.PlanoSubscricao.PlanoFree;
+import Application.model.PlanoSubscricao.PlanoPremiumBase;
+import Application.model.PlanoSubscricao.PlanoPremiumTop;
+import Application.model.PlanoSubscricao.PlanoSubscricao;
+import Application.model.Playlist.Playlist;
+import Application.model.Playlist.PlaylistRandom;
+import Application.model.Song.Song;
+import Application.model.User.User;
 
 public class Controller {
 

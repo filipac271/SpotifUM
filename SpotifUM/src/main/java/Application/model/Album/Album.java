@@ -1,11 +1,11 @@
-package model.Album;
+package Application.model.Album;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import model.Song.Song;
+import Application.model.Song.Song;
 
 /**
  * Classe que representa um álbum de musicas, contém um nome, o artista, e uma lista de musicas.

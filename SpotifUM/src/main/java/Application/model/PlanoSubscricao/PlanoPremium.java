@@ -1,9 +1,9 @@
-package model.PlanoSubscricao;
+package Application.model.PlanoSubscricao;
 
 import java.util.ArrayList;
 import java.util.List;
-import model.Album.Album;
-import model.Playlist.Playlist;
+import Application.model.Album.Album;
+import Application.model.Playlist.Playlist;
 
 /**
  * Classe abstrata que representa um plano de subscrição do tipo Premium.

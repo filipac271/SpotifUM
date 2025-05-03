@@ -1,8 +1,8 @@
-package view;
+package Application.view;
 
 import java.util.Scanner;
 
-import controller.Controller;
+import Application.controller.Controller;
 
 public class View {
 

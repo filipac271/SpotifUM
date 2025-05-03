@@ -1,9 +1,9 @@
-package model.Playlist;
+package Application.model.Playlist;
 
 
 import java.util.List;
 
-import model.Song.Song;
+import Application.model.Song.Song;
 
 /**
  * Classe que representa uma playlist do tipo aleatório.

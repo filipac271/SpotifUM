@@ -1,4 +1,4 @@
-package controller;
+package Application.controller;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,10 +9,10 @@ import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import model.User.User;
-import model.Song.Song;
-import model.Album.Album;
-import model.Playlist.Playlist;
+import Application.model.User.User;
+import Application.model.Song.Song;
+import Application.model.Album.Album;
+import Application.model.Playlist.Playlist;
 
 public class Persistencia {
 

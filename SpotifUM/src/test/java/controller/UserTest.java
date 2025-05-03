@@ -4,9 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-import model.PlanoSubscricao.PlanoFree;
-import model.PlanoSubscricao.PlanoSubscricao;
-import model.User.User;
+import Application.model.PlanoSubscricao.PlanoFree;
+import Application.model.PlanoSubscricao.PlanoSubscricao;
+import Application.model.User.User;
 
 public class UserTest {
     

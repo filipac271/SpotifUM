@@ -1,4 +1,4 @@
-package model.Song;
+package Application.model.Song;
 
 public class SongMultimedia extends Song {
     private String videoUrl;

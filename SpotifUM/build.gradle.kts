@@ -34,13 +34,13 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass.set("controller.App")
+    mainClass.set("Application.App")
 }
 
 
 tasks.withType<Jar> {
     manifest {
-        attributes["Main-Class"] = "controller.App"
+        attributes["Main-Class"] = "Application.App"
     }
 }
 
