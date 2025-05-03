@@ -139,10 +139,14 @@ public class Album implements Serializable {
         sb.append("Álbum: ").append(nome).append("\n");
         sb.append("Artista: ").append(artista).append("\n");
         sb.append("Músicas:\n");
+        if(album.size() == 0){
+            System.out.println("No musics in this album");
+        }else{
+            for (int i = 0; i < album.size(); i++) {
+                sb.append("  ").append(i + 1).append(". ")
+                    .append(album.get(i).toString()).append("\n");
+            }
 
-        for (int i = 0; i < album.size(); i++) {
-            sb.append("  ").append(i + 1).append(". ")
-                .append(album.get(i).toString()).append("\n");
         }
 
         return sb.toString();

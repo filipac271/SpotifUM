@@ -1,5 +1,6 @@
 package Application.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -29,6 +30,9 @@ public class Controller {
     // ALBUNS
 
     public void addAlbum(String name, String artista, List<Song> musicas) {
+        if(musicas == null){
+            musicas = new ArrayList<>();
+        }
         model.addAlbum(name, artista, musicas);
     }
 
@@ -49,11 +53,10 @@ public class Controller {
     }
 
     // PLAYLIST
-    //Fazer um if para ver que tipo de playlist é que é
-    // public void addPlaylist(String name, String nome, List<Song> musicas, boolean
-    // publica) {
-    // model.addPlaylist(name, nome, musicas, publica);
-    // }
+
+    public void addPlaylist( String nome, List<Song> musicas, boolean publica, String tipo) {
+        model.addPlaylist( nome, musicas, publica,tipo);
+    }
 
     public boolean removePlaylist(String name) {
         if (model.playlistExists(name)) {
@@ -82,20 +85,20 @@ public class Controller {
         model.addSong(nomeMusica, interprete, editora, letra, pauta, genero, duracao);
     }
 
-    public boolean removeSong(String title) {
-        if (model.songExists(title)) {
-            model.removeSong(title);
+    public boolean removeSong(String name) {
+        if (model.songExists(name)) {
+            model.removeSong(name);
             return true;
         }
         return false;
     }
 
-    public Song getSong(String title) {
-        return model.getSong(title);
+    public Song getSong(String name) {
+        return model.getSong(name);
     }
 
-    public boolean songExists(String title) {
-        return model.songExists(title);
+    public boolean songExists(String name) {
+        return model.songExists(name);
     }
 
     // USER

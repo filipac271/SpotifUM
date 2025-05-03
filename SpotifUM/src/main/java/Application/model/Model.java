@@ -16,6 +16,7 @@ import Application.model.Album.Album;
 import Application.model.PlanoSubscricao.PlanoSubscricao;
 import Application.controller.Persistencia;
 
+
 public class Model {
 
     private Map<String, Playlist> playlistTable;
@@ -39,6 +40,7 @@ public class Model {
         }
     }
 
+
     // Função que chama os métodos de salvar para users, playlists e songs
     public void saveAll() {
         try {
@@ -46,6 +48,12 @@ public class Model {
             Persistencia.savePlaylists(playlistTable);
             Persistencia.saveSongs(songTable);
             Persistencia.saveAlbum(albumTable);
+            //Funçoes de debugging que printam a base de dados
+            Utils.printMap(userTable);
+            Utils.printMap(playlistTable);
+            Utils.printMap(songTable);
+            Utils.printMap(albumTable);
+            
         } catch (IOException e) {
             System.out.println("Erro ao salvar dados: " + e.getMessage());
         }
@@ -102,11 +110,22 @@ public class Model {
     }
 
     // === Playlist ===
-    // Depois fazer algo em relaçaõ ao tipo de playlist
-    // public void addPlaylist(String nome, List<Song> musicas, boolean publica) {
-    // Playlist playlist = new Playlist(nome, musicas, publica);
-    // playlistTable.put(nome, playlist);
-    // }
+
+    public void addPlaylist(String nome, List<Song> musicas, boolean publica, String tipo) {
+        // Playlist playlist;
+    
+        switch (tipo) {
+
+            // case "User":
+            //     playlist = new PlaylistUser(nome, musicas, publica);
+            //     break;
+            default:
+                throw new IllegalArgumentException("Tipo de playlist desconhecido: " + tipo);
+        }
+    
+        // playlistTable.put(nome, playlist);
+    }
+    
 
     public Playlist getPlaylist(String name) {
         return playlistTable.get(name).clone();
@@ -120,6 +139,9 @@ public class Model {
         return playlistTable.containsKey(name);
     }
 
+
+    
+
     public PlaylistRandom createPlaylistRandom() {
         List<Song> todasAsMusicas = new ArrayList<>(songTable.values());
 
@@ -128,6 +150,7 @@ public class Model {
         PlaylistRandom playlist = null;
 
         playlist = new PlaylistRandom("random", todasAsMusicas, false);
+
 
         return playlist;
 
@@ -140,7 +163,7 @@ public class Model {
     }
 
     public Album getAlbum(String name) {
-        return albumTable.get(name).clone();
+        return albumTable.get(name);
     }
 
     public boolean removeAlbum(String name) {
