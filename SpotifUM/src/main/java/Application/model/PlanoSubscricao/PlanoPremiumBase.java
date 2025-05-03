@@ -1,4 +1,4 @@
-package model.PlanoSubscricao;
+package Application.model.PlanoSubscricao;
 
 /**
  * Representa o plano de subscrição "Premium Base".

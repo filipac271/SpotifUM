@@ -1,4 +1,4 @@
-package model.Playlist;
+package Application.model.Playlist;
 
 // public class PlaylistUser extends Playlist {
 

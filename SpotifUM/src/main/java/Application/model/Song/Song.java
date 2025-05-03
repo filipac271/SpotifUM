@@ -1,4 +1,4 @@
-package model.Song;
+package Application.model.Song;
 import java.io.Serializable;
 
 public class Song implements Cloneable, Serializable{

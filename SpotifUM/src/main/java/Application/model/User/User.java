@@ -1,8 +1,8 @@
-package model.User;
+package Application.model.User;
 
 import java.io.Serializable;
 
-import model.PlanoSubscricao.PlanoSubscricao;
+import Application.model.PlanoSubscricao.PlanoSubscricao;
 
 public class User implements Serializable{
     

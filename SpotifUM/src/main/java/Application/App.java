@@ -1,11 +1,10 @@
+package Application;
+import Application.controller.Controller;
+import Application.model.Model;
+import Application.view.View;
 
-package controller;
 
 
-
-import model.Model;
-
-import view.View;
 
 public class App {
 
