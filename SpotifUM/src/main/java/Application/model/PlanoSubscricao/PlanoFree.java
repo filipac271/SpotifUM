@@ -1,5 +1,7 @@
 package Application.model.PlanoSubscricao;
 
+import Application.model.Album.Album;
+import Application.model.Playlist.Playlist;
 
 /**
  * Classe que representa o plano de subscrição gratuito ("Free").
@@ -41,5 +43,15 @@ public class PlanoFree extends PlanoSubscricao  {
      */
     public int numPlaylists() {
         return 0;
+    }
+
+    public void guardarPlaylist(Playlist p)
+    {
+        throw new UnsupportedOperationException("Este plano não suporta guardar playlists.");
+    }
+
+    public void guardarAlbum(Album a) 
+    {
+        throw new UnsupportedOperationException("Este plano não suporta guardar playlists.");
     }
 }

@@ -125,9 +125,15 @@ public class Album implements Serializable {
         return album.remove(song);
     }
 
-
+    public int tamanho()
+    {
+        return album.size();
+    }
     
-
+    public Song getNMusica(int n)
+    {
+        return album.get(n).clone();
+    }
     /**
      * Representação textual do álbum.
      * 

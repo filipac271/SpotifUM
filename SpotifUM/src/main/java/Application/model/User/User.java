@@ -1,8 +1,13 @@
 package Application.model.User;
 
 import java.io.Serializable;
-
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.time.LocalDate;
 import Application.model.PlanoSubscricao.PlanoSubscricao;
+import Application.model.Song.Song;
+
 
 public class User implements Serializable{
     
@@ -13,7 +18,7 @@ public class User implements Serializable{
     private String morada;
     private double pontos;
     private PlanoSubscricao plano;
-
+    private List<Historico> historico;
    
     
     public User()
@@ -25,10 +30,11 @@ public class User implements Serializable{
         this.morada="";
         this.pontos=0;
         this.plano=null;
+        this.historico=new ArrayList<>();
         
     }
     public User(String nome, String username,String password, String email, 
-                String morada,PlanoSubscricao plano)
+                String morada,PlanoSubscricao plano, List<Historico> historico)
     {
         this.nome=nome;
         this.username=username;
@@ -37,6 +43,10 @@ public class User implements Serializable{
         this.morada=morada;
         this.pontos=plano.calculaPontos(0);
         this.plano=plano;
+        this.historico=historico.stream()
+                            .map(historic-> historic.clone())
+                            .collect(Collectors.toList());;
+
     }
     public User(User user)
     {
@@ -107,7 +117,28 @@ public class User implements Serializable{
     {
         return this.plano.numPlaylists();
     }
-   
+    
+    public int numMusicasOuvidas(LocalDate dataInicio, LocalDate dataFim) {
+
+        if(dataInicio==null) 
+        {
+            return this.historico.size();
+        }
+        else
+        {
+            return (int) historico.stream()
+            .map(Historico::getData)
+            .filter(data -> !data.isBefore(dataInicio) && !data.isAfter(dataFim))
+            .count();
+        }
+        
+    }
+
+    public void addHistorico(Song song,LocalDate data)
+    {
+        Historico h= new Historico(song,data);
+        this.historico.add(h);
+    }
 
 
     @Override
