@@ -99,6 +99,11 @@ public abstract class Playlist implements Serializable{
                     .collect(Collectors.toList());
     }
 
+    public Song getNMusica(int n)
+    {
+        return musicas.get(n).clone();
+    }
+
     /**
      * Define a lista de músicas da playlist (usa cópias).
      * 

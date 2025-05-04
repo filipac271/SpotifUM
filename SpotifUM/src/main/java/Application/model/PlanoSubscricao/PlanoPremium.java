@@ -37,6 +37,7 @@ public abstract class PlanoPremium extends PlanoSubscricao {
      * 
      * @param playlist A playlist a guardar.
      */
+    @Override
     public void guardarPlaylist(Playlist playlist) {
         this.playlists.add(playlist);
     }

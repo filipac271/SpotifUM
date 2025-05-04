@@ -7,10 +7,13 @@ import java.util.List;
 import java.util.Map;
 
 import java.io.IOException;
+import java.time.LocalDate;
 
 import Application.model.Playlist.Playlist;
 import Application.model.Playlist.PlaylistRandom;
+import Application.model.Playlist.PlaylistUser;
 import Application.model.Song.Song;
+import Application.model.User.Historico;
 import Application.model.User.User;
 import Application.model.Album.Album;
 import Application.model.PlanoSubscricao.PlanoSubscricao;
@@ -73,8 +76,10 @@ public class Model {
     // === User ===
 
     public void addUser(String username, String nome, String password, String email,
-            String morada, PlanoSubscricao plano) {
-        User user = new User(nome, username, password, email, morada, plano);
+                        String morada, PlanoSubscricao plano)
+     {
+        List<Historico> h=new ArrayList<>();
+        User user = new User(nome, username, password, email, morada, plano,h);
         userTable.put(username, user);
     }
 
@@ -91,6 +96,8 @@ public class Model {
     }
 
     // === Song ===
+
+    
     public void addSong(String nome, String interprete, String editora, String letra, String pauta, String genero,
             int duracao) {
         Song song = new Song(nome, interprete, editora, letra, pauta, genero, duracao);
@@ -109,22 +116,36 @@ public class Model {
         return songTable.containsKey(name);
     }
 
+   
+
     // === Playlist ===
 
-    public void addPlaylist(String nome, List<Song> musicas, boolean publica, String tipo) {
-        // Playlist playlist;
+    // public void addPlaylist(String nome, List<Song> musicas, boolean publica, String tipo) {
+    //     // Playlist playlist;
     
-        switch (tipo) {
+    //     switch (tipo) {
 
-            // case "User":
-            //     playlist = new PlaylistUser(nome, musicas, publica);
-            //     break;
-            default:
-                throw new IllegalArgumentException("Tipo de playlist desconhecido: " + tipo);
-        }
+    //         // case "User":
+    //         //     playlist = new PlaylistUser(nome, musicas, publica);
+    //         //     break;
+    //         default:
+    //             throw new IllegalArgumentException("Tipo de playlist desconhecido: " + tipo);
+    //     }
     
-        // playlistTable.put(nome, playlist);
+    //     // playlistTable.put(nome, playlist);
+    // }
+
+    public void addPlaylist(String nome, Playlist playlist)
+    {
+        playlistTable.put(nome, playlist);
     }
+    public void addToPlaylist(String nomeP,String nomeM )
+    {
+        Song musica=songTable.get(nomeM);
+        playlistTable.get(nomeP).adicionarMusica(musica);
+    }
+
+
     
 
     public Playlist getPlaylist(String name) {
@@ -139,7 +160,7 @@ public class Model {
         return playlistTable.containsKey(name);
     }
 
-
+    
     
 
     public PlaylistRandom createPlaylistRandom() {
@@ -155,6 +176,14 @@ public class Model {
         return playlist;
 
     }
+
+    public PlaylistUser createPlaylist(String nomeP,boolean publica)
+        {
+            List<Song> musicas = new ArrayList<>();
+            PlaylistUser playlist= new PlaylistUser(nomeP, musicas,publica);
+            return playlist;
+        }
+    
 
     // === Album ===
     public void addAlbum(String nome, String artista, List<Song> albumList) {
@@ -176,23 +205,23 @@ public class Model {
 
     // Querys
 
-    // Devolve o nome da música mais ouvida
-    public String musicaMaisOuvida() {
-        String maisReproduzida = null;
+    // Query 1- Qual a música mais reproduzida?
+    public Song musicaMaisOuvida() {
+        Song maisReproduzida = null;
         int maiorNumRep = -1;
 
         for (Map.Entry<String, Song> entry : songTable.entrySet()) {
             Song song = entry.getValue();
             if (song.getNumRep() > maiorNumRep) {
                 maiorNumRep = song.getNumRep();
-                maisReproduzida = song.getNome();
+                maisReproduzida = song;
             }
         }
 
         return maisReproduzida;
     }
 
-    // Devolve o nome do interprete mais escutado
+    // Query 2 - Qual o interprete mais escutado?
     public String interpreteMaisOuvido() {
 
         Map<String, Integer> interpretes = new HashMap<>();
@@ -217,6 +246,42 @@ public class Model {
         return interpreteMaisOuvido;
     }
 
+    //Query 3 - Qual o utilizador que mais músicas ouviu num período de tempo ou desde sempre?
+    //Consideramos que cada musica só se conte uma vez mesmo o user ouvindo-a várias vezes
+    public User userMaisMusicasOuvidas(LocalDate dataInicio, LocalDate dataFim)
+    {
+        User userMaisMusicas = null;
+        int maiorNumMusicas=0;
+
+        for (Map.Entry<String, User> entry : userTable.entrySet()) {
+            User user = entry.getValue();
+            int nmusicas=user.numMusicasOuvidas(dataInicio,dataFim);
+            if (nmusicas > maiorNumMusicas) {
+                maiorNumMusicas = nmusicas;
+                userMaisMusicas = user;
+            }
+        }
+        return userMaisMusicas;
+    }
+
+
+    //Query 4- Qual o Utilizador com mais pontos?
+    public User userMaisPontos() {
+        User userMaisPontos = null;
+        double maiorNumPontos = -1;
+
+        for (Map.Entry<String, User> entry : userTable.entrySet()) {
+            User user = entry.getValue();
+            if (user.getPontos() > maiorNumPontos) {
+                maiorNumPontos = user.getPontos();
+                userMaisPontos = user;
+            }
+        }
+
+        return userMaisPontos;
+    }
+
+    // Query 5- Qual o tipo de música mais reproduzida?
     public String generoMaisOuvido() {
 
         Map<String, Integer> generos = new HashMap<>();
@@ -241,21 +306,21 @@ public class Model {
         return generoMaisOuvido;
     }
 
-    public String userMaisPontos() {
-        String userMaisPontos = null;
-        double maiorNumPontos = -1;
+    // Query 6 - Quantas playlists públicas existem?
+    public int numPlaylistsPublicas() {
+        int numPublicas = 0;
 
-        for (Map.Entry<String, User> entry : userTable.entrySet()) {
-            User user = entry.getValue();
-            if (user.getPontos() > maiorNumPontos) {
-                maiorNumPontos = user.getPontos();
-                userMaisPontos = user.getNome();
+        for (Map.Entry<String, Playlist> entry : playlistTable.entrySet()) {
+            Playlist playlist = entry.getValue();
+            if (playlist.getPublica()) {
+                numPublicas++;
             }
         }
 
-        return userMaisPontos;
+        return numPublicas;
     }
 
+    //Query 7 - Qual o utilizador com mais playlists?
     public User userMaisPlaylists() {
         User userMaisPlaylists = null;
         int maisPlaylists = -1;
@@ -271,17 +336,6 @@ public class Model {
         return userMaisPlaylists;
     }
 
-    public int numPlaylistsPublicas() {
-        int numPublicas = 0;
-
-        for (Map.Entry<String, Playlist> entry : playlistTable.entrySet()) {
-            Playlist playlist = entry.getValue();
-            if (playlist.getPublica()) {
-                numPublicas++;
-            }
-        }
-
-        return numPublicas;
-    }
+   
 
 }
