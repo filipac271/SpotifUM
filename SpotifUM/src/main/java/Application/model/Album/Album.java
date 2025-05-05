@@ -146,7 +146,7 @@ public class Album implements Serializable {
         sb.append("Artista: ").append(artista).append("\n");
         sb.append("Músicas:\n");
         if(album.size() == 0){
-            System.out.println("No musics in this album");
+            return"No musics in this album";
         }else{
             for (int i = 0; i < album.size(); i++) {
                 sb.append("  ").append(i + 1).append(". ")

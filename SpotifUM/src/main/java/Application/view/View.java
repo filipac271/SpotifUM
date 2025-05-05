@@ -30,34 +30,33 @@ public class View {
         System.out.println("4. Fechar o programa");
         System.out.println("Prima o número correspondente à opção que deseja executar:");
     }
-    public int getOpcao(Scanner sc)
-    {
-         int option = -1;
-            while (option == -1) {
-                try {
-                    option = sc.nextInt();  
-                   sc.nextLine();  
-                } catch (Exception e) {
-                    optionError();  
-                    sc.nextLine();  
-                }
+
+    public int getOpcao(Scanner sc) {
+        int option = -1;
+        while (option == -1) {
+            try {
+                option = sc.nextInt();
+                sc.nextLine();
+            } catch (Exception e) {
+                optionError();
+                sc.nextLine();
             }
-            return option;  
+        }
+        return option;
     }
 
-    public String getOpcaoString(Scanner sc)
-    {
-         String option = null;
-            while (option == null) {
-                try {
-                    option = sc.nextLine();  
-                   sc.nextLine();  
-                } catch (Exception e) {
-                    optionError();  
-                    sc.nextLine();  
-                }
+    public String getOpcaoString(Scanner sc) {
+        String option = null;
+        while (option == null) {
+            try {
+                option = sc.nextLine();
+                sc.nextLine();
+            } catch (Exception e) {
+                optionError();
+                sc.nextLine();
             }
-            return option;  
+        }
+        return option;
     }
 
     public void run() {
@@ -68,8 +67,8 @@ public class View {
 
             int option;
             mainMenu();
-          option= getOpcao(sc);
-          
+            option = getOpcao(sc);
+
             switch (option) {
                 case 1:
                     logInUserMenu(sc);
@@ -163,7 +162,7 @@ public class View {
 
     }
 
-    public void createAlbumMenu (Scanner sc){
+    public void createAlbumMenu(Scanner sc) {
 
         System.out.println("Criar um album");
 
@@ -177,36 +176,36 @@ public class View {
         controller.addAlbum(nome, artista, null);
 
         for (int i = 0; i < numMusicas; i++) {
-        System.out.println("Música " + (i + 1) + ":");
+            System.out.println("Música " + (i + 1) + ":");
 
-        System.out.print(" Digite o nome: ");
-        String nomeMusica = sc.nextLine();
+            System.out.print(" Digite o nome: ");
+            String nomeMusica = sc.nextLine();
 
-        System.out.print(" Digite o intérprete: ");
-        String interprete = sc.nextLine();
+            System.out.print(" Digite o intérprete: ");
+            String interprete = sc.nextLine();
 
-        System.out.print(" Digite a editora: ");
-        String editora = sc.nextLine();
+            System.out.print(" Digite a editora: ");
+            String editora = sc.nextLine();
 
-        System.out.print(" Digite a letra: ");
-        String letra = sc.nextLine();
+            System.out.print(" Digite a letra: ");
+            String letra = sc.nextLine();
 
-        System.out.print(" Digite a pauta: ");
-        String pauta = sc.nextLine();
+            System.out.print(" Digite a pauta: ");
+            String pauta = sc.nextLine();
 
-        System.out.print(" Digite o gênero: ");
-        String genero = sc.nextLine();
+            System.out.print(" Digite o gênero: ");
+            String genero = sc.nextLine();
 
-        System.out.print(" Digite a duração (em segundos): ");
-        int duracao = sc.nextInt();
-        sc.nextLine();
-        controller.addSong(nomeMusica, interprete, editora, letra, pauta, genero, duracao);
-        
+            System.out.print(" Digite a duração (em segundos): ");
+            int duracao = sc.nextInt();
+            sc.nextLine();
+            controller.addSong(nomeMusica, interprete, editora, letra, pauta, genero, duracao);
 
-        controller.getAlbum(nome).addSong(controller.getSong(nomeMusica));
+            controller.getAlbum(nome).addSong(controller.getSong(nomeMusica));
         }
-        
-        System.out.println("O album " + nome +" de " + artista + " foi criado tendo um total de " + numMusicas + " músicas.");
+
+        System.out.println(
+                "O album " + nome + " de " + artista + " foi criado tendo um total de " + numMusicas + " músicas.");
 
     }
 
@@ -231,12 +230,12 @@ public class View {
                 break;
 
             case "Premium Base":
-            createUserPremiumBaseMenu(sc, controller, username);
-            break;
+                createUserPremiumBaseMenu(sc, controller, username);
+                break;
 
             case "Premium Top":
-            createuserPTMenu(sc, controller, username);
-            break;
+                createuserPTMenu(sc, controller, username);
+                break;
 
         }
 
@@ -256,18 +255,15 @@ public class View {
 
     }
 
-    public void createUserPremiumBaseMenu(Scanner sc, Controller controller, String username)
-    {
+    public void createUserPremiumBaseMenu(Scanner sc, Controller controller, String username) {
         System.out.println("\nPressione 1 para ouvir");
         System.out.println("\nPressione 2 para adicionar uma playlist à sua biblioteca");
         System.out.println("\nPressione 3 para adicionar um album à sua biblioteca");
         System.out.println("\nPressione 4 para criar uma playlist");
         System.out.println("\nPressione 5 para sair");
 
-       
-        while(true)
-        {  
-            int opcao=getOpcao(sc);
+        while (true) {
+            int opcao = getOpcao(sc);
 
             switch (opcao) {
                 case 1:
@@ -275,16 +271,16 @@ public class View {
                     break;
                 case 2:
                     System.out.println("\nQual o nome da playlist que deseja adicionar?");
-                    String nome=getOpcaoString(sc);
+                    String nome = getOpcaoString(sc);
                     controller.guardarPlaylist(username, nome);
                     break;
                 case 3:
                     System.out.println("\nQual o nome do album que deseja adicionar?");
-                    String nomeA=getOpcaoString(sc);
+                    String nomeA = getOpcaoString(sc);
                     controller.guardarPlaylist(username, nomeA);
                     break;
                 case 4:
-                    criarPlaylistMenu(sc,username);
+                    criarPlaylistMenu(sc, username);
                     break;
                 case 5:
                     out();
@@ -293,107 +289,102 @@ public class View {
                     break;
             }
 
-            if(opcao==4) break;
-         }
-        
+            if (opcao == 4)
+                break;
+        }
+
         System.out.println("\nPressione 4 para criar uma playlist");
         System.out.println("\nPressione 5 para adicionar uma playlist à sua biblioteca");
         System.out.println("\nPressione 6 para adicionar um album à sua biblioteca");
     }
 
-    public void createOuvirMenu(Scanner sc, Controller controller, String username)
-    {
+    public void createOuvirMenu(Scanner sc, Controller controller, String username) {
         System.out.println("\nPressione 1 para ouvir música");
-        System.out.println("\nPressione 2 para ouvir uma playlist");//Ver a parte de ordenar !!!!
+        System.out.println("\nPressione 2 para ouvir uma playlist");// Ver a parte de ordenar !!!!
         System.out.println("\nPressione 3 para ouvir um album");
 
-        while(true)
-        {  
-            int opcao=getOpcao(sc);
+        while (true) {
+            int opcao = getOpcao(sc);
             String nome;
             int index;
             String selecao;
             switch (opcao) {
                 case 1:
-                    nome=menuOuvir(sc,"musica");
+                    nome = menuOuvir(sc, "musica");
                     break;
                 case 2:
-                    nome=menuOuvir(sc,"playlist");
-                     index=0;
-                   selecao=null;
-                    while(index<controller.getPlaylist(nome).tamanho() )
-                    {
-                        index= controller.reproduzirPlaylist(username,nome, index, selecao);
-                        if (index==-1)
-                        {
+                    nome = menuOuvir(sc, "playlist");
+                    index = 0;
+                    selecao = null;
+                    while (index < controller.getPlaylist(nome).tamanho()) {
+                        index = controller.reproduzirPlaylist(username, nome, index, selecao);
+                        if (index == -1) {
                             System.out.println("\nOperação não é possivel!");
                         }
-                        selecao=perguntarContinuar(sc);
-                        if(selecao.equals("N")) break;
+                        selecao = perguntarContinuar(sc);
+                        if (selecao.equals("N"))
+                            break;
                     }
                     break;
                 case 3:
-                    nome=menuOuvir(sc,"album");
-                     index=0;
-                  selecao=null;
-                    while(index<controller.getAlbum(nome).tamanho())
-                    {
-                        index= controller.reproduzirAlbum(username,nome, index, selecao);
-                        selecao=perguntarContinuar(sc);
-                        if(selecao.equals("N")) break;
+                    nome = menuOuvir(sc, "album");
+                    index = 0;
+                    selecao = null;
+                    while (index < controller.getAlbum(nome).tamanho()) {
+                        index = controller.reproduzirAlbum(username, nome, index, selecao);
+                        selecao = perguntarContinuar(sc);
+                        if (selecao.equals("N"))
+                            break;
                     }
-                   
+
                 case 4:
                     out();
                 default:
                     break;
             }
 
-            if(opcao==4) break;
-         }
+            if (opcao == 4)
+                break;
+        }
 
     }
-    public String menuOuvir(Scanner sc, String tipo)
-    {
-        System.out.println("\nQual "+tipo+" deseja ouvir?");
-        String nome=sc.nextLine();
+
+    public String menuOuvir(Scanner sc, String tipo) {
+        System.out.println("\nQual " + tipo + " deseja ouvir?");
+        String nome = sc.nextLine();
         return nome;
     }
 
-   public String perguntarContinuar(Scanner sc)
-   {
+    public String perguntarContinuar(Scanner sc) {
         System.out.println("\nA - Avançar Música ");
         System.out.println("\nP - Próxima Música");
         System.out.println("\nR - Retroceder ");
         System.out.println("\nS - Sair");
 
-        String opcao= getOpcaoString(sc);
+        String opcao = getOpcaoString(sc);
         return opcao;
-   }
+    }
 
-   public void criarPlaylistMenu(Scanner sc, String username)
-   {
-         System.out.println("Criar uma playlist:");
-         System.out.println("Nome da Playlist:");
-         String nomeP=getOpcaoString(sc);
-         System.out.println("Tornar playlist pública? (s/n)");
-         String publica=getOpcaoString(sc);
-         System.out.println("Quantas músicas pretende adicionar:");
-         int nMusicas=getOpcao(sc);
-         controller.createPlaylist(username,nomeP,publica);
-         String nomeM;
-         for(int i=0;i<nMusicas;i++)
-         {
-            System.out.println("Nome da Música Nº: "+ (i + 1));
-            nomeM=getOpcaoString(sc);
-            controller.addToPlaylist(nomeP,nomeM);
+    public void criarPlaylistMenu(Scanner sc, String username) {
+        System.out.println("Criar uma playlist:");
+        System.out.println("Nome da Playlist:");
+        String nomeP = getOpcaoString(sc);
+        System.out.println("Tornar playlist pública? (s/n)");
+        String publica = getOpcaoString(sc);
+        System.out.println("Quantas músicas pretende adicionar:");
+        int nMusicas = getOpcao(sc);
+        controller.createPlaylist(username, nomeP, publica);
+        String nomeM;
+        for (int i = 0; i < nMusicas; i++) {
+            System.out.println("Nome da Música Nº: " + (i + 1));
+            nomeM = getOpcaoString(sc);
+            controller.addToPlaylist(nomeP, nomeM);
 
-         }
-         controller.addPlaylistToUser(nomeP,username);
-   }
+        }
+        controller.addPlaylistToUser(nomeP, username);
+    }
 
-   public void createuserPTMenu(Scanner sc,Controller controller,String username)
-   {
+    public void createuserPTMenu(Scanner sc, Controller controller, String username) {
         System.out.println("\nPressione 1 para ouvir");
         System.out.println("\nPressione 2 para adicionar uma playlist à sua biblioteca");
         System.out.println("\nPressione 3 para adicionar um album à sua biblioteca");
@@ -401,9 +392,8 @@ public class View {
         System.out.println("\nPressione 5 para gerar uma playlist");
         System.out.println("\nPressione 6 para sair");
 
-        while(true)
-        {  
-            int opcao=getOpcao(sc);
+        while (true) {
+            int opcao = getOpcao(sc);
 
             switch (opcao) {
                 case 1:
@@ -411,19 +401,19 @@ public class View {
                     break;
                 case 2:
                     System.out.println("\nQual o nome da playlist que deseja adicionar?");
-                    String nome=getOpcaoString(sc);
+                    String nome = getOpcaoString(sc);
                     controller.guardarPlaylist(username, nome);
                     break;
                 case 3:
                     System.out.println("\nQual o nome do album que deseja adicionar?");
-                    String nomeA=getOpcaoString(sc);
+                    String nomeA = getOpcaoString(sc);
                     controller.guardarPlaylist(username, nomeA);
                     break;
                 case 4:
                     criarPlaylistMenu(sc, username);
                     break;
                 case 5:
-                    //Recomendador
+                    // Recomendador
                     break;
                 case 6:
                     out();
@@ -432,11 +422,10 @@ public class View {
                     break;
             }
 
-            if(opcao==4) break;
-         }
-        
+            if (opcao == 4)
+                break;
+        }
 
-   }
-   
+    }
+
 }
-

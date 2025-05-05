@@ -4,11 +4,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import Application.model.Model;
 import Application.model.Album.Album;
 import Application.model.PlanoSubscricao.PlanoFree;
-import Application.model.PlanoSubscricao.PlanoPremium;
 import Application.model.PlanoSubscricao.PlanoPremiumBase;
 import Application.model.PlanoSubscricao.PlanoPremiumTop;
 import Application.model.PlanoSubscricao.PlanoSubscricao;
@@ -16,8 +14,9 @@ import Application.model.Playlist.Playlist;
 import Application.model.Playlist.PlaylistRandom;
 import Application.model.Playlist.PlaylistUser;
 import Application.model.Song.Song;
+import Application.model.Song.SongExplicit;
+import Application.model.Song.SongMediaExplicit;
 import Application.model.User.User;
-import Application.view.View;
 
 public class Controller {
 
@@ -34,7 +33,7 @@ public class Controller {
     // ALBUNS
 
     public void addAlbum(String name, String artista, List<Song> musicas) {
-        if(musicas == null){
+        if (musicas == null) {
             musicas = new ArrayList<>();
         }
         model.addAlbum(name, artista, musicas);
@@ -58,46 +57,41 @@ public class Controller {
 
     // PLAYLIST
 
-    public int reproduzirPlaylist(String username, String nome, int index, String selecao)
-    {
+    public int reproduzirPlaylist(String username, String nome, int index, String selecao) {
         Playlist playlist = getPlaylist(nome);
-        if(selecao.equals("A"))
-        {
-            index+=2;
-        }
-        else if (selecao.equals("R") ) {
-            index--;   
-         } 
-            else if(selecao.equals("S")){
-            index++; 
+        if (selecao.equals("A")) {
+            index += 2;
+        } else if (selecao.equals("R")) {
+            index--;
+        } else if (selecao.equals("S")) {
+            index++;
         }
 
-       if (index<playlist.tamanho()) {
+        if (index < playlist.tamanho()) {
 
             Song musica = playlist.getNMusica(index);
-            musica.reproduzirMusica();
-            User user= model.getUser(username);
-            LocalDate data= LocalDate.now();
+            String letra = musica.getLetra();
+            System.out.println(letra);
+            int numRep = musica.getNumRep();
+            musica.setNumRep(numRep + 1);
+            User user = model.getUser(username);
+            LocalDate data = LocalDate.now();
             user.addHistorico(musica, data);
             return index;
-       }   
-       else
-       {
+        } else {
             return -1;
-       }
-       
+        }
+
     }
 
-
-    public void addToPlaylist( String nomeP, String nomeM) {
-        model.addToPlaylist( nomeP, nomeM );
+    public void addToPlaylist(String nomeP, String nomeM) {
+        model.addToPlaylist(nomeP, nomeM);
     }
 
-
-    public void guardarPlaylist( String username, String nome) {
-        Playlist playlist=model.getPlaylist(nome);
-        User user=model.getUser(username);
-        PlanoSubscricao plano= user.getPlano(); 
+    public void guardarPlaylist(String username, String nome) {
+        Playlist playlist = model.getPlaylist(nome);
+        User user = model.getUser(username);
+        PlanoSubscricao plano = user.getPlano();
         plano.guardarPlaylist(playlist);
     }
 
@@ -117,74 +111,69 @@ public class Controller {
         return model.playlistExists(name);
     }
 
-    public PlaylistRandom createPlaylistRandom(){
+    public PlaylistRandom createPlaylistRandom() {
         return model.createPlaylistRandom();
     }
-    public void createPlaylist(String username,String nomeP,String publicaS)
-    {
+
+    public void createPlaylist(String username, String nomeP, String publicaS) {
         boolean publica;
-        if(publicaS.equals("s"))
-        {
-            publica=true;
+        if (publicaS.equals("s")) {
+            publica = true;
+        } else {
+            publica = false;
         }
-        else
-        {
-            publica=false;   
-        }
-        PlaylistUser playlist=model.createPlaylist(nomeP,publica) ;
+        PlaylistUser playlist = model.createPlaylist(nomeP, publica);
         model.addPlaylist(nomeP, playlist);
     }
 
-    //ALBUM
+    // ALBUM
 
-    public int reproduzirAlbum(String username, String nome, int index, String selecao)
-    {
+    public int reproduzirAlbum(String username, String nome, int index, String selecao) {
         Album album = getAlbum(nome);
-        if(selecao.equals("A"))
-        {
-            index+=2;
-        }
-        else if (selecao.equals("R") ) {
-            index--;   
-         } 
-            else if(selecao.equals("S")){
-            index++; 
+        if (selecao.equals("A")) {
+            index += 2;
+        } else if (selecao.equals("R")) {
+            index--;
+        } else if (selecao.equals("S")) {
+            index++;
         }
 
-       if (index<album.tamanho()) {
+        if (index < album.tamanho()) {
 
             Song musica = album.getNMusica(index);
-            musica.reproduzirMusica();
-            User user= model.getUser(username);
-            LocalDate data= LocalDate.now();
+            String letra = musica.getLetra();
+            System.out.println(letra);
+            int numRep = musica.getNumRep();
+            musica.setNumRep(numRep + 1);
+            User user = model.getUser(username);
+            LocalDate data = LocalDate.now();
             user.addHistorico(musica, data);
             return index;
-       }   
-       else
-       {
+        } else {
             return -1;
-       }
-       
+        }
+
     }
 
-    public void guardarAlbum( String username, String nome) {
-        Album album=model.getAlbum(nome);
-        User user=model.getUser(username);
-        PlanoSubscricao plano= user.getPlano(); 
+    public void guardarAlbum(String username, String nome) {
+        Album album = model.getAlbum(nome);
+        User user = model.getUser(username);
+        PlanoSubscricao plano = user.getPlano();
         plano.guardarAlbum(album);
     }
 
     // SONG
 
-    public void reproduzirMusica(String username, String nomeMusica)
-    {
-       Song song= model.getSong(nomeMusica);
-       song.reproduzirMusica();
-       User user= model.getUser(username);
-       LocalDate data= LocalDate.now(); 
-       user.addHistorico(song, data);
+    public void reproduzirMusica(String username, String nomeMusica) {
+        Song song = getSong(nomeMusica);
+        String letra = getReproducao(nomeMusica);
+        System.out.println(letra);
+        User user = model.getUser(username);
+        LocalDate data = LocalDate.now();
+        user.addHistorico(song, data);
 
     }
+
     public void addSong(String nomeMusica, String interprete, String editora, String letra, String pauta, String genero,
             int duracao) {
         model.addSong(nomeMusica, interprete, editora, letra, pauta, genero, duracao);
@@ -204,6 +193,31 @@ public class Controller {
 
     public boolean songExists(String name) {
         return model.songExists(name);
+    }
+
+    public String getReproducao(String name) {
+        Song musica = model.getSong(name);
+        int numRep = musica.getNumRep();
+        musica.setNumRep(numRep + 1);
+        return musica.getLetra();
+    }
+
+    public String getReproducaoExplicita(String nameSong, int age) {
+        Song musica = model.getSong(nameSong);
+        if (musica.getClass() == SongExplicit.class || musica.getClass() == SongMediaExplicit.class) {
+            if (age < 18) {
+                return "Esta musica tem conteudo explicito daí não poder ser reproduzida";
+            } else {
+                int numRep = musica.getNumRep();
+                musica.setNumRep(numRep + 1);
+                return musica.getLetra();
+            }
+
+        }
+        int numRep = musica.getNumRep();
+        musica.setNumRep(numRep + 1);
+        return musica.getLetra();
+
     }
 
     // USER
@@ -247,12 +261,10 @@ public class Controller {
         return model.userExists(username);
     }
 
-    public void addPlaylistToUser(String nomeP,String username)
-    {
-        User user=model.getUser(username);
-        PlanoSubscricao plano= user.getPlano();
+    public void addPlaylistToUser(String nomeP, String username) {
+        User user = model.getUser(username);
+        PlanoSubscricao plano = user.getPlano();
         plano.guardarPlaylist(getPlaylist(nomeP));
     }
-
 
 }

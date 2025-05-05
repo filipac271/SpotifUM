@@ -21,12 +21,12 @@ public class SongExplicit extends Song {
     }
 
      
-    public void reproduzirMusica(int idade){
-        if(idade > 18){
-            System.out.println(getLetra());
-        }else{
-            System.out.println("Esta musica é explicita\n Usuários com menos de 18 anos não podem escutar esta música");
-        }
+    // public void reproduzirMusica(int idade){
+    //     if(idade > 18){
+    //         System.out.println(getLetra());
+    //     }else{
+    //         System.out.println("Esta musica é explicita\n Usuários com menos de 18 anos não podem escutar esta música");
+    //     }
 
-    }
+    // }
 }

@@ -146,11 +146,6 @@ public class Song implements Cloneable, Serializable{
     }
 
 
-    public void reproduzirMusica()
-    {
-        System.out.println(this.letra);
-        this.numRep++;
-    }
 
    
 
