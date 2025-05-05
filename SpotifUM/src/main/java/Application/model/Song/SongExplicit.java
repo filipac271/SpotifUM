@@ -29,4 +29,19 @@ public class SongExplicit extends Song {
     //     }
 
     // }
+
+
+    public String getReproducaoExplicita(int age) {
+        
+            if (age < 18) {
+                return "Esta musica tem conteudo explicito daí não poder ser reproduzida";
+            } else {
+                int numRep = getNumRep();
+                setNumRep(numRep);
+                return getLetra();
+            }
+
+
+    }
+
 }

@@ -145,6 +145,11 @@ public class Song implements Cloneable, Serializable{
                genero.equals(song.genero);
     }
 
+    public String getReproducao() {
+        this.numRep++;
+        return this.letra;
+    }
+
 
 
    

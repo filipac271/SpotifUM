@@ -70,10 +70,16 @@ public class Controller {
         if (index < playlist.tamanho()) {
 
             Song musica = playlist.getNMusica(index);
-            String letra = musica.getLetra();
-            System.out.println(letra);
-            int numRep = musica.getNumRep();
-            musica.setNumRep(numRep + 1);
+            if (musica instanceof SongExplicit) {
+                String letra = ((SongExplicit) musica).getReproducaoExplicita(19);
+                System.out.println(letra);
+            } else if (musica instanceof SongMediaExplicit) {
+                String letra = ((SongMediaExplicit) musica).getReproducaoExplicita(19);
+                System.out.println(letra);
+            } else {
+                String letra = musica.getReproducao();
+                System.out.println(letra);
+            }
             User user = model.getUser(username);
             LocalDate data = LocalDate.now();
             user.addHistorico(musica, data);
@@ -141,10 +147,17 @@ public class Controller {
         if (index < album.tamanho()) {
 
             Song musica = album.getNMusica(index);
-            String letra = musica.getLetra();
-            System.out.println(letra);
-            int numRep = musica.getNumRep();
-            musica.setNumRep(numRep + 1);
+            if (musica instanceof SongExplicit) {
+                String letra = ((SongExplicit) musica).getReproducaoExplicita(19);
+                System.out.println(letra);
+            } else if (musica instanceof SongMediaExplicit) {
+                String letra = ((SongMediaExplicit) musica).getReproducaoExplicita(19);
+                System.out.println(letra);
+            } else {
+                String letra = musica.getReproducao();
+                System.out.println(letra);
+            }
+
             User user = model.getUser(username);
             LocalDate data = LocalDate.now();
             user.addHistorico(musica, data);
@@ -166,8 +179,16 @@ public class Controller {
 
     public void reproduzirMusica(String username, String nomeMusica) {
         Song song = getSong(nomeMusica);
-        String letra = getReproducao(nomeMusica);
-        System.out.println(letra);
+        if (song instanceof SongExplicit) {
+            String letra = ((SongExplicit) song).getReproducaoExplicita(19);
+            System.out.println(letra);
+        } else if (song instanceof SongMediaExplicit) {
+            String letra = ((SongMediaExplicit) song).getReproducaoExplicita(19);
+            System.out.println(letra);
+        } else {
+            String letra = song.getReproducao();
+            System.out.println(letra);
+        }
         User user = model.getUser(username);
         LocalDate data = LocalDate.now();
         user.addHistorico(song, data);
@@ -193,31 +214,6 @@ public class Controller {
 
     public boolean songExists(String name) {
         return model.songExists(name);
-    }
-
-    public String getReproducao(String name) {
-        Song musica = model.getSong(name);
-        int numRep = musica.getNumRep();
-        musica.setNumRep(numRep + 1);
-        return musica.getLetra();
-    }
-
-    public String getReproducaoExplicita(String nameSong, int age) {
-        Song musica = model.getSong(nameSong);
-        if (musica.getClass() == SongExplicit.class || musica.getClass() == SongMediaExplicit.class) {
-            if (age < 18) {
-                return "Esta musica tem conteudo explicito daí não poder ser reproduzida";
-            } else {
-                int numRep = musica.getNumRep();
-                musica.setNumRep(numRep + 1);
-                return musica.getLetra();
-            }
-
-        }
-        int numRep = musica.getNumRep();
-        musica.setNumRep(numRep + 1);
-        return musica.getLetra();
-
     }
 
     // USER
