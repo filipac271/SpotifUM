@@ -3,9 +3,11 @@ package Application.model;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.io.IOException;
 import java.time.LocalDate;
 
@@ -339,10 +341,63 @@ public class Model {
     //RECOMENDADOR
     /* public playlist recomendador(User user, opcao1 opcao2){}
      * map auxiliar que tem como chave a msuica e como value o numero de vezes que ela foi ouvida
-     * a funcao recebe duas flags para as opcao do explicita e do tempo
-     * 
-     * 
+     * a funcao recebe duas flags para as opcao do explicita e do tempo 
      */
+    public List<Song> recomendarMusicas(String username, int opcao, int ngeneros, String generos, int segundos) {
+        User user = getUser(username);
+        Map<Song, Integer> contagem = new HashMap<>();
+        List<Historico> historico = user.getHistorico();
+        String[] generosArray = new String[0];
+    
+        if (ngeneros != 0 && generos != null && !generos.isEmpty()) {
+            generos = generos.trim().replaceAll("\\s+", " "); //tira espaços a mais no fim e no inicio
+            generosArray = generos.split(" "); //separa as palavras pelos espaços
+        }
+    
+        for (Historico h : historico) {
+            Song musica = h.getMusica();
+            if (ngeneros != 0) {
+                boolean generoAceite = false;
+                for (String genero : generosArray) {
+                    if (musica.getGenero().equalsIgnoreCase(genero.trim())) {
+                        generoAceite = true;
+                        break;
+                    }
+                }
+                if (!generoAceite) continue;
+            }
+            contagem.put(musica, contagem.getOrDefault(musica, 0) + 1);
+        }
+    
+        List<Song> ordenadas = contagem.entrySet()
+            .stream()
+            .sorted((e1, e2) -> Integer.compare(e2.getValue(), e1.getValue()))
+            .map(Map.Entry::getKey)
+            .collect(Collectors.toList());
+    
+        // Limite de tempo -> Opcao 1
+        if (segundos != 0) {
+            List<Song> selecionadas = new ArrayList<>();
+            int totalSegundos = 0;
+            for (Song musica : ordenadas) {
+                int duracao = musica.getDuracao();
+                if (totalSegundos + duracao <= segundos) {
+                    selecionadas.add(musica);
+                    totalSegundos += duracao;
+                } else {
+                    break;
+                }
+            }
+            return selecionadas;
+        } else {
+            
+            return ordenadas;
+        }
+    }
+    
+
+
+    
    
 
 }

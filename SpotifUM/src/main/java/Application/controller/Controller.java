@@ -303,4 +303,18 @@ public class Controller {
         return resposta;
     }
 
+    public Playlist gerarPlaylistRecomendada(String username, int opcao, int ngeneros, String generos, int segundos) {
+        
+        List<Song> musicasRecomendadas = model.recomendarMusicas(username, opcao, ngeneros, generos, segundos);
+    
+        // ATENCAO
+        Playlist playlist = null; //Isto está errado, discutir como é suposto fazer isto porque nao posso instanciar e isto dá coisa null pointer access.
+        playlist.setNome("Recomendações para " + username);
+        playlist.setMusicas(musicasRecomendadas);
+        playlist.setPublica(false); // false porque ela é apenas daquele user
+    
+        return playlist;
+    }
+    
+
 }

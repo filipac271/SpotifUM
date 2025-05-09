@@ -87,6 +87,10 @@ public class User implements Serializable{
         return this.plano; 
     }
 
+    public List<Historico> getHistorico() {
+        return new ArrayList<>(this.historico); 
+    }
+
     public void setNome(String nome) { 
         this.nome = nome; 
     }
