@@ -336,6 +336,13 @@ public class Model {
         return userMaisPlaylists;
     }
 
+    //RECOMENDADOR
+    /* public playlist recomendador(User user, opcao1 opcao2){}
+     * map auxiliar que tem como chave a msuica e como value o numero de vezes que ela foi ouvida
+     * a funcao recebe duas flags para as opcao do explicita e do tempo
+     * 
+     * 
+     */
    
 
 }
