@@ -71,10 +71,10 @@ public class Controller {
 
             Song musica = playlist.getNMusica(index);
             if (musica instanceof SongExplicit) {
-                String letra = ((SongExplicit) musica).getReproducaoExplicita(19);
+                String letra = ((SongExplicit) musica).getSongExplicit(19);
                 System.out.println(letra);
             } else if (musica instanceof SongMediaExplicit) {
-                String letra = ((SongMediaExplicit) musica).getReproducaoExplicita(19);
+                String letra = ((SongMediaExplicit) musica).getSongExplicit(19);
                 System.out.println(letra);
             } else {
                 String letra = musica.getReproducao();
@@ -148,10 +148,10 @@ public class Controller {
 
             Song musica = album.getNMusica(index);
             if (musica instanceof SongExplicit) {
-                String letra = ((SongExplicit) musica).getReproducaoExplicita(19);
+                String letra = ((SongExplicit) musica).getSongExplicit(19);
                 System.out.println(letra);
             } else if (musica instanceof SongMediaExplicit) {
-                String letra = ((SongMediaExplicit) musica).getReproducaoExplicita(19);
+                String letra = ((SongMediaExplicit) musica).getSongExplicit(19);
                 System.out.println(letra);
             } else {
                 String letra = musica.getReproducao();
@@ -180,10 +180,10 @@ public class Controller {
     public void reproduzirMusica(String username, String nomeMusica) {
         Song song = getSong(nomeMusica);
         if (song instanceof SongExplicit) {
-            String letra = ((SongExplicit) song).getReproducaoExplicita(19);
+            String letra = ((SongExplicit) song).getSongExplicit(19);
             System.out.println(letra);
         } else if (song instanceof SongMediaExplicit) {
-            String letra = ((SongMediaExplicit) song).getReproducaoExplicita(19);
+            String letra = ((SongMediaExplicit) song).getSongExplicit(19);
             System.out.println(letra);
         } else {
             String letra = song.getReproducao();
