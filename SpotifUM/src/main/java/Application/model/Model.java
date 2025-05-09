@@ -396,8 +396,4 @@ public class Model {
     }
     
 
-
-    
-   
-
 }
