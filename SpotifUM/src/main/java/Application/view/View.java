@@ -1,8 +1,12 @@
 package Application.view;
 
+import java.time.LocalDate;
 import java.util.Scanner;
 
 import Application.controller.Controller;
+import Application.model.Playlist.Playlist;
+import Application.model.Song.Song;
+import Application.model.User.User;
 
 public class View {
 
@@ -80,6 +84,9 @@ public class View {
                     createAlbumMenu(sc);
                     break;
                 case 4:
+                    //checkQueriesMenu
+                    break;
+                case 5:
                     out();
                     break;
                 default:
@@ -427,5 +434,110 @@ public class View {
         }
 
     }
+
+    public void checkQueriesMenu(Scanner sc, Controller controller) {
+        System.out.println("Sê bem-vindo/a às estatísticas do SpotifUM!");
+        System.out.println("\nPressione 1 para ver qual é a música mais reproduzida.");
+        System.out.println("Pressione 2 para verificar qual é o intérprete mais ouvido.");
+        System.out.println("Pressione 3 para verificar qual é o utilizador que mais ouviu músicas desde sempre.");
+        System.out.println("Pressione 4 para verificar qual é o utilizador que mais músicas ouviu por um determinado período de tempo.");
+        System.out.println("Pressione 5 para verificar qual é o utilizador com mais pontos.");
+        System.out.println("Pressione 6 para verificar qual é o género mais ouvido.");
+        System.out.println("Pressione 7 para verificar quantas playlists públicas existem.");
+        System.out.println("Pressione 8 para verificar qual é o utilizador com mais playlists.");
+
+        int opcao = getOpcao(sc);
+        LocalDate dataInicio = null;
+        LocalDate dataFim = null;
+
+        // Pedir as datas para a q3 onde se pode escolher o intervalo
+        if (opcao == 4) {
+            System.out.print("Introduza a data de início (YYYY-MM-DD): ");
+            dataInicio = LocalDate.parse(sc.nextLine());
+            System.out.print("Introduza a data de fim (YYYY-MM-DD): ");
+            dataFim = LocalDate.parse(sc.nextLine());
+        }
+
+        switch (opcao) {
+            case 1:
+                controller.query1();
+                break;
+            case 2:
+            case 6:
+                controller.query2e5(opcao);
+                break;
+            case 3:
+            case 5:
+            case 8:
+                controller.query34e7(opcao, null, null);
+                break;
+            case 4:
+                controller.query34e7(opcao, dataInicio, dataFim);
+                break;
+            case 7:
+                controller.query6();
+                break;
+            default:
+                System.out.println("Opção inválida.");
+                break;
+        }
+    }
+
+    public void recomendadorMenu(Scanner sc, Controller controller, String username) {
+    System.out.println("Sê bem vindo/a ao teu recomendador personalizado do SpotifUM!");
+    System.out.println("\nPressiona 1 para obteres uma playlist personalizada com as tuas músicas favoritas!");
+    System.out.println("\nPressiona 2 caso queiras apenas ouvir música explícita ;-)");
+
+    int opcao = getOpcao(sc);
+    int segundos = 0;
+    String generos = "";
+    int ngeneros = 0;
+
+    if (opcao == 1 || opcao == 2) {
+        System.out.println("\nCaso queiras que a tua playlist tenha um tempo máximo, insere-o (em segundos):");
+        System.out.println("Caso contrário, insere 0 (zero).");
+
+        // Ler segundos
+        while (true) {
+            try {
+                segundos = Integer.parseInt(sc.nextLine().trim());
+                if (segundos < 0) {
+                    System.out.println("Por favor, insere um número positivo ou 0:");
+                } else {
+                    break;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Entrada inválida. Tenta novamente:");
+            }
+        }
+
+        System.out.println("\nCaso queiras que a tua playlist inclua apenas certos géneros, insere-os separados por espaços:");
+        System.out.println("Exemplo: rock pop jazz");
+        System.out.println("Se não quiseres restringir géneros, pressiona Enter.");
+
+        generos = sc.nextLine().trim();
+        if (!generos.isEmpty()) {
+            // Contar géneros com base nos espaços
+            ngeneros = generos.split("\\s+").length;
+        }
+
+        // Gerar a playlist
+        Playlist playlist = controller.gerarPlaylistRecomendada(username, opcao, ngeneros, generos, segundos);
+
+        // Mostrar resultado
+        System.out.println("\nPlaylist gerada com sucesso!");
+        System.out.println("Nome: " + playlist.getNome());
+        System.out.println("Músicas:");
+        for (Song musica : playlist.getMusicas()) {
+            System.out.println("- " + musica.getNome() + " (" + musica.getDuracao() + "s)");
+        }
+
+    } else {
+        System.out.println("Opção inválida. A voltar ao menu principal...");
+    }
+}
+
+
+
 
 }

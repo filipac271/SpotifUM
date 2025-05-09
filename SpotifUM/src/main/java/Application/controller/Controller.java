@@ -263,4 +263,58 @@ public class Controller {
         plano.guardarPlaylist(getPlaylist(nomeP));
     }
 
+
+    //  Queries
+    public Song query1(){
+        Song maisreproduzida = model.musicaMaisOuvida();
+        return maisreproduzida;
+    }
+
+    public String query2e5(int opcao){
+        String resposta = "Essa opção é invalida!";
+        if(opcao == 2){
+            resposta = model.interpreteMaisOuvido();
+        } else if(opcao == 6){
+            resposta = model.generoMaisOuvido();
+        } else {
+            return resposta;
+        }
+        return resposta;
+    }
+
+    public User query34e7(int opcao, LocalDate dataInicio, LocalDate dataFim ){
+        User resposta = null;
+        if(opcao == 3 || opcao == 4){
+            resposta = model.userMaisMusicasOuvidas(dataInicio, dataFim);
+            return resposta;
+        } else if(opcao == 5){
+            resposta = model.userMaisPontos();
+        } else if(opcao == 8){
+            resposta = model.userMaisPlaylists();
+        } else{
+            return resposta;
+        }
+        return resposta;
+    }
+
+    public int query6(){
+        int resposta = 0;
+        resposta = model.numPlaylistsPublicas();
+        return resposta;
+    }
+
+    public Playlist gerarPlaylistRecomendada(String username, int opcao, int ngeneros, String generos, int segundos) {
+        
+        List<Song> musicasRecomendadas = model.recomendarMusicas(username, opcao, ngeneros, generos, segundos);
+    
+        // ATENCAO
+        Playlist playlist = null; //Isto está errado, discutir como é suposto fazer isto porque nao posso instanciar e isto dá coisa null pointer access.
+        playlist.setNome("Recomendações para " + username);
+        playlist.setMusicas(musicasRecomendadas);
+        playlist.setPublica(false); // false porque ela é apenas daquele user
+    
+        return playlist;
+    }
+    
+
 }
