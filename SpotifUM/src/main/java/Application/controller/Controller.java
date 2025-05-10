@@ -90,8 +90,17 @@ public class Controller {
 
     }
 
-    public void addToPlaylist(String nomeP, String nomeM) {
-        model.addToPlaylist(nomeP, nomeM);
+    public int addToPlaylist(String nomeP, String nomeM) {
+        if(songExists(nomeM))
+        {
+            model.addToPlaylist(nomeP, nomeM);
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+       
     }
 
     public void guardarPlaylist(String username, String nome) {
@@ -132,6 +141,50 @@ public class Controller {
         model.addPlaylist(nomeP, playlist);
     }
 
+
+    public boolean validaAudicao(String username,String tipo,String nome)
+    {
+        if(tipo.equals("playlist"))
+        {
+            if(playlistExists(nome))
+            {
+                return model.playlistAcessivel(username,nome);
+            }
+            else 
+            {
+                return false;
+            }
+        }
+        else if(tipo.equals("album"))
+        {
+            return albumExists(nome);
+        }
+        else if(tipo.equals("musica"))
+        {
+            return songExists(nome);
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+
+   public ArrayList<String> getNomeMusicas(String nomeP,int n)
+   {
+      return model.getNomeMusicas(nomeP,n);
+
+   }
+
+   public void trocaMusicas(String nomeP,int i,int index)
+   {
+         model.trocaMusicas(nomeP,i,index);
+   }
+
+   public void ordenarPlaylist(String nomeP,int op)
+   {
+        model.ordenarPlaylist(nomeP,op);
+   }
     // ALBUM
 
     public int reproduzirAlbum(String username, String nome, int index, String selecao) {

@@ -51,6 +51,12 @@ public abstract class PlanoPremium extends PlanoSubscricao {
         this.albuns.add(album);
     }
 
+    public boolean playlistGuardada(Playlist p)
+    {
+        return this.playlists.contains(p);
+
+    }
+
     /**
      * Verifica se o utilizador pode avançar ou retroceder músicas.
      * 
