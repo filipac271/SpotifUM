@@ -41,6 +41,8 @@ public abstract class PlanoSubscricao implements Serializable {
     public abstract int numPlaylists();
 
     public abstract void guardarPlaylist(Playlist p) ;
+
+    public abstract boolean playlistGuardada(Playlist p);
    
 
     public abstract void guardarAlbum(Album a) ;

@@ -2,6 +2,7 @@ package Application.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -162,6 +163,19 @@ public class Model {
         return playlistTable.containsKey(name);
     }
 
+    public boolean playlistAcessivel(String username,String nome)
+    {
+        if(getPlaylist(nome).getPublica())
+        {
+            return true;
+        }
+        else
+        {
+            Playlist p=getPlaylist(nome);
+            User user= getUser(username);
+            return user.getPlano().playlistGuardada(p);
+        }
+    }
     
     
 
@@ -186,6 +200,55 @@ public class Model {
             return playlist;
         }
     
+    public ArrayList<String> getNomeMusicas(String nomeP,int n)
+    {
+        ArrayList<String> nomeMusicas=new ArrayList<>();
+        Playlist p= getPlaylist(nomeP);
+        for(int i=0;i<n;i++)
+        {
+            nomeMusicas.add(p.getNMusica(i).getNome()) ;
+        }
+        return nomeMusicas;
+
+    }
+
+    public void trocaMusicas(String nomeP,int i,int index)
+    {
+        Playlist p = getPlaylist(nomeP);
+        Song s1 = p.getNMusica(index);
+
+        p.adicionarMusicaIndex(p.getNMusica(i), index);
+        p.adicionarMusicaIndex(s1,i);
+        playlistTable.replace(nomeP,p);
+    }
+
+    public void ordenarPlaylist(String nomeP,int op)
+    {
+        Playlist playlist=getPlaylist(nomeP);
+
+        switch (op) {
+            case 1: // Nome da música A-Z
+            playlist.getMusicas().sort((s1, s2) -> s1.getNome().compareToIgnoreCase(s2.getNome()));
+            break;
+
+            case 2: // Nome da música Z-A
+                playlist.getMusicas().sort((s1, s2) -> s2.getNome().compareToIgnoreCase(s1.getNome()));
+                break;
+
+            case 3: // Nome do intérprete A-Z
+                playlist.getMusicas().sort((s1, s2) -> s1.getInterprete().compareToIgnoreCase(s2.getInterprete()));
+                break;
+
+            case 4: // Nome do intérprete Z-A
+                playlist.getMusicas().sort((s1, s2) -> s2.getInterprete().compareToIgnoreCase(s1.getInterprete()));
+                break;
+
+            default:
+                 break;
+        }
+        playlistTable.replace(nomeP, playlist);
+
+    }
 
     // === Album ===
     public void addAlbum(String nome, String artista, List<Song> albumList) {

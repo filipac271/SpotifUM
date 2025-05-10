@@ -7,7 +7,7 @@ import Application.model.Playlist.Playlist;
  * Classe que representa o plano de subscrição gratuito ("Free").
  * Herda de {@link PlanoSubscricao}. CONFIRMAR ISTO
  */
-public class PlanoFree extends PlanoSubscricao  {
+public class PlanoFree extends PlanoSubscricao {
     
     /**
      * Construtor por omissão.
@@ -51,6 +51,11 @@ public class PlanoFree extends PlanoSubscricao  {
     }
 
     public void guardarAlbum(Album a) 
+    {
+        throw new UnsupportedOperationException("Este plano não suporta guardar playlists.");
+    }
+
+    public boolean playlistGuardada(Playlist p)
     {
         throw new UnsupportedOperationException("Este plano não suporta guardar playlists.");
     }

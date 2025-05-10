@@ -99,6 +99,8 @@ public abstract class Playlist implements Serializable{
                     .collect(Collectors.toList());
     }
 
+
+
     public Song getNMusica(int n)
     {
         return musicas.get(n).clone();
@@ -140,6 +142,10 @@ public abstract class Playlist implements Serializable{
      */
     public void adicionarMusica(Song musica) {
         musicas.add(musica.clone());
+    }
+
+    public void adicionarMusicaIndex(Song musica, int n) {
+        musicas.add(n,musica);
     }
 
     /**
