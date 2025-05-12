@@ -31,12 +31,24 @@ public class View {
         System.out.println("Prima o número correspondente à opção que deseja executar:");
     }
 
-    public int getOpcao(Scanner sc) {
+
+    public void print(String s)
+    {
+        System.out.println(s);
+    }
+
+
+    public int getOpcao(Scanner sc, int min, int max) {
         int option = -1;
         while (option == -1) {
             try {
                 option = sc.nextInt();
                 sc.nextLine();
+                if(option<min || option>max)
+                {
+                    option=-1;
+                    System.out.println("Insira um número entre "+min+" e "+max+"!");
+                }
             } catch (Exception e) {
                 optionError();
                 sc.nextLine();
@@ -66,7 +78,7 @@ public class View {
 
             int option;
             mainMenu();
-            option = getOpcao(sc);
+            option = getOpcao(sc,1,4);
 
             switch (option) {
                 case 1:
@@ -195,7 +207,7 @@ public class View {
         System.out.println("\n-------Criar um album-------");
 
         System.out.println("Digite o número de musicas do album: ");
-        int numMusicas = getOpcao(sc);
+        int numMusicas = getOpcao(sc,1,Integer.MAX_VALUE);
         System.out.println("Digite o nome do Album: ");
         String nome = getOpcaoString(sc);
         System.out.println("Digite o artista do Album: ");
@@ -300,7 +312,7 @@ public class View {
      
         opcoesPremiumMenu("B");
         while (true) {
-            int opcao = getOpcao(sc);
+            int opcao = getOpcao(sc,1,5);
 
             switch (opcao) {
                 case 1:
@@ -337,40 +349,41 @@ public class View {
         System.out.println("\nPressione 3 para ouvir um album");
 
         while (true) {
-            int opcao = getOpcao(sc);
+            int opcao = getOpcao(sc,1,4);
             String nome;
-            int index;
-            String selecao;
+            String aleatorio;
             switch (opcao) {
                 case 1:
                     nome = menuOuvir(sc, "musica",username);
                     break;
                 case 2:
                     nome = menuOuvir(sc, "playlist",username);
-                    index = 0;
-                    selecao = null;
-                    //ordem audicao
-                    while (index < controller.getPlaylist(nome).tamanho()) {
-                        index = controller.reproduzirPlaylist(username, nome, index, selecao);
-                        if (index == -1) {
-                            System.out.println("\nOperação não é possivel!");
-                        }
-                        selecao = perguntarContinuar(sc);
-                        if (selecao.equals("N"))
-                            break;
+                    System.out.println("\nReproduzir aleatoriamente? (s/n)");
+                    aleatorio=getOpcaoString(sc);
+                    if(aleatorio.equals("s"))
+                    {
+                        controller.reproduzirPlaylistAleatoriamente(username,nome, this,sc);
                     }
+                    else if(aleatorio.equals("n"))
+                    {
+                        controller.reproduzirPlaylistSequencial(username,nome,this,sc);
+                       
+                    }
+                    
                     break;
                 case 3:
                     nome = menuOuvir(sc, "album",username);
-                    index = 0;
-                    selecao = null;
-                    while (index < controller.getAlbum(nome).tamanho()) {
-                        index = controller.reproduzirAlbum(username, nome, index, selecao);
-                        selecao = perguntarContinuar(sc);
-                        if (selecao.equals("N"))
-                            break;
+                    System.out.println("\nReproduzir aleatoriamente? (s/n)");
+                    aleatorio=getOpcaoString(sc);
+                    if(aleatorio.equals("s"))
+                    {
+                        controller.reproduzirAlbumAleatoriamente(username,nome, this,sc);
                     }
-
+                    else if(aleatorio.equals("n"))
+                    {
+                        controller.reproduzirAlbumSequencial(username,nome,this,sc);
+                       
+                    }
                 case 4:
                     out();
                 default:
@@ -393,17 +406,18 @@ public class View {
             System.out.println("\nQual " + tipo + " deseja ouvir?");
             nome = sc.nextLine();
          }
+         
         return nome;
     }
 
     // Apresenta ao user (Premium) as opções de escolha de uma música ao ouvir uma playlist
-    public String perguntarContinuar(Scanner sc) {
-        System.out.println("\nA - Avançar Música ");
-        System.out.println("\nP - Próxima Música");
-        System.out.println("\nR - Retroceder ");
-        System.out.println("\nS - Sair");
+    public int perguntarContinuar(Scanner sc) {
+        System.out.println("\n1 - Avançar Música ");
+        System.out.println("\n2 - Próxima Música");
+        System.out.println("\n3 - Retroceder ");
+        System.out.println("\n4 - Sair");
 
-        String opcao = getOpcaoString(sc);
+        int opcao = getOpcao(sc,1,4);
         return opcao;
     }
     
@@ -415,7 +429,7 @@ public class View {
         System.out.println("Tornar playlist pública? (s/n)");
         String publica = getOpcaoString(sc);
         System.out.println("Quantas músicas pretende adicionar:");
-        int nMusicas = getOpcao(sc);
+        int nMusicas = getOpcao(sc,1,Integer.MAX_VALUE);
         controller.createPlaylist(username, nomeP, publica);
         String nomeM;
         int i,v;
@@ -441,7 +455,7 @@ public class View {
         System.out.println("3- Nome do interprete a-z");
         System.out.println("4- Nome do interprete z-a");
         System.out.println("5- Quero decidir uma ordem especifica");
-        int op=getOpcao(sc);
+        int op=getOpcao(sc,1,5);
       
         int index;
         if(op==5)
@@ -450,8 +464,8 @@ public class View {
             for( int i=0;i<nMusicas;i++)
             {
                 System.out.println("Qual a "+i+"ª música?");
-                index=getOpcao(sc);
-                controller.trocaMusicas(nomeP,i,index);
+                index=getOpcao(sc,1,nMusicas);
+                controller.trocaMusicas(nomeP,i,index-1);
             }
         }
         else
@@ -465,7 +479,7 @@ public class View {
     public void imprimePlaylist(String nomeP, int n)
     {
         System.out.println("Ordem das músicas atual:");
-        int i=0;
+        int i=1;
        for(String s : this.controller.getNomeMusicas(nomeP, n) )
        {
             System.out.println("\nNº "+i+": "+s);
@@ -480,7 +494,7 @@ public class View {
         opcoesPremiumMenu("T");
 
         while (true) {
-            int opcao = getOpcao(sc);
+            int opcao = getOpcao(sc,1,6);
 
             switch (opcao) {
                 case 1:

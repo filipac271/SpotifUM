@@ -2,7 +2,11 @@ package Application.controller;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Scanner;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import Application.model.Model;
 import Application.model.Album.Album;
@@ -17,6 +21,8 @@ import Application.model.Song.Song;
 import Application.model.Song.SongExplicit;
 import Application.model.Song.SongMediaExplicit;
 import Application.model.User.User;
+
+import Application.view.View;
 
 public class Controller {
 
@@ -57,38 +63,7 @@ public class Controller {
 
     // PLAYLIST
 
-    public int reproduzirPlaylist(String username, String nome, int index, String selecao) {
-        Playlist playlist = getPlaylist(nome);
-        if (selecao.equals("A")) {
-            index += 2;
-        } else if (selecao.equals("R")) {
-            index--;
-        } else if (selecao.equals("S")) {
-            index++;
-        }
 
-        if (index < playlist.tamanho()) {
-
-            Song musica = playlist.getNMusica(index);
-            if (musica instanceof SongExplicit) {
-                String letra = ((SongExplicit) musica).getReproducaoExplicita(19);
-                System.out.println(letra);
-            } else if (musica instanceof SongMediaExplicit) {
-                String letra = ((SongMediaExplicit) musica).getReproducaoExplicita(19);
-                System.out.println(letra);
-            } else {
-                String letra = musica.getReproducao();
-                System.out.println(letra);
-            }
-            User user = model.getUser(username);
-            LocalDate data = LocalDate.now();
-            user.addHistorico(musica, data);
-            return index;
-        } else {
-            return -1;
-        }
-
-    }
 
     public int addToPlaylist(String nomeP, String nomeM) {
         if(songExists(nomeM))
@@ -169,6 +144,63 @@ public class Controller {
         }
     }
     
+    public void reproduzirPlaylistSequencial(String username, String nome, View v, Scanner sc)
+    {
+        int index = 0;
+        Playlist playlist = getPlaylist(nome);
+        String letra="";
+        while(index!=-2)
+        {
+            if (index < playlist.tamanho()&& index>=0) {
+
+                Song musica = playlist.getNMusica(index);
+                letra=model.userReproduziu(musica, username); 
+                v.print(letra);    
+            } 
+            else {
+                if(index<0) {
+                    v.print("Não há músicas anteriores na playlist");
+                }
+                else{
+                    v.print("Já atingiu o final da playlist");
+                }
+            }
+
+            index=proximaMusica(sc,index,v); 
+        }
+    }
+
+   
+        public void reproduzirPlaylistAleatoriamente(String username, String nome, View v, Scanner sc) {
+            Playlist playlist = getPlaylist(nome);
+            int tamanho = playlist.tamanho();
+            List<Integer> ordem = IntStream.range(0, tamanho)
+                               .boxed()
+                               .collect(Collectors.toList());
+            Collections.shuffle(ordem);
+            int index=0;
+            String letra="";
+            while (index!=-2) {
+
+                if (index < tamanho&& index>=0)
+                {
+                    Song musica=playlist.getNMusica(index);
+                    letra=model.userReproduziu(musica, username);
+                    v.print(letra);
+                }
+                else if(index<0) {
+                        v.print("Não há músicas anteriores na playlist");
+                }
+                else {
+                        v.print("Já atingiu o final da playlist");
+                }
+                  
+                index=proximaMusica(sc,index,v);  
+               
+            }
+        
+        }
+    
 
    public ArrayList<String> getNomeMusicas(String nomeP,int n)
    {
@@ -185,40 +217,82 @@ public class Controller {
    {
         model.ordenarPlaylist(nomeP,op);
    }
+
+   public int proximaMusica(Scanner sc, int index,View v)
+   {
+        int selecao=v.perguntarContinuar(sc);
+
+            if (selecao==1) {
+                index += 2;
+            } else if (selecao==2) {
+                index--;
+            } else if (selecao==3) {
+                index++;
+            }
+            else  
+            {
+               index=-2;
+            }
+            return index;
+   }
     // ALBUM
 
-    public int reproduzirAlbum(String username, String nome, int index, String selecao) {
+    public void reproduzirAlbumSequencial(String username, String nome, View v, Scanner sc)
+    {
+        int index = 0;
         Album album = getAlbum(nome);
-        if (selecao.equals("A")) {
-            index += 2;
-        } else if (selecao.equals("R")) {
-            index--;
-        } else if (selecao.equals("S")) {
-            index++;
-        }
+        String letra="";
+        while(index!=-2)
+        {
+            if (index < album.tamanho()&& index>=0) {
 
-        if (index < album.tamanho()) {
-
-            Song musica = album.getNMusica(index);
-            if (musica instanceof SongExplicit) {
-                String letra = ((SongExplicit) musica).getReproducaoExplicita(19);
-                System.out.println(letra);
-            } else if (musica instanceof SongMediaExplicit) {
-                String letra = ((SongMediaExplicit) musica).getReproducaoExplicita(19);
-                System.out.println(letra);
+                Song musica = album.getNMusica(index);
+                letra=model.userReproduziu(musica, username); 
+                v.print(letra);
+               
             } else {
-                String letra = musica.getReproducao();
-                System.out.println(letra);
+                if(index<0)
+                {
+                    v.print("Não há músicas anteriores na playlist");
+                }
+                else
+                {
+                    v.print("Já atingiu o final da playlist");
+                }
+              
             }
 
-            User user = model.getUser(username);
-            LocalDate data = LocalDate.now();
-            user.addHistorico(musica, data);
-            return index;
-        } else {
-            return -1;
+            index=proximaMusica(sc,index,v);
+            
         }
+    }
 
+   
+    public void reproduzirAlbumAleatoriamente(String username, String nome, View v, Scanner sc) {
+        Album album = getAlbum(nome);
+        int tamanho = album.tamanho();
+        List<Integer> ordem = IntStream.range(0,tamanho).boxed().collect(Collectors.toList());
+        Collections.shuffle(ordem);
+        int index=0;
+        String letra="";
+        
+        while (index!=-2) {
+
+                if (index < album.tamanho()&& index>=0)
+                {
+                    Song musica = album.getNMusica(index);
+                    letra=model.userReproduziu(musica, username);
+                    v.print(letra);
+                }
+                else if(index<0) {
+                        v.print("Não há músicas anteriores no album");
+                }
+                else {
+                        v.print("Já atingiu o final do album");
+                }
+                  
+                index=proximaMusica(sc,index,v);       
+        } 
     }
 
     public void guardarAlbum(String username, String nome) {
