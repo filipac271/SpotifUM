@@ -120,13 +120,7 @@ public class PlaylistTematica extends Playlist {
     /**
      * Reproduz a playlist, imprimindo a letra de cada música.
      */
-    @Override
-    public void reproduzir() {
-        for (Song s : super.getMusicas()) {
-            System.out.println(s.getLetra());
-            System.out.println("----");
-        }
-    }
+
 
     /**
      * Cria uma cópia/clone da playlist temática.

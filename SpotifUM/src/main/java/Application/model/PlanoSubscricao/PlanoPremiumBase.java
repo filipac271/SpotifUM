@@ -27,4 +27,6 @@ public class PlanoPremiumBase extends PlanoPremium {
     public double calculaPontos(double pontos) {
         return pontos + 10;
     }
+
+
 }

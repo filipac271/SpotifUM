@@ -32,12 +32,17 @@ public abstract class PlanoPremium extends PlanoSubscricao {
         this.albuns = new ArrayList<>();
     }
 
+
+    
+
+
+    
+
     /**
      * Guarda uma nova playlist na conta do utilizador.
      * 
      * @param playlist A playlist a guardar.
      */
-    @Override
     public void guardarPlaylist(Playlist playlist) {
         this.playlists.add(playlist);
     }
@@ -52,7 +57,8 @@ public abstract class PlanoPremium extends PlanoSubscricao {
     }
 
     public boolean playlistGuardada(Playlist p)
-    {
+    {         
+
         return this.playlists.contains(p);
 
     }

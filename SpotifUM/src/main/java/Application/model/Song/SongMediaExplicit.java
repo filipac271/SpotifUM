@@ -32,7 +32,7 @@ public class SongMediaExplicit extends SongMultimedia implements Explicito{
             return "Esta musica tem conteudo explicito daí não poder ser reproduzida";
         } else {
             int numRep = getNumRep();
-            setNumRep(numRep);
+            setNumRep(numRep+1);
             return  "⚠️ Conteúdo explícito ⚠️\n" + getLetra();
         }
 

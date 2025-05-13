@@ -35,7 +35,7 @@ public class Album implements Serializable {
         this.nome = nome;
         this.artista = artista;
         this.album = albumList.stream()
-            .map(song -> song.clone())  
+            .map(song -> song)  
             .collect(Collectors.toList());
     }
 
@@ -74,7 +74,9 @@ public class Album implements Serializable {
      * @return Uma cópia da lista de músicas.
      */
     public List<Song> getAlbum() {
-        return this.album.stream().map(song -> song.clone()).collect(Collectors.toList());
+        // return this.album.stream().map(song -> song.clone()).collect(Collectors.toList());
+        return this.album.stream().map(song -> song).collect(Collectors.toList());
+
     }
 
     /**
@@ -102,7 +104,7 @@ public class Album implements Serializable {
      */
     public void setAlbum(List<Song> albumList){
         this.album = albumList.stream()
-            .map(song -> song.clone())  
+            .map(song -> song)  
             .collect(Collectors.toList());
     }
 
@@ -112,7 +114,7 @@ public class Album implements Serializable {
      * @param song Música a adicionar (vai ser clonada).
      */
     public void addSong(Song song) {
-        album.add(song.clone());
+        album.add(song);
     }
 
     /**
@@ -132,7 +134,9 @@ public class Album implements Serializable {
     
     public Song getNMusica(int n)
     {
-        return album.get(n).clone();
+        // return album.get(n).clone();
+        return album.get(n);
+
     }
     /**
      * Representação textual do álbum.

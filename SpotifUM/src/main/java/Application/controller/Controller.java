@@ -15,11 +15,8 @@ import Application.model.PlanoSubscricao.PlanoPremiumBase;
 import Application.model.PlanoSubscricao.PlanoPremiumTop;
 import Application.model.PlanoSubscricao.PlanoSubscricao;
 import Application.model.Playlist.Playlist;
-import Application.model.Playlist.PlaylistRandom;
 import Application.model.Playlist.PlaylistUser;
 import Application.model.Song.Song;
-import Application.model.Song.SongExplicit;
-import Application.model.Song.SongMediaExplicit;
 import Application.model.User.User;
 
 import Application.view.View;
@@ -63,19 +60,14 @@ public class Controller {
 
     // PLAYLIST
 
-
-
     public int addToPlaylist(String nomeP, String nomeM) {
-        if(songExists(nomeM))
-        {
+        if (songExists(nomeM)) {
             model.addToPlaylist(nomeP, nomeM);
             return 1;
-        }
-        else
-        {
+        } else {
             return 0;
         }
-       
+
     }
 
     public void guardarPlaylist(String username, String nome) {
@@ -101,8 +93,8 @@ public class Controller {
         return model.playlistExists(name);
     }
 
-    public PlaylistRandom createPlaylistRandom() {
-        return model.createPlaylistRandom();
+    public String createPlaylistRandom() {
+        return model.createPlaylistRandom().getNome();
     }
 
     public void createPlaylist(String username, String nomeP, String publicaS) {
@@ -116,184 +108,155 @@ public class Controller {
         model.addPlaylist(nomeP, playlist);
     }
 
-
-    public boolean validaAudicao(String username,String tipo,String nome)
-    {
-        if(tipo.equals("playlist"))
-        {
-            if(playlistExists(nome))
-            {
-                return model.playlistAcessivel(username,nome);
-            }
-            else 
-            {
+    public boolean validaAudicao(String username, String tipo, String nome) {
+        if (tipo.equals("playlist")) {
+            if (playlistExists(nome)) {
+                return model.playlistAcessivel(username, nome);
+            } else {
                 return false;
             }
-        }
-        else if(tipo.equals("album"))
-        {
+        } else if (tipo.equals("album")) {
             return albumExists(nome);
-        }
-        else if(tipo.equals("musica"))
-        {
+        } else if (tipo.equals("musica")) {
             return songExists(nome);
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
-    
-    public void reproduzirPlaylistSequencial(String username, String nome, View v, Scanner sc)
-    {
+
+    public void reproduzirPlaylistSequencial(String username, String nome, View v, Scanner sc) {
         int index = 0;
         Playlist playlist = getPlaylist(nome);
-        String letra="";
-        while(index!=-2)
-        {
-            if (index < playlist.tamanho()&& index>=0) {
+        String letra = "";
+        while (index != -2) {
+            if (index < playlist.tamanho() && index >= 0) {
 
                 Song musica = playlist.getNMusica(index);
-                letra=model.userReproduziu(musica, username); 
-                v.print(letra);    
-            } 
-            else {
-                if(index<0) {
+                letra = model.userReproduziu(musica, username);
+                v.print(letra);
+            } else {
+                if (index < 0) {
                     v.print("Não há músicas anteriores na playlist");
-                }
-                else{
+                    index = 0;
+                } else {
                     v.print("Já atingiu o final da playlist");
+                    index = playlist.tamanho();
+
                 }
             }
 
-            index=proximaMusica(sc,index,v); 
+            index = proximaMusica(sc, index, v);
         }
     }
 
-   
-        public void reproduzirPlaylistAleatoriamente(String username, String nome, View v, Scanner sc) {
-            Playlist playlist = getPlaylist(nome);
-            int tamanho = playlist.tamanho();
-            List<Integer> ordem = IntStream.range(0, tamanho)
-                               .boxed()
-                               .collect(Collectors.toList());
-            Collections.shuffle(ordem);
-            int index=0;
-            String letra="";
-            while (index!=-2) {
+    public void reproduzirPlaylistAleatoriamente(String username, String nome, View v, Scanner sc) {
+        Playlist playlist = getPlaylist(nome);
+        int tamanho = playlist.tamanho();
+        List<Integer> ordem = IntStream.range(0, tamanho)
+                .boxed()
+                .collect(Collectors.toList());
+        Collections.shuffle(ordem);
+        int index = 0;
+        String letra = "";
+        while (index != -2) {
 
-                if (index < tamanho && index>=0)
-                {
-                    Song musica=playlist.getNMusica(ordem.get(index));
-                    letra=model.userReproduziu(musica, username);
-                    v.print(letra);
-                }
-                else if(index < 0) {
-                        v.print("Não há músicas anteriores na playlist");
-                }
-                else {
-                        v.print("Já atingiu o final da playlist");
-                }
-                  
-                index=proximaMusica(sc,index,v);  
-               
+            if (index < tamanho && index >= 0) {
+                Song musica = playlist.getNMusica(ordem.get(index));
+                letra = model.userReproduziu(musica, username);
+                v.print(letra);
+            } else if (index < 0) {
+                v.print("Não há músicas anteriores na playlist");
+                index = 0;
+            } else {
+                v.print("Já atingiu o final da playlist");
+                index = tamanho;
             }
-        
+
+            index = proximaMusica(sc, index, v);
+
         }
-    
 
-   public ArrayList<String> getNomeMusicas(String nomeP,int n)
-   {
-      return model.getNomeMusicas(nomeP,n);
+    }
 
-   }
+    public ArrayList<String> getNomeMusicas(String nomeP, int n) {
+        return model.getNomeMusicas(nomeP, n);
 
-   public void trocaMusicas(String nomeP,int i,int index)
-   {
-         model.trocaMusicas(nomeP,i,index);
-   }
+    }
 
-   public void ordenarPlaylist(String nomeP,int op)
-   {
-        model.ordenarPlaylist(nomeP,op);
-   }
+    public void trocaMusicas(String nomeP, int i, int index) {
+        model.trocaMusicas(nomeP, i, index);
+    }
 
-   public int proximaMusica(Scanner sc, int index,View v)
-   {
-        int selecao=v.perguntarContinuar(sc);
+    public void ordenarPlaylist(String nomeP, int op) {
+        model.ordenarPlaylist(nomeP, op);
+    }
 
-            if (selecao==1) {
-                index += 2;
-            } else if (selecao==2) {
-                index--;
-            } else if (selecao==3) {
-                index++;
-            }
-            else  
-            {
-               index=-2;
-            }
-            return index;
-   }
+    public int proximaMusica(Scanner sc, int index, View v) {
+        int selecao = v.perguntarContinuar(sc);
+
+        if (selecao == 1) {
+            index += 2;
+        } else if (selecao == 2) {
+            index++;
+        } else if (selecao == 3) {
+            if(index != -1) index--;
+        } else if (selecao == 4) {
+            index = 0;
+        } else {
+            index = -2;
+        }
+        return index;
+    }
     // ALBUM
 
-    public void reproduzirAlbumSequencial(String username, String nome, View v, Scanner sc)
-    {
+    public void reproduzirAlbumSequencial(String username, String nome, View v, Scanner sc) {
         int index = 0;
         Album album = getAlbum(nome);
-        String letra="";
-        while(index!=-2)
-        {
-            if (index < album.tamanho()&& index>=0) {
+        String letra = "";
+        while (index != -2) {
+            if (index < album.tamanho() && index >= 0) {
 
                 Song musica = album.getNMusica(index);
-                letra=model.userReproduziu(musica, username); 
+                letra = model.userReproduziu(musica, username);
                 v.print(letra);
-               
 
+            } else if (index < 0) {
+                v.print("Não há músicas anteriores no album");
+                index = -1;
             } else {
-                if(index<0)
-                {
-                    v.print("Não há músicas anteriores na playlist");
-                }
-                else
-                {
-                    v.print("Já atingiu o final da playlist");
-                }
-              
+                v.print("Já atingiu o final do album");
+                index = album.tamanho();
             }
 
-            index=proximaMusica(sc,index,v);
-            
+            index = proximaMusica(sc, index, v);
+
         }
     }
 
-   
     public void reproduzirAlbumAleatoriamente(String username, String nome, View v, Scanner sc) {
         Album album = getAlbum(nome);
         int tamanho = album.tamanho();
-        List<Integer> ordem = IntStream.range(0,tamanho).boxed().collect(Collectors.toList());
+        List<Integer> ordem = IntStream.range(0, tamanho).boxed().collect(Collectors.toList());
         Collections.shuffle(ordem);
-        int index=0;
-        String letra="";
-        
-        while (index!=-2) {
+        int index = 0;
+        String letra = "";
 
-                if (index < album.tamanho()&& index>=0)
-                {
-                    Song musica = album.getNMusica(ordem.get(index));
-                    letra=model.userReproduziu(musica, username);
-                    v.print(letra);
-                }
-                else if(index<0) {
-                        v.print("Não há músicas anteriores no album");
-                }
-                else {
-                        v.print("Já atingiu o final do album");
-                }
-                  
-                index=proximaMusica(sc,index,v);       
-        } 
+        while (index != -2) {
+
+            if (index < album.tamanho() && index >= 0) {
+                Song musica = album.getNMusica(ordem.get(index));
+                letra = model.userReproduziu(musica, username);
+                v.print(letra);
+            } else if (index < 0) {
+                v.print("Não há músicas anteriores no album");
+                index = 0;
+            } else {
+                v.print("Já atingiu o final do album");
+                index = album.tamanho();
+            }
+
+            index = proximaMusica(sc, index, v);
+        }
     }
 
     public void guardarAlbum(String username, String nome) {
@@ -305,27 +268,17 @@ public class Controller {
 
     // SONG
 
-    public void reproduzirMusica(String username, String nomeMusica) {
+    public String reproduzirMusica(String username, String nomeMusica) {
         Song song = getSong(nomeMusica);
-        if (song instanceof SongExplicit) {
-            String letra = ((SongExplicit) song).getSongExplicit(19);
-            System.out.println(letra);
-        } else if (song instanceof SongMediaExplicit) {
-            String letra = ((SongMediaExplicit) song).getSongExplicit(19);
-            System.out.println(letra);
-        } else {
-            String letra = song.getReproducao();
-            System.out.println(letra);
-        }
-        User user = model.getUser(username);
-        LocalDate data = LocalDate.now();
-        user.addHistorico(song, data);
+        System.out.println(System.identityHashCode(song) + "No controller ");
 
+        String letra = model.userReproduziu(song, username);
+        return letra;
     }
 
     public void addSong(String nomeMusica, String interprete, String editora, String letra, String pauta, String genero,
-            int duracao) {
-        model.addSong(nomeMusica, interprete, editora, letra, pauta, genero, duracao);
+            int duracao, String isExplicit, String isMedia, String url) {
+        model.addSong(nomeMusica, interprete, editora, letra, pauta, genero, duracao, isExplicit, isMedia, url);
     }
 
     public boolean removeSong(String name) {
@@ -344,11 +297,6 @@ public class Controller {
         return model.songExists(name);
     }
 
-    public String SongtoString(Song s)
-    {
-        String st =s.toString();
-        return st;
-    }
     // USER
 
     private PlanoSubscricao getPlanoByOption(int planoOption) {
@@ -364,9 +312,10 @@ public class Controller {
         }
     }
 
-    public void addUser(String nome, String username, String password, String email, String morada, int planoOption) {
+    public void addUser(String nome, String username, String password, String email, String morada, int age,
+            int planoOption) {
         PlanoSubscricao plano = getPlanoByOption(planoOption);
-        model.addUser(username, nome, password, email, morada, plano);
+        model.addUser(username, nome, password, email, morada, age, plano);
     }
 
     public boolean removeUser(String username) {
@@ -396,18 +345,17 @@ public class Controller {
         plano.guardarPlaylist(getPlaylist(nomeP));
     }
 
-
-    //  Queries
-    public String query1(){
+    // Queries
+    public String query1() {
         Song maisreproduzida = model.musicaMaisOuvida();
         return maisreproduzida.toString();
     }
 
-    public String query2e5(int opcao){
+    public String query2e5(int opcao) {
         String resposta = "Essa opção é invalida!";
-        if(opcao == 2){
+        if (opcao == 2) {
             resposta = model.interpreteMaisOuvido();
-        } else if(opcao == 6){
+        } else if (opcao == 6) {
             resposta = model.generoMaisOuvido();
         } else {
             return resposta;
@@ -417,37 +365,36 @@ public class Controller {
 
     }
 
-    public String query34e7(int opcao, LocalDate dataInicio, LocalDate dataFim ){
-        User resposta = null;
-        if(opcao == 3 || opcao == 4){
+    public String query34e7(int opcao, LocalDate dataInicio, LocalDate dataFim) {
+        String resposta;
+        if (opcao == 3 || opcao == 4) {
             resposta = model.userMaisMusicasOuvidas(dataInicio, dataFim);
-            return resposta.toString();
-        } else if(opcao == 5){
+            return resposta;
+        } else if (opcao == 5) {
             resposta = model.userMaisPontos();
-        } else if(opcao == 8){
+        } else {
             resposta = model.userMaisPlaylists();
-        } 
-            return resposta.toString();
+        }
+        return resposta;
     }
 
-    public int query6(){
+    public int query6() {
         int resposta = 0;
         resposta = model.numPlaylistsPublicas();
         return resposta;
     }
 
-    public Playlist gerarPlaylistRecomendada(String username, int opcao, int ngeneros, String generos, int segundos) {
-        
-        List<Song> musicasRecomendadas = model.recomendarMusicas(username, opcao, ngeneros, generos, segundos);
-    
-        // ATENCAO
-        Playlist playlist = null; //Isto está errado, discutir como é suposto fazer isto porque nao posso instanciar e isto dá coisa null pointer access.
-        playlist.setNome("Recomendações para " + username);
-        playlist.setMusicas(musicasRecomendadas);
-        playlist.setPublica(false); // false porque ela é apenas daquele user
-    
-        return playlist;
+    public String gerarPlaylistRecomendada(String username, int opcao, int ngeneros, String generos, int segundos) {
+
+        Playlist musicasRecomendadas = model.recomendarMusicas(username, opcao, ngeneros, generos, segundos);
+
+        model.addPlaylist(musicasRecomendadas.getNome(), musicasRecomendadas);
+
+        User user = getUser(username);
+        PlanoSubscricao p = user.getPlano();
+        p.guardarPlaylist(musicasRecomendadas);
+
+        return musicasRecomendadas.getNome();
     }
-    
 
 }
