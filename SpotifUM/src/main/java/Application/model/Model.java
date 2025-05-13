@@ -81,8 +81,8 @@ public class Model {
     public void addUser(String username, String nome, String password, String email,
                         String morada, PlanoSubscricao plano)
      {
-        List<Historico> h=new ArrayList<>();
-        User user = new User(nome, username, password, email, morada, plano,h);
+       
+        User user = new User(nome, username, password, email, morada, plano);
         userTable.put(username, user);
     }
 
@@ -111,6 +111,7 @@ public class Model {
         }
 
         User user = getUser(username);
+        System.out.println(user.getNome());
         LocalDate data = LocalDate.now();
         user.addHistorico(musica, data);
         double pontosAtuais=user.getPontos();

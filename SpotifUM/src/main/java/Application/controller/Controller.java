@@ -182,13 +182,13 @@ public class Controller {
             String letra="";
             while (index!=-2) {
 
-                if (index < tamanho&& index>=0)
+                if (index < tamanho && index>=0)
                 {
-                    Song musica=playlist.getNMusica(index);
+                    Song musica=playlist.getNMusica(ordem.get(index));
                     letra=model.userReproduziu(musica, username);
                     v.print(letra);
                 }
-                else if(index<0) {
+                else if(index < 0) {
                         v.print("Não há músicas anteriores na playlist");
                 }
                 else {
@@ -280,7 +280,7 @@ public class Controller {
 
                 if (index < album.tamanho()&& index>=0)
                 {
-                    Song musica = album.getNMusica(index);
+                    Song musica = album.getNMusica(ordem.get(index));
                     letra=model.userReproduziu(musica, username);
                     v.print(letra);
                 }

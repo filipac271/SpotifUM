@@ -34,7 +34,7 @@ public class User implements Serializable{
         
     }
     public User(String nome, String username,String password, String email, 
-                String morada,PlanoSubscricao plano, List<Historico> historico)
+                String morada,PlanoSubscricao plano)
     {
         this.nome=nome;
         this.username=username;
@@ -43,9 +43,7 @@ public class User implements Serializable{
         this.morada=morada;
         this.pontos=plano.calculaPontos(0);
         this.plano=plano;
-        this.historico=historico.stream()
-                            .map(historic-> historic.clone())
-                            .collect(Collectors.toList());;
+        this.historico=new ArrayList<>();
 
     }
     public User(User user)
@@ -57,7 +55,7 @@ public class User implements Serializable{
         this.morada=user.getMorada();
         this.pontos=user.getPontos();
         this.plano=user.getPlano();
-
+        this.historico=user.getHistorico();
     }
 
     public String getNome(){
@@ -85,6 +83,12 @@ public class User implements Serializable{
     public PlanoSubscricao getPlano()
     {
         return this.plano; 
+    }
+    public List<Historico> getHistorico()
+    {
+        return this.historico.stream()
+                    .map(h -> h.clone())
+                    .collect(Collectors.toList());
     }
 
     public void setNome(String nome) { 

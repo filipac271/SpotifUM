@@ -54,6 +54,7 @@ public class View {
                 sc.nextLine();
             }
         }
+        
         return option;
     }
 
@@ -310,8 +311,9 @@ public class View {
     // Apresenta as opções que um user com o plamo Premium Base tem acesso
     public void createUserPremiumBaseMenu(Scanner sc, Controller controller, String username) {
      
-        opcoesPremiumMenu("B");
         while (true) {
+
+            opcoesPremiumMenu("B");
             int opcao = getOpcao(sc,1,5);
 
             switch (opcao) {
@@ -351,20 +353,20 @@ public class View {
         while (true) {
             int opcao = getOpcao(sc,1,4);
             String nome;
-            String aleatorio;
+            int aleatorio;
             switch (opcao) {
                 case 1:
                     nome = menuOuvir(sc, "musica",username);
                     break;
                 case 2:
                     nome = menuOuvir(sc, "playlist",username);
-                    System.out.println("\nReproduzir aleatoriamente? (s/n)");
-                    aleatorio=getOpcaoString(sc);
-                    if(aleatorio.equals("s"))
+                    System.out.println("\n Reproduzir aleatoriamente? \n   1-Sim  2-Não)");
+                    aleatorio=getOpcao(sc,1,2);
+                    if(aleatorio==1)
                     {
                         controller.reproduzirPlaylistAleatoriamente(username,nome, this,sc);
                     }
-                    else if(aleatorio.equals("n"))
+                    else if(aleatorio==2)
                     {
                         controller.reproduzirPlaylistSequencial(username,nome,this,sc);
                        
@@ -373,13 +375,13 @@ public class View {
                     break;
                 case 3:
                     nome = menuOuvir(sc, "album",username);
-                    System.out.println("\nReproduzir aleatoriamente? (s/n)");
-                    aleatorio=getOpcaoString(sc);
-                    if(aleatorio.equals("s"))
+                    System.out.println("\nReproduzir aleatoriamente? \n 1-Sim  2-Não");
+                    aleatorio=getOpcao(sc,1,2);
+                    if(aleatorio==1)
                     {
                         controller.reproduzirAlbumAleatoriamente(username,nome, this,sc);
                     }
-                    else if(aleatorio.equals("n"))
+                    else if(aleatorio==2)
                     {
                         controller.reproduzirAlbumSequencial(username,nome,this,sc);
                        
@@ -490,10 +492,9 @@ public class View {
 
     // Apresenta o menu do user que tem o plano premium top
     public void createuserPTMenu(Scanner sc, Controller controller, String username) {
-    
-        opcoesPremiumMenu("T");
 
         while (true) {
+            opcoesPremiumMenu("T");
             int opcao = getOpcao(sc,1,6);
 
             switch (opcao) {
