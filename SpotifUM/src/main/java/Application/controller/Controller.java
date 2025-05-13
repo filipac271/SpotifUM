@@ -344,6 +344,11 @@ public class Controller {
         return model.songExists(name);
     }
 
+    public String SongtoString(Song s)
+    {
+        String st =s.toString();
+        return st;
+    }
     // USER
 
     private PlanoSubscricao getPlanoByOption(int planoOption) {
@@ -393,9 +398,9 @@ public class Controller {
 
 
     //  Queries
-    public Song query1(){
+    public String query1(){
         Song maisreproduzida = model.musicaMaisOuvida();
-        return maisreproduzida;
+        return maisreproduzida.toString();
     }
 
     public String query2e5(int opcao){
@@ -407,22 +412,22 @@ public class Controller {
         } else {
             return resposta;
         }
+
         return resposta;
+
     }
 
-    public User query34e7(int opcao, LocalDate dataInicio, LocalDate dataFim ){
+    public String query34e7(int opcao, LocalDate dataInicio, LocalDate dataFim ){
         User resposta = null;
         if(opcao == 3 || opcao == 4){
             resposta = model.userMaisMusicasOuvidas(dataInicio, dataFim);
-            return resposta;
+            return resposta.toString();
         } else if(opcao == 5){
             resposta = model.userMaisPontos();
         } else if(opcao == 8){
             resposta = model.userMaisPlaylists();
-        } else{
-            return resposta;
-        }
-        return resposta;
+        } 
+            return resposta.toString();
     }
 
     public int query6(){

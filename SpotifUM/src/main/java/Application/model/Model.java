@@ -4,10 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -104,10 +102,10 @@ public class Model {
     {
             String letra;
         if (musica instanceof SongExplicit)  {
-             letra = ((SongExplicit) musica).getReproducaoExplicita(19);             
+             letra = ((SongExplicit) musica).getSongExplicit(19);             
         }
          else if (musica instanceof SongMediaExplicit) {
-             letra = ((SongMediaExplicit) musica).getReproducaoExplicita(19);     
+             letra = ((SongMediaExplicit) musica).getSongExplicit(19);     
         } else {
              letra = musica.getReproducao();
         }
@@ -149,25 +147,11 @@ public class Model {
 
     // === Playlist ===
 
-    // public void addPlaylist(String nome, List<Song> musicas, boolean publica, String tipo) {
-    //     // Playlist playlist;
-    
-    //     switch (tipo) {
-
-    //         // case "User":
-    //         //     playlist = new PlaylistUser(nome, musicas, publica);
-    //         //     break;
-    //         default:
-    //             throw new IllegalArgumentException("Tipo de playlist desconhecido: " + tipo);
-    //     }
-    
-    //     // playlistTable.put(nome, playlist);
-    // }
-
     public void addPlaylist(String nome, Playlist playlist)
     {
         playlistTable.put(nome, playlist);
     }
+
     public void addToPlaylist(String nomeP,String nomeM )
     {
         Song musica=songTable.get(nomeM);

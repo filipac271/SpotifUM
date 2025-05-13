@@ -28,11 +28,12 @@ public class View {
     }
 
     public void mainMenu() {
-        System.out.println("\n1. Iniciar Sessão");
-        System.out.println("2. Criar conta");
-        System.out.println("3. Criar Álbum");
-        System.out.println("4. Fechar o programa");
-        System.out.println("Prima o número correspondente à opção que deseja executar:");
+        System.out.println("\n 1. Iniciar Sessão");
+        System.out.println(" 2. Criar conta");
+        System.out.println(" 3. Criar Álbum");
+        System.out.println(" 4. Estatísticas da App");
+        System.out.println(" 5. Fechar o programa");
+        System.out.println(" Prima o número correspondente à opção que deseja executar:");
     }
 
 
@@ -83,7 +84,7 @@ public class View {
 
             int option;
             mainMenu();
-            option = getOpcao(sc,1,4);
+            option = getOpcao(sc,1,5);
 
             switch (option) {
                 case 1:
@@ -96,7 +97,7 @@ public class View {
                     createAlbumMenu(sc);
                     break;
                 case 4:
-                    //checkQueriesMenu
+                    checkQueriesMenu(sc);
                     break;
                 case 5:
                     out();
@@ -106,7 +107,7 @@ public class View {
                     break;
             }
 
-            if (option == 4) {
+            if (option == 5) {
                 controller.saveAll();
                 break;
             }
@@ -518,7 +519,7 @@ public class View {
                     criarPlaylistMenu(sc, username);
                     break;
                 case 5:
-                    // Recomendador
+                    recomendadorMenu(sc, controller, username);
                     break;
                 case 6:
                     out();
@@ -533,20 +534,21 @@ public class View {
 
     }
 
-    public void checkQueriesMenu(Scanner sc, Controller controller) {
+    public void checkQueriesMenu(Scanner sc) {
         System.out.println("Sê bem-vindo/a às estatísticas do SpotifUM!");
-        System.out.println("\nPressione 1 para ver qual é a música mais reproduzida.");
-        System.out.println("Pressione 2 para verificar qual é o intérprete mais ouvido.");
-        System.out.println("Pressione 3 para verificar qual é o utilizador que mais ouviu músicas desde sempre.");
-        System.out.println("Pressione 4 para verificar qual é o utilizador que mais músicas ouviu por um determinado período de tempo.");
-        System.out.println("Pressione 5 para verificar qual é o utilizador com mais pontos.");
-        System.out.println("Pressione 6 para verificar qual é o género mais ouvido.");
-        System.out.println("Pressione 7 para verificar quantas playlists públicas existem.");
-        System.out.println("Pressione 8 para verificar qual é o utilizador com mais playlists.");
+        System.out.println("\n Pressione 1 para ver qual é a música mais reproduzida.");
+        System.out.println(" Pressione 2 para verificar qual é o intérprete mais ouvido.");
+        System.out.println(" Pressione 3 para verificar qual é o utilizador que mais ouviu músicas desde sempre.");
+        System.out.println(" Pressione 4 para verificar qual é o utilizador que mais músicas ouviu por um determinado período de tempo.");
+        System.out.println(" Pressione 5 para verificar qual é o utilizador com mais pontos.");
+        System.out.println(" Pressione 6 para verificar qual é o género mais ouvido.");
+        System.out.println(" Pressione 7 para verificar quantas playlists públicas existem.");
+        System.out.println(" Pressione 8 para verificar qual é o utilizador com mais playlists.");
 
-        int opcao = getOpcao(sc);
+        int opcao = getOpcao(sc,1,8);
         LocalDate dataInicio = null;
         LocalDate dataFim = null;
+        String st;
 
         // Pedir as datas para a q3 onde se pode escolher o intervalo
         if (opcao == 4) {
@@ -555,30 +557,39 @@ public class View {
             System.out.print("Introduza a data de fim (YYYY-MM-DD): ");
             dataFim = LocalDate.parse(sc.nextLine());
         }
+        while(true)
+        {
+            switch (opcao) {
+                case 1:
+                    st=controller.query1();
+                    System.out.println(st);
+                    break;
+                case 2:
+                case 6:
+                    st=controller.query2e5(opcao);
+                    System.out.println(st);
+                    break;
+                case 3:
+                case 5:
+                case 8:
+                    st=controller.query34e7(opcao, null, null);
+                    System.out.println(st);
+                    break;
+                case 4:
+                    st=controller.query34e7(opcao, dataInicio, dataFim);
+                    System.out.println(st);
+                    break;
+                case 7:
+                    int num=controller.query6();
+                    System.out.println("\n Existem "+num +" playlists públicas");
+                    break;
+                default:
+                    System.out.println("Opção inválida.");
+                    break;
+            }
 
-        switch (opcao) {
-            case 1:
-                controller.query1();
-                break;
-            case 2:
-            case 6:
-                controller.query2e5(opcao);
-                break;
-            case 3:
-            case 5:
-            case 8:
-                controller.query34e7(opcao, null, null);
-                break;
-            case 4:
-                controller.query34e7(opcao, dataInicio, dataFim);
-                break;
-            case 7:
-                controller.query6();
-                break;
-            default:
-                System.out.println("Opção inválida.");
-                break;
         }
+       
     }
 
     public void recomendadorMenu(Scanner sc, Controller controller, String username) {
@@ -586,7 +597,7 @@ public class View {
     System.out.println("\nPressiona 1 para obteres uma playlist personalizada com as tuas músicas favoritas!");
     System.out.println("\nPressiona 2 caso queiras apenas ouvir música explícita ;-)");
 
-    int opcao = getOpcao(sc);
+    int opcao = getOpcao(sc,1,2);
     int segundos = 0;
     String generos = "";
     int ngeneros = 0;
