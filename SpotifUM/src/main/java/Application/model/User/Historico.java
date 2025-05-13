@@ -1,9 +1,10 @@
 package Application.model.User;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import Application.model.Song.Song;
 
-public class Historico {
+public class Historico implements Serializable {
     private Song musica;
     private LocalDate data;
 

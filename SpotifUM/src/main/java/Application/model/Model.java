@@ -16,6 +16,8 @@ import Application.model.Playlist.Playlist;
 import Application.model.Playlist.PlaylistRandom;
 import Application.model.Playlist.PlaylistUser;
 import Application.model.Song.Song;
+import Application.model.Song.SongExplicit;
+import Application.model.Song.SongMediaExplicit;
 import Application.model.User.Historico;
 import Application.model.User.User;
 import Application.model.Album.Album;
@@ -81,8 +83,8 @@ public class Model {
     public void addUser(String username, String nome, String password, String email,
                         String morada, PlanoSubscricao plano)
      {
-        List<Historico> h=new ArrayList<>();
-        User user = new User(nome, username, password, email, morada, plano,h);
+       
+        User user = new User(nome, username, password, email, morada, plano);
         userTable.put(username, user);
     }
 
@@ -96,6 +98,30 @@ public class Model {
 
     public boolean userExists(String username) {
         return userTable.containsKey(username);
+    }
+
+    public String userReproduziu(Song musica, String username)
+    {
+            String letra;
+        if (musica instanceof SongExplicit)  {
+             letra = ((SongExplicit) musica).getReproducaoExplicita(19);             
+        }
+         else if (musica instanceof SongMediaExplicit) {
+             letra = ((SongMediaExplicit) musica).getReproducaoExplicita(19);     
+        } else {
+             letra = musica.getReproducao();
+        }
+
+        User user = getUser(username);
+        System.out.println(user.getNome());
+        LocalDate data = LocalDate.now();
+        user.addHistorico(musica, data);
+        double pontosAtuais=user.getPontos();
+        PlanoSubscricao plano= user.getPlano();
+        plano.calculaPontos(pontosAtuais);
+        user.setPlano(plano);
+
+        return letra;
     }
 
     // === Song ===
