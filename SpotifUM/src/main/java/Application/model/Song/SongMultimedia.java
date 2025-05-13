@@ -26,6 +26,11 @@ public class SongMultimedia extends Song {
         this.videoUrl = videoUrl;
     }
 
+    @Override 
+    public String getLetra(){
+        return this.videoUrl + "\n" + super.getLetra();
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder(super.toString());
@@ -43,7 +48,6 @@ public class SongMultimedia extends Song {
         if (!super.equals(obj)) return false;
         if (!(obj instanceof SongMultimedia)) return false;
 
-        SongMultimedia that = (SongMultimedia) obj;
-        return this.videoUrl.equals(that.videoUrl);
+        return true;
     }
 }

@@ -91,6 +91,10 @@ public class User implements Serializable{
                     .collect(Collectors.toList());
     }
 
+    public List<Historico> getHistorico() {
+        return new ArrayList<>(this.historico); 
+    }
+
     public void setNome(String nome) { 
         this.nome = nome; 
     }
