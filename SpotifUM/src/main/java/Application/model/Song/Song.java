@@ -111,12 +111,12 @@ public class Song implements Cloneable, Serializable{
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Song [nome=").append(this.nome)
-          .append(", interprete=").append(this.interprete)
-          .append(", editora=").append(this.editora)
-          .append(", genero=").append(this.genero)
-          .append(", duracao=").append(this.duracao)
-          .append(" segundos, numRep=").append(this.numRep)
+        sb.append("Song [nome: ").append(this.nome)
+          .append(", interprete: ").append(this.interprete)
+          .append(", editora: ").append(this.editora)
+          .append(", genero: ").append(this.genero)
+          .append(", duracao: ").append(this.duracao)
+          .append(" segundos, numRep: ").append(this.numRep)
           .append("]");
         return sb.toString();
     }

@@ -91,10 +91,6 @@ public class User implements Serializable{
                     .collect(Collectors.toList());
     }
 
-    public List<Historico> getHistorico() {
-        return new ArrayList<>(this.historico); 
-    }
-
     public void setNome(String nome) { 
         this.nome = nome; 
     }
@@ -153,5 +149,20 @@ public class User implements Serializable{
     public User clone(){
         return new User(this);
     };
+
+    @Override
+    public String toString()
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.append("User [nome: ").append(this.nome)
+          .append(", username: ").append(this.username)
+          .append(", email: ").append(this.email)
+          .append(", morada: ").append(this.morada)
+          .append(", pontos: ").append(this.pontos)
+          .append(" plano: ").append(this.getPlano().getNome())
+          .append("]");
+          
+        return sb.toString();
+    }
 
 }
