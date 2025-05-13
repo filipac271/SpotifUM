@@ -4,10 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -15,6 +13,7 @@ import java.time.LocalDate;
 import Application.model.Playlist.Playlist;
 import Application.model.Playlist.PlaylistRandom;
 import Application.model.Playlist.PlaylistUser;
+import Application.model.Song.Explicito;
 import Application.model.Song.Song;
 import Application.model.Song.SongExplicit;
 import Application.model.Song.SongMediaExplicit;
@@ -445,6 +444,12 @@ public class Model {
     
         for (Historico h : historico) {
             Song musica = h.getMusica();
+
+            //Se for explicita e o utilizador quiser musica explicita opcao == 2 entao a musica explicita fica
+            if ((opcao == 2) && !(musica instanceof Explicito)) { //Verificar isto
+            continue;
+            }
+
             if (ngeneros != 0) {
                 boolean generoAceite = false;
                 for (String genero : generosArray) {
