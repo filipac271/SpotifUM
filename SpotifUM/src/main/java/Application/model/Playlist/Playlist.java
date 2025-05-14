@@ -84,9 +84,9 @@ public abstract class Playlist implements Serializable{
     }
 
     /**
-     * Obtém a lista de músicas da playlist (cópia defensiva).
+     * Obtém a lista de músicas da playlist (cópia shallow).
      * 
-     * @return Lista de músicas clonadas.
+     * @return Lista de músicas .
      */
     public List<Song> getMusicas() {
 

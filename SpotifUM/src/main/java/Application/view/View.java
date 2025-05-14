@@ -466,7 +466,7 @@ public class View {
         String publica = getOpcaoString(sc);
         System.out.println("Quantas músicas pretende adicionar:");
         int nMusicas = getOpcao(sc,1,Integer.MAX_VALUE);
-        controller.createPlaylist(username, nomeP, publica);
+        controller.addPlaylist( nomeP, publica);
         String nomeM;
         int i,v;
         for ( i = 0; i < nMusicas; i++) {

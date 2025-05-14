@@ -183,9 +183,11 @@ public class Model {
 
     // === Playlist ===
 
-    public void addPlaylist(String nome, Playlist playlist) {
-        playlistTable.put(nome, playlist);
+    public void addPlaylist(String nomeP, boolean publica,List<Song> musicas) {
+        PlaylistUser playlist = new PlaylistUser(nomeP, musicas, publica);
+        playlistTable.put(nomeP, playlist);
     }
+
 
     public void addToPlaylist(String nomeP, String nomeM) {
         Song musica = songTable.get(nomeM);
@@ -193,7 +195,6 @@ public class Model {
     }
 
     public Playlist getPlaylist(String name) {
-        // return playlistTable.get(name).clone();
         return playlistTable.get(name);
     }
 
@@ -228,11 +229,6 @@ public class Model {
 
     }
 
-    public PlaylistUser createPlaylist(String nomeP, boolean publica) {
-        List<Song> musicas = new ArrayList<>();
-        PlaylistUser playlist = new PlaylistUser(nomeP, musicas, publica);
-        return playlist;
-    }
 
     public ArrayList<String> getNomeMusicas(String nomeP, int n) {
         ArrayList<String> nomeMusicas = new ArrayList<>();

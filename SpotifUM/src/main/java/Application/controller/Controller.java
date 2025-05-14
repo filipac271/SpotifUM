@@ -15,7 +15,6 @@ import Application.model.PlanoSubscricao.PlanoPremiumBase;
 import Application.model.PlanoSubscricao.PlanoPremiumTop;
 import Application.model.PlanoSubscricao.PlanoSubscricao;
 import Application.model.Playlist.Playlist;
-import Application.model.Playlist.PlaylistUser;
 import Application.model.Song.Song;
 import Application.model.User.User;
 
@@ -97,15 +96,14 @@ public class Controller {
         return model.createPlaylistRandom().getNome();
     }
 
-    public void createPlaylist(String username, String nomeP, String publicaS) {
+    public void addPlaylist(String nomeP, String publicaS) {
         boolean publica;
         if (publicaS.equals("s")) {
             publica = true;
         } else {
             publica = false;
         }
-        PlaylistUser playlist = model.createPlaylist(nomeP, publica);
-        model.addPlaylist(nomeP, playlist);
+        model.addPlaylist(nomeP, publica,new ArrayList<>());
     }
 
     public boolean validaAudicao(String username, String tipo, String nome) {
@@ -388,7 +386,7 @@ public class Controller {
 
         Playlist musicasRecomendadas = model.recomendarMusicas(username, opcao, ngeneros, generos, segundos);
 
-        model.addPlaylist(musicasRecomendadas.getNome(), musicasRecomendadas);
+        model.addPlaylist(musicasRecomendadas.getNome(), musicasRecomendadas.getPublica(),musicasRecomendadas.getMusicas());
 
         User user = getUser(username);
         PlanoSubscricao p = user.getPlano();
