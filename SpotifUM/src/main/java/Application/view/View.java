@@ -466,7 +466,20 @@ public class View {
         String publica = getOpcaoString(sc);
         System.out.println("Quantas músicas pretende adicionar:");
         int nMusicas = getOpcao(sc,1,Integer.MAX_VALUE);
-        controller.addPlaylist( nomeP, publica);
+        System.out.println("Quer limite máximo de tempo e um género específico na playlist? (s/n)");
+        String limiteTempoGenero = getOpcaoString(sc);
+        int limiteTempo = 0;
+        String genero = "";
+        if(limiteTempoGenero.equals("s")){
+            System.out.println("Limite máximo de tempo:");
+            limiteTempo = sc.nextInt();
+            sc.nextLine();
+            System.out.println("Género da Playlist:");
+            genero = getOpcaoString(sc);
+        }
+
+
+        controller.addPlaylist( nomeP, publica,limiteTempoGenero,genero,limiteTempo);
         String nomeM;
         int i,v;
         for ( i = 0; i < nMusicas; i++) {

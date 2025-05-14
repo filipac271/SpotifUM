@@ -96,14 +96,21 @@ public class Controller {
         return model.createPlaylistRandom().getNome();
     }
 
-    public void addPlaylist(String nomeP, String publicaS) {
+    public void addPlaylist(String nomeP, String publicaS,String tematica,String genero,int duracaoMaxima) {
         boolean publica;
+        boolean tema_Tempo;
         if (publicaS.equals("s")) {
             publica = true;
         } else {
             publica = false;
         }
-        model.addPlaylist(nomeP, publica,new ArrayList<>());
+        if (tematica.equals("s")) {
+            tema_Tempo = true;
+        } else {
+            tema_Tempo = false;
+        }
+
+        model.addPlaylist(nomeP, publica,new ArrayList<>(),tema_Tempo,genero,duracaoMaxima);
     }
 
     public boolean validaAudicao(String username, String tipo, String nome) {
@@ -197,7 +204,8 @@ public class Controller {
         } else if (selecao == 2) {
             index++;
         } else if (selecao == 3) {
-            if(index != -1) index--;
+            if (index != -1)
+                index--;
         } else if (selecao == 4) {
             index = 0;
         } else {
@@ -386,7 +394,7 @@ public class Controller {
 
         Playlist musicasRecomendadas = model.recomendarMusicas(username, opcao, ngeneros, generos, segundos);
 
-        model.addPlaylist(musicasRecomendadas.getNome(), musicasRecomendadas.getPublica(),musicasRecomendadas.getMusicas());
+        model.addPlaylist(musicasRecomendadas.getNome(), musicasRecomendadas.getPublica(), musicasRecomendadas.getMusicas(),false,"",0);
 
         User user = getUser(username);
         PlanoSubscricao p = user.getPlano();

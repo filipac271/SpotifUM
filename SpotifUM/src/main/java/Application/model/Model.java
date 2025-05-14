@@ -12,6 +12,7 @@ import java.time.LocalDate;
 
 import Application.model.Playlist.Playlist;
 import Application.model.Playlist.PlaylistRandom;
+import Application.model.Playlist.PlaylistTematica;
 import Application.model.Playlist.PlaylistUser;
 import Application.model.Song.Explicito;
 import Application.model.Song.Song;
@@ -183,8 +184,15 @@ public class Model {
 
     // === Playlist ===
 
-    public void addPlaylist(String nomeP, boolean publica,List<Song> musicas) {
-        PlaylistUser playlist = new PlaylistUser(nomeP, musicas, publica);
+    public void addPlaylist(String nomeP, boolean publica,List<Song> musicas,boolean tematica, String genero,int duracaoMaxima ) {
+       Playlist playlist;
+        if (tematica) {
+            // usa PlaylistTematica
+            playlist = new PlaylistTematica(nomeP, musicas, publica, genero, duracaoMaxima);
+        } else {
+            // usa a playlist normal do utilizador
+            playlist = new PlaylistUser(nomeP, musicas, publica);
+        }
         playlistTable.put(nomeP, playlist);
     }
 
