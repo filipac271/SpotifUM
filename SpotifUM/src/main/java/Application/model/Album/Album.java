@@ -3,7 +3,6 @@ package Application.model.Album;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import Application.model.Song.Song;
 
@@ -34,9 +33,7 @@ public class Album implements Serializable {
     public Album(String nome ,String artista, List<Song> albumList){
         this.nome = nome;
         this.artista = artista;
-        this.album = albumList.stream()
-            .map(song -> song)  
-            .collect(Collectors.toList());
+        this.album = new ArrayList<>(albumList);
     }
 
     /**
@@ -75,7 +72,7 @@ public class Album implements Serializable {
      */
     public List<Song> getAlbum() {
         // return this.album.stream().map(song -> song.clone()).collect(Collectors.toList());
-        return this.album.stream().map(song -> song).collect(Collectors.toList());
+        return new ArrayList<>(this.album);
 
     }
 
@@ -103,9 +100,7 @@ public class Album implements Serializable {
      * @param albumList Lista de músicas (serão clonadas).
      */
     public void setAlbum(List<Song> albumList){
-        this.album = albumList.stream()
-            .map(song -> song)  
-            .collect(Collectors.toList());
+        this.album = new ArrayList<>(albumList);
     }
 
     /**
@@ -118,7 +113,7 @@ public class Album implements Serializable {
     }
 
     /**
-     * Remove uma música do álbum.
+     * Remove uma música do álbum. 
      * 
      * @param song Música a remover.
      * @return true se a música foi removida com sucesso, false caso contrário.

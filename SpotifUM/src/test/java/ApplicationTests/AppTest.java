@@ -3,15 +3,27 @@
  */
 package ApplicationTests;
 
-import org.junit.jupiter.api.Test;
-
-import Application.App;
-
 import static org.junit.jupiter.api.Assertions.*;
 
-class AppTest {
-    @Test void appHasAGreeting() {
-        App classUnderTest = new App();
-        // assertNotNull(classUnderTest.getGreeting(), "app should have a greeting");
+import Application.controller.Controller;
+import Application.model.Model;
+import Application.view.View;
+import org.junit.jupiter.api.Test;
+
+public class AppTest {
+
+    @Test
+    public void testMain() {
+            
+            Model model = new Model();
+            Controller controller = new Controller(model);
+            View view = new View(controller);
+    
+            assertNotNull(view);
+            assertNotNull(controller);
+            assertNotNull(model);
+
+          
     }
 }
+

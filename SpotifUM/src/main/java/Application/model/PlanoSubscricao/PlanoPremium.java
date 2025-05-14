@@ -33,11 +33,6 @@ public abstract class PlanoPremium extends PlanoSubscricao {
     }
 
 
-    
-
-
-    
-
     /**
      * Guarda uma nova playlist na conta do utilizador.
      * 

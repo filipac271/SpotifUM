@@ -34,15 +34,16 @@ public class Song implements Cloneable, Serializable{
     }
 
     public Song(Song outraMusica) {
-        this.nome = outraMusica.nome;
-        this.interprete = outraMusica.interprete;
-        this.editora = outraMusica.editora;
-        this.letra = outraMusica.letra;
-        this.pauta = outraMusica.pauta;
-        this.genero = outraMusica.genero;
-        this.duracao = outraMusica.duracao;
-        this.numRep = outraMusica.numRep;
+        this.nome = outraMusica.getNome();
+        this.interprete = outraMusica.getInterprete();
+        this.editora = outraMusica.getEditora();
+        this.letra = outraMusica.getLetra();
+        this.pauta = outraMusica.getPauta();  
+        this.genero = outraMusica.getGenero();
+        this.duracao = outraMusica.getDuracao();
+        this.numRep = outraMusica.getNumRep();
     }
+    
 
     public String getNome() {
         return nome;
@@ -60,7 +61,7 @@ public class Song implements Cloneable, Serializable{
         return letra;
     }
 
-    public String getMusica() {
+    public String getPauta() {
         return pauta;
     }
 
