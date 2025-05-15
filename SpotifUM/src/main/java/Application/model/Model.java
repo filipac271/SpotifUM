@@ -238,6 +238,7 @@ public class Model {
 
         playlist = new PlaylistRandom("random", todasAsMusicas, false);
 
+        playlistTable.put(playlist.getNome(), playlist);
         return playlist;
 
     }
