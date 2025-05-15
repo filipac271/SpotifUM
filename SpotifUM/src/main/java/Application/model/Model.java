@@ -24,6 +24,11 @@ import Application.model.User.User;
 import Application.model.Album.Album;
 import Application.model.PlanoSubscricao.PlanoSubscricao;
 import Application.controller.Persistencia;
+import Application.exceptions.zeroGenresListen;
+import Application.exceptions.zeroInterpretesListen;
+import Application.exceptions.zeroSongsListen;
+import Application.exceptions.zeroUsersWithPlaylists;
+import Application.exceptions.zeroUsersWithPoints;
 
 public class Model {
 
@@ -111,7 +116,7 @@ public class Model {
     }
 
     public User getUser(String username) {
-        return userTable.get(username).clone();
+        return userTable.get(username);
 
     }
 
@@ -317,6 +322,7 @@ public class Model {
             }
         }
 
+        if(maisReproduzida == null)throw new zeroSongsListen();
         return maisReproduzida;
     }
 
@@ -342,6 +348,7 @@ public class Model {
             }
         }
 
+        if(interpreteMaisOuvido == null) throw new zeroInterpretesListen();
         return interpreteMaisOuvido;
     }
 
@@ -362,7 +369,8 @@ public class Model {
             }
         }
         if (userMaisMusicas == null)
-            return "Não existe musicas que já tenham sido reproduzidas";
+            throw new zeroSongsListen();
+
         return userMaisMusicas.toString();
     }
 
@@ -379,7 +387,7 @@ public class Model {
             }
         }
         if (userMaisPontos == null)
-            return "Não existe Users com pontos associados";
+            throw new zeroUsersWithPoints();
         return userMaisPontos.toString();
     }
 
@@ -406,7 +414,7 @@ public class Model {
         }
 
         if (generoMaisOuvido == null)
-            return "Ainda nenhuma música foi reproduzida";
+            throw new zeroGenresListen();
         return generoMaisOuvido;
     }
 
@@ -437,7 +445,7 @@ public class Model {
             }
         }
         if (userMaisPlaylists == null)
-            return "Não existe nenhum user com alguma Playlist";
+            throw new zeroUsersWithPlaylists();
         return userMaisPlaylists.toString();
     }
 
