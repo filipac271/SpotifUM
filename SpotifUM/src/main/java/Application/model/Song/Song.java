@@ -1,7 +1,7 @@
 package Application.model.Song;
 import java.io.Serializable;
 
-public class Song implements Cloneable, Serializable{
+public class Song implements Serializable{
     private String nome;
     private String interprete;
     private String editora;
