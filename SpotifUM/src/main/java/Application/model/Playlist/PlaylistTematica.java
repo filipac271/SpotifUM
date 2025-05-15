@@ -13,12 +13,12 @@ public class PlaylistTematica extends Playlist {
     /**
      * Género musical da playlist.
      */
-    private final String genero;
+    private String genero;
 
     /**
      * Duração máxima total da playlist (em segundos).
      */
-    private final int duracaoMaxima;
+    private int duracaoMaxima;
 
     /**
      * Construtor com nome, músicas, género e duração máxima.
@@ -29,33 +29,16 @@ public class PlaylistTematica extends Playlist {
      * @param genero Género da playlist.
      * @param duracaoMaxima Duração máxima permitida.
      */
-    public PlaylistTematica(String nome, List<Song> musicas, String genero, int duracaoMaxima) {
+    public PlaylistTematica(String nome, List<Song> musicas,boolean publica, String genero, int duracaoMaxima) {
 
-        //super(nome, List.of());
-        //super(); // inicia vazia
-        super(nome, List.of(), false); // inicia vazia
+        super(nome, musicas, publica); 
         this.genero = genero;
         this.duracaoMaxima = duracaoMaxima;
 
-        // adicionar apenas as que respeitam as restrições
-        for (Song s : musicas) {
-            this.adicionarMusica(s);
-        }
+
     }
 
-    /**
-     * Construtor com nome, género e duração máxima (sem músicas iniciais).
-     *
-     * @param nome Nome da playlist.
-     * @param genero Género musical permitido.
-     * @param duracaoMaxima Duração máxima em segundos.
-     */
-    public PlaylistTematica(String nome, String genero, int duracaoMaxima) {
-        //super();
-        super(nome, List.of(), false);
-        this.genero = genero;
-        this.duracaoMaxima = duracaoMaxima;
-    }
+ 
 
     /**
      * Construtor por omissão.
@@ -120,13 +103,7 @@ public class PlaylistTematica extends Playlist {
     /**
      * Reproduz a playlist, imprimindo a letra de cada música.
      */
-    @Override
-    public void reproduzir() {
-        for (Song s : super.getMusicas()) {
-            System.out.println(s.getLetra());
-            System.out.println("----");
-        }
-    }
+
 
     /**
      * Cria uma cópia/clone da playlist temática.

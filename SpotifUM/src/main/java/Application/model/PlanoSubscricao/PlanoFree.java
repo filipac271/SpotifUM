@@ -59,4 +59,9 @@ public class PlanoFree extends PlanoSubscricao {
     {
         throw new UnsupportedOperationException("Este plano não suporta guardar playlists.");
     }
+
+    @Override
+    public PlanoFree clone(){
+        return new PlanoFree();
+    }
 }

@@ -28,8 +28,9 @@ public class SongMultimedia extends Song {
 
     @Override 
     public String getLetra(){
-        return this.videoUrl + "\n" + super.getLetra();
+        return videoUrl + "\n" + "_".repeat(videoUrl.length()) + "\n" + super.getLetra();
     }
+    
 
     @Override
     public String toString() {
@@ -41,6 +42,13 @@ public class SongMultimedia extends Song {
     @Override
     public SongMultimedia clone() {
         return new SongMultimedia(this);
+    }
+
+    @Override
+    public String getReproducao() {
+        int numRep = getNumRep();
+        setNumRep(numRep+1);
+        return getLetra();
     }
 
     @Override

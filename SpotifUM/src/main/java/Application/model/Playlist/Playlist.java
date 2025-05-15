@@ -1,7 +1,6 @@
 package Application.model.Playlist;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.ArrayList;
 
 import Application.model.Song.Song;
@@ -41,9 +40,7 @@ public abstract class Playlist implements Serializable{
      */
     public Playlist(String nome, List<Song> musicas, boolean publica) {
         this.nome = nome;
-        this.musicas = musicas.stream()
-                            .map(song -> song.clone())
-                            .collect(Collectors.toList());
+        this.musicas = new ArrayList<>(musicas);
         this.publica = publica;
     }
 
@@ -63,11 +60,9 @@ public abstract class Playlist implements Serializable{
      * @param outra Playlist a copiar.
      */
     public Playlist(Playlist outra) {
-        this.nome = outra.nome;
-        this.musicas = outra.musicas.stream()
-                                    .map(song -> song.clone())
-                                    .collect(Collectors.toList());
-        this.publica = outra.publica;
+        this.nome = outra.getNome();
+        this.musicas = outra.getMusicas();
+        this.publica = outra.getPublica();
     }
 
     /**
@@ -89,21 +84,23 @@ public abstract class Playlist implements Serializable{
     }
 
     /**
-     * Obtém a lista de músicas da playlist (cópia defensiva).
+     * Obtém a lista de músicas da playlist (cópia shallow).
      * 
-     * @return Lista de músicas clonadas.
+     * @return Lista de músicas .
      */
     public List<Song> getMusicas() {
-        return musicas.stream()
-                    .map(song -> song.clone())
-                    .collect(Collectors.toList());
+
+        return new ArrayList<>(musicas);
+
     }
 
 
 
     public Song getNMusica(int n)
     {
-        return musicas.get(n).clone();
+       
+        return musicas.get(n);
+
     }
 
     /**
@@ -112,9 +109,7 @@ public abstract class Playlist implements Serializable{
      * @param musicas Lista de músicas a definir.
      */
     public void setMusicas(List<Song> musicas) {
-        this.musicas = musicas.stream()
-                            .map(song -> song.clone())
-                            .collect(Collectors.toList());
+        this.musicas = new ArrayList<>(musicas);
     }
 
     /**
@@ -141,7 +136,7 @@ public abstract class Playlist implements Serializable{
      * @param musica Música a adicionar.
      */
     public void adicionarMusica(Song musica) {
-        musicas.add(musica.clone());
+        musicas.add(musica);
     }
 
     public void adicionarMusicaIndex(Song musica, int n) {
@@ -192,9 +187,5 @@ public abstract class Playlist implements Serializable{
      */
     public abstract Playlist clone();
 
-    /**
-     * Reproduz as músicas da playlist.
-     * Deve ser implementado pelas subclasses.
-     */
-    public abstract void reproduzir();
+
 }

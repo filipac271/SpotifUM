@@ -3,7 +3,6 @@ package Application.model.Album;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import Application.model.Song.Song;
 
@@ -34,9 +33,7 @@ public class Album implements Serializable {
     public Album(String nome ,String artista, List<Song> albumList){
         this.nome = nome;
         this.artista = artista;
-        this.album = albumList.stream()
-            .map(song -> song.clone())  
-            .collect(Collectors.toList());
+        this.album = new ArrayList<>(albumList);
     }
 
     /**
@@ -74,7 +71,9 @@ public class Album implements Serializable {
      * @return Uma cópia da lista de músicas.
      */
     public List<Song> getAlbum() {
-        return this.album.stream().map(song -> song.clone()).collect(Collectors.toList());
+        // return this.album.stream().map(song -> song.clone()).collect(Collectors.toList());
+        return new ArrayList<>(this.album);
+
     }
 
     /**
@@ -101,9 +100,7 @@ public class Album implements Serializable {
      * @param albumList Lista de músicas (serão clonadas).
      */
     public void setAlbum(List<Song> albumList){
-        this.album = albumList.stream()
-            .map(song -> song.clone())  
-            .collect(Collectors.toList());
+        this.album = new ArrayList<>(albumList);
     }
 
     /**
@@ -112,11 +109,11 @@ public class Album implements Serializable {
      * @param song Música a adicionar (vai ser clonada).
      */
     public void addSong(Song song) {
-        album.add(song.clone());
+        album.add(song);
     }
 
     /**
-     * Remove uma música do álbum.
+     * Remove uma música do álbum. 
      * 
      * @param song Música a remover.
      * @return true se a música foi removida com sucesso, false caso contrário.
@@ -132,7 +129,9 @@ public class Album implements Serializable {
     
     public Song getNMusica(int n)
     {
-        return album.get(n).clone();
+        // return album.get(n).clone();
+        return album.get(n);
+
     }
     /**
      * Representação textual do álbum.
