@@ -22,7 +22,10 @@ import Application.model.Song.SongMultimedia;
 import Application.model.User.Historico;
 import Application.model.User.User;
 import Application.model.Album.Album;
+import Application.model.PlanoSubscricao.PlanoFree;
 import Application.model.PlanoSubscricao.PlanoPremium;
+import Application.model.PlanoSubscricao.PlanoPremiumBase;
+import Application.model.PlanoSubscricao.PlanoPremiumTop;
 import Application.model.PlanoSubscricao.PlanoSubscricao;
 import Application.controller.Persistencia;
 import Application.exceptions.zeroGenresListen;
@@ -81,7 +84,7 @@ public class Model {
         for (Album album : albumTable.values()) {
             List<Song> novasMusicas = album.getAlbum().stream()
                 .map(m -> songTable.getOrDefault(m.getNome(), m)) 
-                .toList();
+                .collect(Collectors.toList());
             album.setAlbum(novasMusicas); 
         }
     
@@ -89,7 +92,7 @@ public class Model {
         for (Playlist playlist : playlistTable.values()) {
             List<Song> novasMusicas = playlist.getMusicas().stream()
                 .map(m -> songTable.getOrDefault(m.getNome(), m))
-                .toList();
+                .collect(Collectors.toList());
             playlist.setMusicas(novasMusicas); 
         }
     }
@@ -110,13 +113,14 @@ public class Model {
     // === User ===
 
     public void addUser(String username, String nome, String password, String email,
-            String morada, int age, PlanoSubscricao plano) {
+            String morada, int age, int planoOption) {
 
+                PlanoSubscricao plano = getPlanoByOption(planoOption);
         User user = new User(nome, username, password, email, morada, age, plano);
         userTable.put(username, user);
     }
 
-    public User getUser(String username) {
+    private User getUser(String username) {
         return userTable.get(username);
 
     }
@@ -133,9 +137,10 @@ public class Model {
         return userTable.containsKey(username);
     }
 
-    public String userReproduziu(Song musica, String username) {
+    public String userReproduziu(String music, String username) {
         String letra;
         User user = getUser(username);
+        Song musica = getSong(music);
         if (musica instanceof SongExplicit) {
             letra = ((SongExplicit) musica).getSongExplicit(user.getAge());
         } else if (musica instanceof SongMediaExplicit) {
@@ -150,10 +155,79 @@ public class Model {
         PlanoSubscricao plano = user.getPlano();
         double pontosAtualizados = plano.calculaPontos(pontosAtuais);
         user.setPontos(pontosAtualizados);
-        //setUser(user)
-        //setSong(musica);
         return letra;
     }
+
+    public String getUserPlano(String username){
+        User user = getUser(username);
+        return user.getPlano().getNome();
+
+    }
+
+    public List<Playlist> getUserPlanoPlaylist(String username){
+        User user = getUser(username);
+        return ((PlanoPremium) user.getPlano()).getPlaylists();
+    }
+
+
+    public List<Album> getUserPlanoAlbuns(String username){
+        User user = getUser(username);
+        return ((PlanoPremium) user.getPlano()).getAlbuns();
+    }
+
+    public PlanoSubscricao getPlanoByOption(int planoOption) {
+        switch (planoOption) {
+            case 1:
+                return new PlanoFree();
+            case 2:
+                return new PlanoPremiumBase();
+            case 3:
+                return new PlanoPremiumTop();
+            default:
+                return null;
+        }
+    }
+
+    public boolean changeUserPlano (String username, int planoInt, String planoString){
+        User user = getUser(username);
+        // String planoPresente = user.getPlano().getNome();
+        String planoPresente;
+        planoPresente = getUserPlano(username);
+
+        List<Playlist> playlists;
+        List<Album> albums;
+        if(planoPresente.equals(planoString))return false;
+        PlanoSubscricao pNew = getPlanoByOption(planoInt);
+        if(planoInt == 1){
+            user.setPlano(pNew);
+            return true;
+        }
+        if(!planoPresente.equals("PlanoFree")){
+
+            playlists = ((PlanoPremium) user.getPlano()).getPlaylists(); //shallow copy
+
+            albums = ((PlanoPremium) user.getPlano()).getAlbuns(); //shallow copy
+            PlanoPremium pPremium = (PlanoPremium) pNew;
+            pPremium.setPlaylists(playlists);
+            pPremium.setAlbuns(albums);
+            user.setPlano(pPremium);
+            return true;
+
+        }
+        return false;
+    }
+
+    public boolean userAutentico (String username, String password){
+        User user = getUser(username);
+        return user != null && password.equals(user.getPassword());
+    }
+
+    public String getPlanodoUser(String username){
+        User u = getUser(username);
+        return u.getPlano().getNome();
+    }
+
+
 
     // === Song ===
 
@@ -182,7 +256,7 @@ public class Model {
         songTable.put(nome, song);
     }
 
-    public Song getSong(String name) {
+    private Song getSong(String name) {
         return songTable.get(name);
     }
 
@@ -214,7 +288,7 @@ public class Model {
         playlistTable.get(nomeP).adicionarMusica(musica);
     }
 
-    public Playlist getPlaylist(String name) {
+    private Playlist getPlaylist(String name) {
         return playlistTable.get(name);
     }
 
@@ -300,13 +374,48 @@ public class Model {
 
     }
 
+    public void guardarPlaylistUser (String username, String nome){
+        Playlist playlist = getPlaylist(nome);
+        User user = getUser(username);
+        PlanoSubscricao plano = user.getPlano();
+
+        PlanoPremium pPremium = (PlanoPremium) plano; 
+        pPremium.guardarPlaylist(playlist);
+    }
+
+    public int getPlaylistTamanho (String nome){
+        Playlist playlist = getPlaylist(nome); //deep clone
+            int tamanho = playlist.tamanho();
+            return tamanho;
+    }
+
+    public String getPlaylistNMusica(String nome, int index){
+        Playlist playlist = getPlaylist(nome);
+        return playlist.getNMusica(index).getNome();
+
+    }
+
+    public void setPlaylistGuardada (String nomeP, String username){
+        User user = getUser(username);
+        Playlist playlist = getPlaylist(nomeP);
+        PlanoSubscricao plano = user.getPlano();
+
+        PlanoPremium pPremium = (PlanoPremium) plano; 
+
+        pPremium.guardarPlaylist(playlist);
+        
+    }
+
+    
+
     // === Album ===
-    public void addAlbum(String nome, String artista, List<Song> albumList) {
+    public void addAlbum(String nome, String artista) {
+        List <Song> albumList = new ArrayList<>();
         Album album = new Album(nome, artista, albumList);
         albumTable.put(nome, album);
     }
 
-    public Album getAlbum(String name) {
+    private Album getAlbum(String name) {
         return albumTable.get(name);
     }
 
@@ -323,10 +432,29 @@ public class Model {
         albumTable.get(nomeA).addSong(musica);
     }
 
+    public void guardarAlbumUser (String username, String nome){
+        Album album = getAlbum(nome);
+        User user = getUser(username);
+        PlanoSubscricao plano = user.getPlano();
+        PlanoPremium pPremium = (PlanoPremium) plano; 
+        pPremium.guardarAlbum(album);
+    }
+
+    public int getAlbumTamanho(String name){
+        Album album = getAlbum(name);
+            int tamanho = album.tamanho();
+            return tamanho;
+    }
+
+    public String getAlbumNMusica(String name, int index){
+        Album album = getAlbum(name);
+        return album.getNMusica(index).getNome();
+    }
+
     // Querys
 
     // Query 1- Qual a música mais reproduzida?
-    public Song musicaMaisOuvida() {
+    public String musicaMaisOuvida() {
         Song maisReproduzida = null;
         int maiorNumRep = -1;
 
@@ -339,7 +467,7 @@ public class Model {
         }
 
         if(maisReproduzida == null)throw new zeroSongsListen();
-        return maisReproduzida;
+        return maisReproduzida.toString();
     }
 
     // Query 2 - Qual o interprete mais escutado?
@@ -532,6 +660,20 @@ public class Model {
 
             return p;
         }
+    }
+
+
+    public String playlistRecomendada(String username, int opcao, int ngeneros, String generos, int segundos){
+        Playlist musicasRecomendadas = recomendarMusicas(username, opcao, ngeneros, generos, segundos);
+
+        addPlaylist(musicasRecomendadas.getNome(), musicasRecomendadas.getPublica(), musicasRecomendadas.getMusicas(),false,"",0);
+
+        User user = getUser(username);
+        PlanoSubscricao p = user.getPlano();
+        PlanoPremium pPremium = (PlanoPremium) p; 
+        pPremium.guardarPlaylist(musicasRecomendadas);
+
+        return musicasRecomendadas.getNome();
     }
 
 }

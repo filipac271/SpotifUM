@@ -241,7 +241,7 @@ public class View {
         String nome = getOpcaoString(sc);
         System.out.println("Digite o artista do Album: ");
         String artista = getOpcaoString(sc);
-        controller.addAlbum(nome, artista, null);
+        controller.addAlbum(nome, artista);
         String nomeMusica;
         for (int i = 0; i < numMusicas; i++) {
             System.out.println("Música " + (i + 1) + ":");
