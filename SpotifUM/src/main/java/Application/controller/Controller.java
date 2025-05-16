@@ -12,6 +12,7 @@ import Application.exceptions.zeroSongsListen;
 import Application.model.Model;
 import Application.model.Album.Album;
 import Application.model.PlanoSubscricao.PlanoFree;
+import Application.model.PlanoSubscricao.PlanoPremium;
 import Application.model.PlanoSubscricao.PlanoPremiumBase;
 import Application.model.PlanoSubscricao.PlanoPremiumTop;
 import Application.model.PlanoSubscricao.PlanoSubscricao;
@@ -58,15 +59,23 @@ public class Controller {
     }
 
 
-
     public void guardarAlbum(String username, String nome) {
         Album album = model.getAlbum(nome);
         User user = model.getUser(username);
         PlanoSubscricao plano = user.getPlano();
-        plano.guardarAlbum(album);
+        PlanoPremium pPremium = (PlanoPremium) plano; 
+        pPremium.guardarAlbum(album);
     }
 
 
+    public int addToAlbum(String nomeA, String nomeM) {
+        if (albumExists(nomeA)) {
+            model.addToAlbum(nomeA, nomeM);
+            return 1;
+        } else {
+            return 0;
+        }
+    }
 
     // PLAYLIST
 
@@ -84,7 +93,9 @@ public class Controller {
         Playlist playlist = model.getPlaylist(nome);
         User user = model.getUser(username);
         PlanoSubscricao plano = user.getPlano();
-        plano.guardarPlaylist(playlist);
+
+        PlanoPremium pPremium = (PlanoPremium) plano; 
+        pPremium.guardarPlaylist(playlist);
     }
 
     public boolean removePlaylist(String name) {
@@ -147,7 +158,6 @@ public class Controller {
         if (serPlaylist) {
             Playlist playlist = getPlaylist(nome);
             tamanho = playlist.tamanho();
-            System.out.println("dajsdasip" + tamanho);
     
             if (index[0] < 0){
                 return "Não há músicas anteriores na playlist";
@@ -272,6 +282,37 @@ public class Controller {
         }
     }
 
+
+    public boolean changeUserPlan(String username, int planoInt, String planoString){
+        User user = model.getUser(username);
+        String planoPresente = user.getPlano().getNome();
+        List<Playlist> playlists;
+        List<Album> albums;
+        if(planoPresente.equals(planoString))return false;
+        PlanoSubscricao pNew = getPlanoByOption(planoInt);
+        if(planoInt == 1){
+            user.setPlano(pNew);
+            return true;
+        }
+        if(!planoPresente.equals("PlanoFree")){
+
+            playlists = ((PlanoPremium) user.getPlano()).getPlaylists();
+            albums = ((PlanoPremium) user.getPlano()).getAlbuns();
+            PlanoPremium pPremium = (PlanoPremium) pNew;
+            pPremium.setPlaylists(playlists);
+            pPremium.setAlbuns(albums);
+            user.setPlano(pPremium);
+            return true;
+
+        }
+        return false;
+    }
+
+    public String getPlanoByUser(String username){
+        User u = model.getUser(username);
+        return u.getPlano().getNome();
+    }
+
     public void addUser(String nome, String username, String password, String email, String morada, int age,
             int planoOption) {
         PlanoSubscricao plano = getPlanoByOption(planoOption);
@@ -302,7 +343,8 @@ public class Controller {
     public void addPlaylistToUser(String nomeP, String username) {
         User user = model.getUser(username);
         PlanoSubscricao plano = user.getPlano();
-        plano.guardarPlaylist(getPlaylist(nomeP));
+        PlanoPremium pPremium = (PlanoPremium) plano; 
+        pPremium.guardarPlaylist(getPlaylist(nomeP));
     }
 
     // Queries
@@ -358,7 +400,8 @@ public class Controller {
 
         User user = getUser(username);
         PlanoSubscricao p = user.getPlano();
-        p.guardarPlaylist(musicasRecomendadas);
+        PlanoPremium pPremium = (PlanoPremium) p; 
+        pPremium.guardarPlaylist(musicasRecomendadas);
 
         return musicasRecomendadas.getNome();
     }

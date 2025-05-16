@@ -14,7 +14,7 @@ public class PlanoFree extends PlanoSubscricao {
      * Define o nome do plano como "Free".
      */
     public PlanoFree() {
-        this.nomePlano = "Free";
+        this.nomePlano = "PlanoFree";
     }
 
     /**

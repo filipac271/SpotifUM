@@ -14,23 +14,13 @@ public class View {
         this.controller = controller;
     }
 
-    // Método para reproduzir a música (imprimir a letra no terminal)
-    public void playSong(String name) {
-        System.out.println("Reproduzindo a música: " + controller.getSong(name).getNome());
-        System.out.println("Intérprete: " + controller.getSong(name).getInterprete());
-        System.out.println("Editora: " + controller.getSong(name).getEditora());
-        System.out.println("Gênero: " + controller.getSong(name).getGenero());
-        System.out.println("Duração: " + controller.getSong(name).getDuracao() + " segundos");
-        System.out.println("\nLetra da música:");
-        System.out.println(controller.getSong(name).getLetra());
-    }
-
     public void mainMenu() {
         System.out.println("\n 1. Iniciar Sessão");
         System.out.println(" 2. Criar conta");
         System.out.println(" 3. Criar Álbum");
         System.out.println(" 4. Estatísticas da App");
-        System.out.println(" 5. Fechar o programa");
+        System.out.println(" 5. Mudar de plano");
+        System.out.println(" 6. Fechar o programa");
         System.out.println(" Prima o número correspondente à opção que deseja executar:");
     }
 
@@ -73,13 +63,13 @@ public class View {
     public void run() {
 
         Scanner sc = new Scanner(System.in);
-
+    
         while (true) {
-
+    
             int option;
-            mainMenu();
-            option = getOpcao(sc, 1, 5);
-
+            mainMenu(); // certifica-te de atualizar o menu mostrado ao utilizador
+            option = getOpcao(sc, 1, 6);
+    
             switch (option) {
                 case 1:
                     logInUserMenu(sc);
@@ -94,6 +84,9 @@ public class View {
                     checkQueriesMenu(sc);
                     break;
                 case 5:
+                    changePlanMenu(sc);
+                    break;
+                case 6:
                     out();
                     break;
                 default:
@@ -101,14 +94,16 @@ public class View {
                     break;
             }
 
-            if (option == 5) {
+            if(option == 6){
                 controller.saveAll();
                 break;
             }
-        }
 
+        }
+    
         sc.close();
     }
+    
 
     public void logInUserMenu(Scanner sc) {
 
@@ -123,7 +118,6 @@ public class View {
             String password = sc.nextLine();
             if (!controller.authenticUser(username, password)) {
                 System.out.println("Password ou nome de Utilizador estão errados!");
-                //////////
             } else {
                 System.out.println("\nBem vindo de volta " + username);
                 userMenu(sc, username);
@@ -132,19 +126,42 @@ public class View {
 
     }
 
+    private void changePlanMenu(Scanner sc) {
+        System.out.print("Introduz o teu username: ");
+        String username = sc.nextLine();
+    
+        if (!controller.userExists(username)) {
+            System.out.println("Utilizador não encontrado.");
+            return;
+        }
+    
+        System.out.println("Escolhe novo plano:");
+        int option = createPlanoMenu(sc);
+        
+        String novoPlano = switch (option) {
+            case 1 -> "PlanoFree";
+            case 2 -> "PlanoPremiumBase";
+            case 3 -> "PlanoPremiumTop";
+            default -> null; 
+        };
+        
+    
+        boolean sucesso = controller.changeUserPlan(username, option,novoPlano);
+        if (sucesso) {
+            System.out.println("Plano alterado com sucesso para " + novoPlano + ".");
+        } else {
+            System.out.println("O plano escolhido é o mesmo que já está assinado.");
+        }
+    }
+    
+
     public int createPlanoMenu(Scanner sc) {
         System.out.println("\nEscolha o seu plano:");
         System.out.println("\n1.Plano Free");
         System.out.println("\n2.Plano Premium Base");
         System.out.println("\n3.Plano Premium Top");
         int option = 0;
-        try {
-            option = sc.nextInt();
-            sc.nextLine();
-        } catch (Exception e) {
-            optionError();
-            sc.nextLine();
-        }
+        option = getOpcao(sc, 1, 3);
         return option;
     }
 
@@ -219,9 +236,8 @@ public class View {
     }
 
     public void createAlbumMenu(Scanner sc) {
-
         System.out.println("\n-------Criar um album-------");
-
+        
         System.out.println("Digite o número de musicas do album: ");
         int numMusicas = getOpcao(sc, 1, Integer.MAX_VALUE);
         System.out.println("Digite o nome do Album: ");
@@ -231,15 +247,15 @@ public class View {
         controller.addAlbum(nome, artista, null);
         String nomeMusica;
         for (int i = 0; i < numMusicas; i++) {
-
             System.out.println("Música " + (i + 1) + ":");
             nomeMusica = criarMusica(sc);
-            controller.getAlbum(nome).addSong(controller.getSong(nomeMusica));
+            int v = controller.addToAlbum(nome,nomeMusica);
+            if (v == 0){
+                System.out.println("Musica n existente");
+                i--;
+            }
         }
-
-        System.out.println(
-                "O album " + nome + " de " + artista + " foi criado tendo um total de " + numMusicas + " músicas.");
-
+        System.out.println("O album " + nome + " de " + artista + " foi criado tendo um total de " + numMusicas + " músicas.");
     }
 
     public void out() {
@@ -252,18 +268,18 @@ public class View {
 
     public void userMenu(Scanner sc, String username) {
 
-        String tipoPlano = controller.getUser(username).getPlano().getNome();
+        String tipoPlano = controller.getPlanoByUser(username);
 
         switch (tipoPlano) {
-            case "Free":
+            case "PlanoFree":
                 createUserFreeMenu(sc, controller, username);
                 break;
 
-            case "Premium Base":
+            case "PlanoPremiumBase":
                 createUserPremiumBaseMenu(sc, controller, username);
                 break;
 
-            case "Premium Top":
+            case "PlanoPremiumTop":
                 createuserPTMenu(sc, controller, username);
                 break;
 
@@ -367,16 +383,12 @@ public class View {
             List<Integer> ordem = controller.shufflePlaylist_album(nome, serPlaylist);
             int[] index = new int[]{0};
             int[] ordemIndex = new int[]{ordem.get(0)};
-            System.out.println(ordem.toString());
             while (index[0] != -2) {
-                System.out.println("indeice"+index[0]);
                 if(index[0] < 0 || index[0] >= ordem.size()) {
                     String letraIndex = controller.letraDaMusicaNa_Playlist_Album(username, nome, index,serPlaylist);
                     System.out.println(letraIndex);
                 }else{
                     ordemIndex[0] = ordem.get(index[0]);
-                    System.out.println("indeice da ordem"+ordemIndex[0]);
-
                     String letraIndex = controller.letraDaMusicaNa_Playlist_Album(username, nome,ordemIndex ,serPlaylist);
                     System.out.println(letraIndex);
 
