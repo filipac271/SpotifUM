@@ -50,7 +50,7 @@ public class Controller {
         return false;
     }
 
-    public Album getAlbum(String name) {
+    private Album getAlbum(String name) {
         return model.getAlbum(name);
     }
 
@@ -106,7 +106,7 @@ public class Controller {
         return false;
     }
 
-    public Playlist getPlaylist(String name) {
+    private Playlist getPlaylist(String name) {
         return model.getPlaylist(name);
     }
 
@@ -259,7 +259,7 @@ public class Controller {
         return false;
     }
 
-    public Song getSong(String name) {
+    private Song getSong(String name) {
         return model.getSong(name);
     }
 
@@ -332,7 +332,7 @@ public class Controller {
         return user != null && password.equals(user.getPassword());
     }
 
-    public User getUser(String username) {
+    private User getUser(String username) {
         return model.getUser(username);
     }
 

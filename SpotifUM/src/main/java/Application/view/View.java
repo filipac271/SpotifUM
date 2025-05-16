@@ -14,7 +14,7 @@ public class View {
         this.controller = controller;
     }
 
-    public void mainMenu() {
+    private void mainMenu() {
         System.out.println("\n 1. Iniciar Sessão");
         System.out.println(" 2. Criar conta");
         System.out.println(" 3. Criar Álbum");
@@ -24,11 +24,8 @@ public class View {
         System.out.println(" Prima o número correspondente à opção que deseja executar:");
     }
 
-    public void print(String s) {
-        System.out.println(s);
-    }
 
-    public int getOpcao(Scanner sc, int min, int max) {
+    private int getOpcao(Scanner sc, int min, int max) {
         int option = -1;
         while (option == -1) {
             try {
@@ -47,7 +44,7 @@ public class View {
         return option;
     }
 
-    public String getOpcaoString(Scanner sc) {
+    private String getOpcaoString(Scanner sc) {
         String option = "erro";
         while (option.equals("erro")) {
             try {
@@ -105,7 +102,7 @@ public class View {
     }
     
 
-    public void logInUserMenu(Scanner sc) {
+    private void logInUserMenu(Scanner sc) {
 
         System.out.println("A iniciar sessao");
 
@@ -155,7 +152,7 @@ public class View {
     }
     
 
-    public int createPlanoMenu(Scanner sc) {
+    private int createPlanoMenu(Scanner sc) {
         System.out.println("\nEscolha o seu plano:");
         System.out.println("\n1.Plano Free");
         System.out.println("\n2.Plano Premium Base");
@@ -165,7 +162,7 @@ public class View {
         return option;
     }
 
-    public void createUserMenu(Scanner sc) {
+    private void createUserMenu(Scanner sc) {
 
         System.out.println("Digite o seu Nome: ");
         String nome = sc.nextLine();
@@ -196,7 +193,7 @@ public class View {
 
     }
 
-    public String criarMusica(Scanner sc) {
+    private String criarMusica(Scanner sc) {
         System.out.print(" Digite o nome: ");
         String nomeMusica = getOpcaoString(sc);
 
@@ -235,7 +232,7 @@ public class View {
         return nomeMusica;
     }
 
-    public void createAlbumMenu(Scanner sc) {
+    private void createAlbumMenu(Scanner sc) {
         System.out.println("\n-------Criar um album-------");
         
         System.out.println("Digite o número de musicas do album: ");
@@ -258,15 +255,15 @@ public class View {
         System.out.println("O album " + nome + " de " + artista + " foi criado tendo um total de " + numMusicas + " músicas.");
     }
 
-    public void out() {
+    private void out() {
         System.out.println("A sair...");
     }
 
-    public void optionError() {
+    private void optionError() {
         System.out.println("Entrada inválida. Tente novamente.");
     }
 
-    public void userMenu(Scanner sc, String username) {
+    private void userMenu(Scanner sc, String username) {
 
         String tipoPlano = controller.getPlanoByUser(username);
 
@@ -287,7 +284,7 @@ public class View {
 
     }
 
-    public void createUserFreeMenu(Scanner sc, Controller controller, String username) {
+    private void createUserFreeMenu(Scanner sc, Controller controller, String username) {
         System.out.println("\nTemos as melhores músicas para ouvir!");
         System.out.println("\nPressione 1 para ouvir música");
 
@@ -303,7 +300,7 @@ public class View {
     }
 
     // Apresenta as opções de ações que um user Premium tem acesso
-    public void opcoesPremiumMenu(String tipo) {
+    private void opcoesPremiumMenu(String tipo) {
         System.out.println("\n||||||||||||||||||||||||||||||||||");
         System.out.println("\nPressione 1 para ouvir");
         System.out.println("\nPressione 2 para adicionar uma playlist à sua biblioteca");
@@ -319,7 +316,7 @@ public class View {
     }
 
     // Menu para adicionar uma playlist ou álbum à biblioteca de um user
-    public void adicionarPlaylistAlbum(String username, String tipo, Scanner sc) {
+    private void adicionarPlaylistAlbum(String username, String tipo, Scanner sc) {
         System.out.println("\nQual " + tipo + " deseja adicionar? (Pressione Enter caso queira voltar atrás)");
         String nome = getOpcaoString(sc);
         if (nome.isEmpty())
@@ -333,7 +330,7 @@ public class View {
     }
 
     // Apresenta as opções que um user com o plamo Premium Base tem acesso
-    public void createUserPremiumBaseMenu(Scanner sc, Controller controller, String username) {
+    private void createUserPremiumBaseMenu(Scanner sc, Controller controller, String username) {
 
         while (true) {
 
@@ -399,7 +396,7 @@ public class View {
         }
 
     // Apresenta o menu de audição de uma música/playlist/álbum
-    public void createOuvirMenu(Scanner sc, Controller controller, String username) {
+    private void createOuvirMenu(Scanner sc, Controller controller, String username) {
 
         while (true) {
             System.out.println("\n||||||||||||||||||||||||||||||||||");
@@ -458,7 +455,7 @@ public class View {
     }
 
     // Pergunta ao user que música/playlist/album quer ouvir e valida o nome dado
-    public String menuOuvir(Scanner sc, String tipo, String username) {
+    private String menuOuvir(Scanner sc, String tipo, String username) {
         System.out.println("\nQual " + tipo + " deseja ouvir? (Pressione Enter caso queira voltar atrás)");
         String nome = sc.nextLine();
         if (nome.isEmpty())
@@ -476,7 +473,7 @@ public class View {
 
     // Apresenta ao user (Premium) as opções de escolha de uma música ao ouvir uma
     // playlist
-    public int perguntarContinuar(Scanner sc) {
+    private int perguntarContinuar(Scanner sc) {
         System.out.println("\n1 - Avançar Música ");
         System.out.println("\n2 - Próxima Música");
         System.out.println("\n3 - Retroceder ");
@@ -488,7 +485,7 @@ public class View {
     }
 
     // Apresenta o menu da opcao criar playlist
-    public void criarPlaylistMenu(Scanner sc, String username) {
+    private void criarPlaylistMenu(Scanner sc, String username) {
         System.out.println("\n-------Criar uma playlist-------\n");
         System.out.println("Nome da Playlist:");
         String nomeP = getOpcaoString(sc);
@@ -525,7 +522,7 @@ public class View {
     }
 
     // Pergunta ao user como quer ordenar a sua Playlist
-    public void ordenarPlaylist(String nomeP, int nMusicas, Scanner sc) {
+    private void ordenarPlaylist(String nomeP, int nMusicas, Scanner sc) {
         System.out.println("De que forma quer ordenar a playlist ?");
         System.out.println("1- Nome da música  a-z");
         System.out.println("2- Nome da música z-a");
@@ -549,7 +546,7 @@ public class View {
     }
 
     // Imprime o nome das músicas que constituem uma playlist
-    public void imprimePlaylist(String nomeP, int n) {
+    private void imprimePlaylist(String nomeP, int n) {
         System.out.println("Ordem das músicas atual:");
         int i = 1;
         for (String s : this.controller.getNomeMusicas(nomeP, n)) {
@@ -560,7 +557,7 @@ public class View {
     }
 
     // Apresenta o menu do user que tem o plano premium top
-    public void createuserPTMenu(Scanner sc, Controller controller, String username) {
+    private void createuserPTMenu(Scanner sc, Controller controller, String username) {
 
         while (true) {
             opcoesPremiumMenu("T");
@@ -595,7 +592,7 @@ public class View {
 
     }
 
-    public void checkQueriesMenu(Scanner sc) {
+    private void checkQueriesMenu(Scanner sc) {
         System.out.println("Sê bem-vindo/a às estatísticas do SpotifUM!");
         while (true) {
             System.out.println("\n Pressione 1 para ver qual é a música mais reproduzida.");
@@ -656,7 +653,7 @@ public class View {
 
     }
 
-    public void recomendadorMenu(Scanner sc, Controller controller, String username) {
+    private void recomendadorMenu(Scanner sc, Controller controller, String username) {
         System.out.println("Sê bem vindo/a ao teu recomendador personalizado do SpotifUM!");
         System.out.println("\nPressiona 1 para obteres uma playlist personalizada com as tuas músicas favoritas!");
         System.out.println("\nPressiona 2 caso queiras apenas ouvir música explícita ;-)");
