@@ -18,8 +18,6 @@ public abstract class PlanoPremium extends PlanoSubscricao {
      */
     protected List<Playlist> playlists;
 
-
-
     /**
      * Lista de álbuns guardados pelo utilizador.
      */
@@ -33,7 +31,6 @@ public abstract class PlanoPremium extends PlanoSubscricao {
         this.playlists = new ArrayList<>();
         this.albuns = new ArrayList<>();
     }
-
 
     /**
      * Guarda uma nova playlist na conta do utilizador.
@@ -53,9 +50,7 @@ public abstract class PlanoPremium extends PlanoSubscricao {
         this.albuns.add(album);
     }
 
-    public boolean playlistGuardada(Playlist p)
-    {         
-
+    public boolean playlistGuardada(Playlist p) {
         return this.playlists.contains(p);
 
     }
@@ -78,7 +73,6 @@ public abstract class PlanoPremium extends PlanoSubscricao {
         return this.playlists.size();
     }
 
-
     /**
      * Devolve uma cópia da lista de playlists guardadas.
      *
@@ -87,7 +81,7 @@ public abstract class PlanoPremium extends PlanoSubscricao {
     public List<Playlist> getPlaylists() {
         return new ArrayList<>(this.playlists);
     }
-    
+
     /**
      * Devolve uma cópia da lista de álbuns guardados.
      *
@@ -97,8 +91,6 @@ public abstract class PlanoPremium extends PlanoSubscricao {
         return new ArrayList<>(this.albuns);
     }
 
-
-
     public void setPlaylists(List<Playlist> playlists) {
         if (playlists == null) {
             this.playlists = new ArrayList<>();
@@ -106,7 +98,7 @@ public abstract class PlanoPremium extends PlanoSubscricao {
             this.playlists = new ArrayList<>(playlists);
         }
     }
-    
+
     public void setAlbuns(List<Album> albuns) {
         if (albuns == null) {
             this.albuns = new ArrayList<>();
@@ -114,4 +106,23 @@ public abstract class PlanoPremium extends PlanoSubscricao {
             this.albuns = new ArrayList<>(albuns);
         }
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Plano Premium\n");
+
+        sb.append("Playlists guardadas (").append(playlists.size()).append("):\n");
+        for (int i = 0; i < playlists.size(); i++) {
+            sb.append("  ").append(i + 1).append(". ").append(playlists.get(i).getNome()).append("\n");
+        }
+
+        sb.append("Álbuns guardados (").append(albuns.size()).append("):\n");
+        for (int i = 0; i < albuns.size(); i++) {
+            sb.append("  ").append(i + 1).append(". ").append(albuns.get(i).getNome()).append("\n");
+        }
+
+        return sb.toString();
+    }
+
 }

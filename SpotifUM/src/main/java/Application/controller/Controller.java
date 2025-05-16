@@ -164,7 +164,7 @@ public class Controller {
             }
     
             // musica = album.getNMusica(index[0]);
-            musica = model.getAlbumNMusica(username, index[0]);
+            musica = model.getAlbumNMusica(nome, index[0]);
         }
         
         return model.userReproduziu(musica, username);

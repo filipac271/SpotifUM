@@ -204,17 +204,20 @@ public class Model {
         }
         if(!planoPresente.equals("PlanoFree")){
 
-            playlists = ((PlanoPremium) user.getPlano()).getPlaylists(); //shallow copy
+            playlists = ((PlanoPremium) user.getPlano()).getPlaylists(); 
 
-            albums = ((PlanoPremium) user.getPlano()).getAlbuns(); //shallow copy
+            albums = ((PlanoPremium) user.getPlano()).getAlbuns(); 
             PlanoPremium pPremium = (PlanoPremium) pNew;
             pPremium.setPlaylists(playlists);
             pPremium.setAlbuns(albums);
             user.setPlano(pPremium);
             return true;
 
+        }else{
+            user.setPlano(pNew);
+            return true;
         }
-        return false;
+        
     }
 
     public boolean userAutentico (String username, String password){
@@ -665,15 +668,20 @@ public class Model {
 
     public String playlistRecomendada(String username, int opcao, int ngeneros, String generos, int segundos){
         Playlist musicasRecomendadas = recomendarMusicas(username, opcao, ngeneros, generos, segundos);
+        
 
         addPlaylist(musicasRecomendadas.getNome(), musicasRecomendadas.getPublica(), musicasRecomendadas.getMusicas(),false,"",0);
 
         User user = getUser(username);
         PlanoSubscricao p = user.getPlano();
         PlanoPremium pPremium = (PlanoPremium) p; 
-        pPremium.guardarPlaylist(musicasRecomendadas);
+        pPremium.guardarPlaylist(getPlaylist(musicasRecomendadas.getNome()));
 
         return musicasRecomendadas.getNome();
     }
+
+
+
+
 
 }
