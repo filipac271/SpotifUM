@@ -32,12 +32,12 @@ public abstract class PlanoPremium extends PlanoSubscricao {
         this.albuns = new ArrayList<>();
     }
 
+
     /**
      * Guarda uma nova playlist na conta do utilizador.
      * 
      * @param playlist A playlist a guardar.
      */
-    @Override
     public void guardarPlaylist(Playlist playlist) {
         this.playlists.add(playlist);
     }
@@ -52,7 +52,8 @@ public abstract class PlanoPremium extends PlanoSubscricao {
     }
 
     public boolean playlistGuardada(Playlist p)
-    {
+    {         
+
         return this.playlists.contains(p);
 
     }
@@ -73,5 +74,42 @@ public abstract class PlanoPremium extends PlanoSubscricao {
      */
     public int numPlaylists() {
         return this.playlists.size();
+    }
+
+
+    /**
+     * Devolve uma cópia da lista de playlists guardadas.
+     *
+     * @return Lista de playlists guardadas.
+     */
+    public List<Playlist> getPlaylists() {
+        return new ArrayList<>(this.playlists);
+    }
+    
+    /**
+     * Devolve uma cópia da lista de álbuns guardados.
+     *
+     * @return Lista de álbuns guardados.
+     */
+    public List<Album> getAlbuns() {
+        return new ArrayList<>(this.albuns);
+    }
+
+
+
+    public void setPlaylists(List<Playlist> playlists) {
+        if (playlists == null) {
+            this.playlists = new ArrayList<>();
+        } else {
+            this.playlists = new ArrayList<>(playlists);
+        }
+    }
+    
+    public void setAlbuns(List<Album> albuns) {
+        if (albuns == null) {
+            this.albuns = new ArrayList<>();
+        } else {
+            this.albuns = new ArrayList<>(albuns);
+        }
     }
 }

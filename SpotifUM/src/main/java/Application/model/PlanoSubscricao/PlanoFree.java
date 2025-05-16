@@ -14,7 +14,7 @@ public class PlanoFree extends PlanoSubscricao {
      * Define o nome do plano como "Free".
      */
     public PlanoFree() {
-        this.nomePlano = "Free";
+        this.nomePlano = "PlanoFree";
     }
 
     /**
@@ -58,5 +58,10 @@ public class PlanoFree extends PlanoSubscricao {
     public boolean playlistGuardada(Playlist p)
     {
         throw new UnsupportedOperationException("Este plano não suporta guardar playlists.");
+    }
+
+    @Override
+    public PlanoFree clone(){
+        return new PlanoFree();
     }
 }

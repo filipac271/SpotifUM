@@ -14,7 +14,7 @@ public class PlanoPremiumBase extends PlanoPremium {
      */
     public PlanoPremiumBase() {  
         super();
-        this.nomePlano = "Premium Base"; 
+        this.nomePlano = "PlanoPremiumBase"; 
     }
 
     /**
@@ -27,4 +27,6 @@ public class PlanoPremiumBase extends PlanoPremium {
     public double calculaPontos(double pontos) {
         return pontos + 10;
     }
+
+
 }

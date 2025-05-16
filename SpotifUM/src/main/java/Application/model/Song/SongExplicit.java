@@ -6,8 +6,7 @@ public class SongExplicit extends Song implements Explicito{
         super();
     }
 
-    public SongExplicit(String nome, String interprete, String editora, String letra, String pauta, String genero,
-            int duracao) {
+    public SongExplicit(String nome, String interprete, String editora, String letra, String pauta, String genero, int duracao){
         super(nome, interprete, editora, letra, pauta, genero, duracao);
     }
 
@@ -28,7 +27,7 @@ public class SongExplicit extends Song implements Explicito{
             return "Esta musica tem conteudo explicito daí não poder ser reproduzida";
         } else {
             int numRep = getNumRep();
-            setNumRep(numRep);
+            setNumRep(numRep+1);
             return getLetra();
         }
 

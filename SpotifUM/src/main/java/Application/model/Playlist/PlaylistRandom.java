@@ -27,17 +27,6 @@ public class PlaylistRandom extends Playlist  {
 
     
 
-    /**
-     * Reproduz todas as músicas da playlist.
-     * Neste caso, imprime as letras das músicas no terminal.
-     */
-    @Override
-    public void reproduzir() {
-        for (Song s : super.getMusicas()) {
-            System.out.println(s.getLetra());
-            System.out.println("----");
-        }
-    }
 
     /**
      * Cria uma cópia/clone desta playlist.
