@@ -18,6 +18,8 @@ public abstract class PlanoPremium extends PlanoSubscricao {
      */
     protected List<Playlist> playlists;
 
+
+
     /**
      * Lista de álbuns guardados pelo utilizador.
      */

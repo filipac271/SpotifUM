@@ -90,6 +90,8 @@ public class User implements Serializable {
     }
 
     public PlanoSubscricao getPlano() {
+        //        return this.plano.clone;
+
         return this.plano;
     }
 

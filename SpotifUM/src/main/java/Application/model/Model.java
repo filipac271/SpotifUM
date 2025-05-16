@@ -121,6 +121,10 @@ public class Model {
 
     }
 
+    public void setUser (User u){
+        userTable.put(u.getNome(), u);
+    }
+
     public boolean removeUser(String username) {
         return userTable.remove(username) != null;
     }
@@ -146,6 +150,8 @@ public class Model {
         PlanoSubscricao plano = user.getPlano();
         double pontosAtualizados = plano.calculaPontos(pontosAtuais);
         user.setPontos(pontosAtualizados);
+        //setUser(user)
+        //setSong(musica);
         return letra;
     }
 
@@ -212,6 +218,7 @@ public class Model {
         return playlistTable.get(name);
     }
 
+    
     public boolean removePlaylist(String name) {
         return playlistTable.remove(name) != null;
     }

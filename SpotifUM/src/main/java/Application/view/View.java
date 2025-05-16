@@ -471,8 +471,7 @@ public class View {
         return nome;
     }
 
-    // Apresenta ao user (Premium) as opções de escolha de uma música ao ouvir uma
-    // playlist
+    // Apresenta ao user (Premium) as opções de escolha de uma música ao ouvir uma playlist
     private int perguntarContinuar(Scanner sc) {
         System.out.println("\n1 - Avançar Música ");
         System.out.println("\n2 - Próxima Música");
