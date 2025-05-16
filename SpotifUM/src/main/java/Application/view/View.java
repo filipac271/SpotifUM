@@ -461,7 +461,7 @@ public class View {
         if (nome.isEmpty())
             return "";
         while (!this.controller.validaAudicao(username, tipo, nome)) {
-            System.out.println(tipo + "\n não existe");
+            System.out.println(tipo + " não existe");
             System.out.println("\nQual " + tipo + " deseja ouvir? (Pressione Enter caso queira voltar atrás)");
             nome = sc.nextLine();
             if (nome.isEmpty())
