@@ -65,6 +65,7 @@ public class Controller {
         PlanoSubscricao plano = user.getPlano();
         PlanoPremium pPremium = (PlanoPremium) plano; 
         pPremium.guardarAlbum(album);
+        // model.setUser(user);
     }
 
 
@@ -78,7 +79,6 @@ public class Controller {
     }
 
     // PLAYLIST
-
     public int addToPlaylist(String nomeP, String nomeM) {
         if (songExists(nomeM)) {
             model.addToPlaylist(nomeP, nomeM);
@@ -96,6 +96,8 @@ public class Controller {
 
         PlanoPremium pPremium = (PlanoPremium) plano; 
         pPremium.guardarPlaylist(playlist);
+        //user.setPLano(pPremium)
+        //model.setUser
     }
 
     public boolean removePlaylist(String name) {
@@ -156,7 +158,7 @@ public class Controller {
         Song musica;
     
         if (serPlaylist) {
-            Playlist playlist = getPlaylist(nome);
+            Playlist playlist = getPlaylist(nome); //deep clone
             tamanho = playlist.tamanho();
     
             if (index[0] < 0){
@@ -167,7 +169,7 @@ public class Controller {
                 return "Já atingiu o final da playlist";
             }
     
-            musica = playlist.getNMusica(index[0]);
+            musica = playlist.getNMusica(index[0]); //deep clone
     
         } else { // é álbum
             Album album = getAlbum(nome);
@@ -182,7 +184,7 @@ public class Controller {
     
             musica = album.getNMusica(index[0]);
         }
-    
+        
         return model.userReproduziu(musica, username);
     }
     
@@ -296,8 +298,8 @@ public class Controller {
         }
         if(!planoPresente.equals("PlanoFree")){
 
-            playlists = ((PlanoPremium) user.getPlano()).getPlaylists();
-            albums = ((PlanoPremium) user.getPlano()).getAlbuns();
+            playlists = ((PlanoPremium) user.getPlano()).getPlaylists(); //shallow copy
+            albums = ((PlanoPremium) user.getPlano()).getAlbuns(); //shallow copy
             PlanoPremium pPremium = (PlanoPremium) pNew;
             pPremium.setPlaylists(playlists);
             pPremium.setAlbuns(albums);
@@ -344,7 +346,9 @@ public class Controller {
         User user = model.getUser(username);
         PlanoSubscricao plano = user.getPlano();
         PlanoPremium pPremium = (PlanoPremium) plano; 
+        
         pPremium.guardarPlaylist(getPlaylist(nomeP));
+        
     }
 
     // Queries
