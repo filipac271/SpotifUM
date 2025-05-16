@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="ApplicationTests.Model.PlaylistTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-05-16T13:53:11.866Z" hostname="Diogo-Predator" time="0.003">
-  <properties/>
-  <testcase name="playlistTest()" classname="ApplicationTests.Model.PlaylistTest" time="0.003"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
