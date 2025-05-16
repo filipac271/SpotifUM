@@ -12,7 +12,7 @@ public class PlanoPremiumTop extends PlanoPremium {
      */
     public PlanoPremiumTop() {
         super();
-        this.nomePlano = "Premium Top";
+        this.nomePlano = "PlanoPremiumTop";
     }
 
     /**

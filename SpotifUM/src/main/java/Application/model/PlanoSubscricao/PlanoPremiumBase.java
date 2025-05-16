@@ -14,7 +14,7 @@ public class PlanoPremiumBase extends PlanoPremium {
      */
     public PlanoPremiumBase() {  
         super();
-        this.nomePlano = "Premium Base"; 
+        this.nomePlano = "PlanoPremiumBase"; 
     }
 
     /**

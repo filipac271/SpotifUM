@@ -75,4 +75,41 @@ public abstract class PlanoPremium extends PlanoSubscricao {
     public int numPlaylists() {
         return this.playlists.size();
     }
+
+
+    /**
+     * Devolve uma cópia da lista de playlists guardadas.
+     *
+     * @return Lista de playlists guardadas.
+     */
+    public List<Playlist> getPlaylists() {
+        return new ArrayList<>(this.playlists);
+    }
+    
+    /**
+     * Devolve uma cópia da lista de álbuns guardados.
+     *
+     * @return Lista de álbuns guardados.
+     */
+    public List<Album> getAlbuns() {
+        return new ArrayList<>(this.albuns);
+    }
+
+
+
+    public void setPlaylists(List<Playlist> playlists) {
+        if (playlists == null) {
+            this.playlists = new ArrayList<>();
+        } else {
+            this.playlists = new ArrayList<>(playlists);
+        }
+    }
+    
+    public void setAlbuns(List<Album> albuns) {
+        if (albuns == null) {
+            this.albuns = new ArrayList<>();
+        } else {
+            this.albuns = new ArrayList<>(albuns);
+        }
+    }
 }

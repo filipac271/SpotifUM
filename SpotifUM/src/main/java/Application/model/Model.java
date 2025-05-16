@@ -22,6 +22,7 @@ import Application.model.Song.SongMultimedia;
 import Application.model.User.Historico;
 import Application.model.User.User;
 import Application.model.Album.Album;
+import Application.model.PlanoSubscricao.PlanoPremium;
 import Application.model.PlanoSubscricao.PlanoSubscricao;
 import Application.controller.Persistencia;
 import Application.exceptions.zeroGenresListen;
@@ -225,7 +226,9 @@ public class Model {
         } else {
             Playlist p = getPlaylist(nome);
             User user = getUser(username);
-            return user.getPlano().playlistGuardada(p);
+            PlanoSubscricao plano = user.getPlano(); 
+            PlanoPremium pPremium = (PlanoPremium) plano; 
+            return pPremium.playlistGuardada(p);
         }
     }
 
@@ -306,6 +309,11 @@ public class Model {
 
     public boolean albumExists(String name) {
         return albumTable.containsKey(name);
+    }
+
+    public void addToAlbum(String nomeA, String nomeM) {
+        Song musica = songTable.get(nomeM);
+        albumTable.get(nomeA).addSong(musica);
     }
 
     // Querys
