@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ApplicationTests.Model.AlbumTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-05-16T13:53:11.860Z" hostname="Diogo-Predator" time="0.002">
+  <properties/>
+  <testcase name="albumTest()" classname="ApplicationTests.Model.AlbumTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

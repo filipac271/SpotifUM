@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ApplicationTests.controller.PersistenciaTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2025-05-16T13:53:11.888Z" hostname="Diogo-Predator" time="0.069">
+  <properties/>
+  <testcase name="testSavePlaylists()" classname="ApplicationTests.controller.PersistenciaTest" time="0.036"/>
+  <testcase name="testLoadUsersWhenFileExists()" classname="ApplicationTests.controller.PersistenciaTest" time="0.012"/>
+  <testcase name="testLoadUsersWhenFileDoesNotExist()" classname="ApplicationTests.controller.PersistenciaTest" time="0.002"/>
+  <testcase name="testSaveAlbuns()" classname="ApplicationTests.controller.PersistenciaTest" time="0.006"/>
+  <testcase name="testSaveSongs()" classname="ApplicationTests.controller.PersistenciaTest" time="0.007"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
