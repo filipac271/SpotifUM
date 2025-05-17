@@ -32,7 +32,7 @@ public class View {
         System.out.println();
         System.out.println(" 1. Iniciar Sessão");
         System.out.println(" 2. Criar conta");
-        System.out.println(" 3. Criar Álbum");
+        System.out.println(" 3. Criar ou Modificar Álbum");
         System.out.println(" 4. Estatísticas da App");
         System.out.println(" 5. Mudar de plano");
         System.out.println(" 6. Fechar o programa");
@@ -106,7 +106,7 @@ public class View {
                     createUserMenu(sc);
                     break;
                 case 3:
-                    createAlbumMenu(sc);
+                    createModifyAlbumMenu(sc);
                     break;
                 case 4:
                     checkQueriesMenu(sc);
@@ -172,13 +172,22 @@ public class View {
         System.out.print(" Introduz o teu username: ");
         String username = getOpcaoString(sc);
 
-        while (!(controller.userExists(username))) {
+        if (!(controller.userExists(username))) {
             System.out.println(" Utilizador não encontrado.");
             return;
         }
 
-        System.out.println(" Escolhe novo plano:");
-        int option = createPlanoMenu(sc);
+        System.out.print(" Introduz a password: ");
+        String password=getOpcaoString(sc);
+        while (!(controller.authenticUser(username, password)) && !(password.isEmpty()))
+        {
+            System.out.println(" Password está errada! Tente novamente ou prima Enter para sair");
+            password=getOpcaoString(sc);
+        }
+
+        if(!password.isEmpty())
+        {
+            int option = createPlanoMenu(sc);
 
         String novoPlano = controller.changeUserPlan(username, option);
         if (!novoPlano.equals("")) {
@@ -186,6 +195,7 @@ public class View {
         } else {
             System.out.println(" O plano escolhido é o mesmo que já está assinado.");
         }
+    }
     }
 
     /**
@@ -289,15 +299,45 @@ public class View {
         return nomeMusica;
     }
 
+    private int AlbumMenu(Scanner sc)
+    {
+        System.out.println("\n-------Album-------");
+        System.out.println("Prima 1 para criar um Album");
+        System.out.println("Prima 2 para modificar um Album já existente");
+        System.out.println("Prima 3 para sair");
+        int opcao=getOpcao(sc, 1, 3);
+        return opcao;
+    }
     /**
      * Apresenta o menu para criação de um álbum, perguntando ao utilizador o nome, artista e número de músicas.
      * Para cada música, invoca o método criarMusica para recolher os dados e adiciona a música ao álbum.
      * 
      * @param sc Scanner para leitura de inputs do utilizador.
      */
-    private void createAlbumMenu(Scanner sc) {
-        System.out.println("\n-------Criar um album-------");
+    private void createModifyAlbumMenu(Scanner sc) {
+        int opcao=AlbumMenu(sc);
+    
+        if(opcao==1)
+        {
+            createAlbumMenu(sc);
+        
+        }
+        else if (opcao==2)
+        {
+            System.out.println(" Prima 1 para remover uma música.");
+            System.out.println(" Prima 2 para adicionar uma música.");
+            System.out.println(" Prima 3 para sair.");
+            int acao=getOpcao(sc, 1, 3);
+            while(acao!=3)
+            {
+                modifyAlbum(sc, acao);
+            }
+        }
+        
+    }
 
+    private void createAlbumMenu(Scanner sc)
+    {
         System.out.println(" Digite o número de musicas do album: ");
         int numMusicas = getOpcao(sc, 1, Integer.MAX_VALUE);
         System.out.println(" Digite o nome do Album: ");
@@ -306,16 +346,47 @@ public class View {
         String artista = getOpcaoString(sc);
         controller.addAlbum(nome, artista);
         String nomeMusica;
+
         for (int i = 0; i < numMusicas; i++) {
             System.out.println(" Música " + (i + 1) + ":");
             nomeMusica = criarMusica(sc);
-            int v = controller.addToAlbum(nome, nomeMusica);
-            if (v == 0) {
-                System.out.println(" Musica não existente");
+            boolean v = controller.addToAlbum(nome, nomeMusica);
+            if (!v ) {
+                System.out.println(" Não foi possivel adicionar ao album!");
                 i--;
             }
-        }
-        System.out.println(" O album " + nome + " de " + artista + " foi criado tendo um total de " + numMusicas + " músicas.");
+         }
+
+         System.out.println(" O album " + nome + " de " + artista + " foi criado tendo um total de " + numMusicas + " músicas.");
+
+    }
+
+    public void modifyAlbum(Scanner sc, int acao)
+    {
+            System.out.println(" Digite o nome do Album: ");
+            String nomeAlbum = getOpcaoString(sc);
+            if(!controller.albumExists(nomeAlbum))
+            {
+                System.out.println("Album Não Existe! "); 
+                return;
+            }
+            if(acao==1)
+            {
+                imprimePlaylistAlbum(nomeAlbum,"album");
+                System.out.println(" Qual o número da música que deseja remover : ");
+                int nMusicas=controller.nMusicas(nomeAlbum);
+                int opcao=getOpcao(sc, 1,nMusicas );
+                controller.removeMusicaAlbum(nomeAlbum, opcao);
+            }
+            else if (acao==2)
+            {
+               String nomeMusica=criarMusica(sc);
+               boolean v = controller.addToAlbum(nomeAlbum, nomeMusica);
+               if(!v)
+               {
+                    System.out.println("Não foi possível adicionar a música!" );
+               }
+            }
     }
 
     /**
@@ -534,7 +605,7 @@ public class View {
                     nome = menuOuvir(sc, "playlist", username);
                     if (nome.equals(""))
                         break;
-                    System.out.println("\n Reproduzir aleatoriamente? \n   1-Sim  2-Não)");
+                    System.out.println("\n Reproduzir aleatoriamente? \n   1-Sim  2-Não");
                     aleatorio = getOpcao(sc, 1, 2);
                     if (aleatorio == 1) {
                         reproduzirAleatorio(sc, username, nome, true);
@@ -636,6 +707,11 @@ public class View {
         for (i = 0; i < nMusicas; i++) {
             System.out.println(" Nome da Música Nº: " + (i + 1));
             nomeM = getOpcaoString(sc);
+            if(nomeM.isEmpty())
+            {
+                System.out.println("A sair ...");
+                return;
+            }
             v = controller.addToPlaylist(nomeP, nomeM);
             if (v == 0) {
                 System.out.println(" Música não existe!");
@@ -665,7 +741,7 @@ public class View {
     
         int index;
         if (op == 5) {
-            imprimePlaylist(nomeP, nMusicas);
+            imprimePlaylistAlbum(nomeP, "playlist");
             for (int i = 0; i < nMusicas; i++) {
                 System.out.println(" Qual a " + i + "ª música?");
                 index = getOpcao(sc, 1, nMusicas);
@@ -682,10 +758,10 @@ public class View {
      * @param nomeP Nome da playlist.
      * @param n Número de músicas na playlist.
      */
-    private void imprimePlaylist(String nomeP, int n) {
-        System.out.println(" Ordem das músicas atual:");
+    private void imprimePlaylistAlbum(String nome, String tipo) {
+        System.out.println(" Todas as músicas d"+(tipo.equals("album") ? "a " : "o ")+tipo+" : ");
         int i = 1;
-        for (String s : this.controller.getNomeMusicas(nomeP, n)) {
+        for (String s : this.controller.getNomeMusicas(nome, tipo)) {
             System.out.println(" Nº " + i + ": " + s);
             i++;
         }

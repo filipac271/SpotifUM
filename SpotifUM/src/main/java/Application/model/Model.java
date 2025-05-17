@@ -491,12 +491,27 @@ public class Model {
      * @param n     Número de músicas a listar.
      * @return Lista com os nomes das músicas.
      */
-    public List<String> getNomeMusicas(String nomeP, int n) {
+    public List<String> getNomeMusicas(String nome, String tipo) {
         List<String> nomeMusicas = new ArrayList<>();
-        Playlist p = getPlaylist(nomeP);
-        for (int i = 0; i < n; i++) {
-            nomeMusicas.add(p.getNMusica(i).getNome());
+        int n=0;
+
+        if(tipo.equals("album"))
+        {
+            Album a=getAlbum(nome);
+            n=a.tamanho();
+            for (int i = 0; i < n; i++) {
+                nomeMusicas.add(a.getNMusica(i).getNome());
+           }
         }
+        else
+        {
+            Playlist p = getPlaylist(nome);
+            p.tamanho();
+            for (int i = 0; i < n; i++) {
+                 nomeMusicas.add(p.getNMusica(i).getNome());
+            }
+        }
+        
         return nomeMusicas;
     }
 
@@ -527,24 +542,26 @@ public class Model {
      */
     public void ordenarPlaylist(String nomeP, int op) {
         Playlist playlist = getPlaylist(nomeP);
-
+       List<Song> songs= playlist.getMusicas();
         switch (op) {
             case 1: // Nome da música A-Z
-                playlist.getMusicas().sort((s1, s2) -> s1.getNome().compareToIgnoreCase(s2.getNome()));
+             songs.sort((s1, s2) -> s1.getNome().compareToIgnoreCase(s2.getNome()));
                 break;
             case 2: // Nome da música Z-A
-                playlist.getMusicas().sort((s1, s2) -> s2.getNome().compareToIgnoreCase(s1.getNome()));
+            songs.sort((s1, s2) -> s2.getNome().compareToIgnoreCase(s1.getNome()));
                 break;
             case 3: // Nome do intérprete A-Z
-                playlist.getMusicas().sort((s1, s2) -> s1.getInterprete().compareToIgnoreCase(s2.getInterprete()));
+            songs.sort((s1, s2) -> s1.getInterprete().compareToIgnoreCase(s2.getInterprete()));
                 break;
             case 4: // Nome do intérprete Z-A
-                playlist.getMusicas().sort((s1, s2) -> s2.getInterprete().compareToIgnoreCase(s1.getInterprete()));
+            songs.sort((s1, s2) -> s2.getInterprete().compareToIgnoreCase(s1.getInterprete()));
                 break;
             default:
                 break;
         }
-        playlistTable.replace(nomeP, playlist);
+        
+        playlist.setMusicas(songs);
+        playlistTable.put(nomeP, playlist);
     }
 
     /**
@@ -675,6 +692,19 @@ public class Model {
     public String getAlbumNMusica(String name, int index) {
         Album album = getAlbum(name);
         return album.getNMusica(index).getNome();
+    }
+
+    public boolean musicaPertenceAlbum(String nomeA, String nomeM)
+    {
+        Album a=getAlbum(nomeA);
+        return a.contemMusica(nomeM);
+    }
+
+    public void removeMusicAlbum(String nome, int index)
+    {
+        Album a=getAlbum(nome);
+        Song s= a.getNMusica(index);
+        a.removeSong(s);
     }
 
     // Querys

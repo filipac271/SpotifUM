@@ -130,6 +130,13 @@ public class Album implements Serializable {
         return album.get(n);
 
     }
+
+    public boolean contemMusica(String musica)
+    {
+        return album.stream()
+        .anyMatch(s -> s.getNome().equalsIgnoreCase(musica));
+    }
+
     /**
      * Representação textual do álbum.
      * 
