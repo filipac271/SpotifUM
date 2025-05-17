@@ -15,10 +15,19 @@ public class PlanoPremiumTop extends PlanoPremium {
         this.nomePlano = "PlanoPremiumTop";
     }
 
+    /**
+     * @brief Construtor por cópia da classe PlanoPremiumTop.
+     * 
+     * Cria uma nova instância de PlanoPremiumTop copiando os dados de outra instância existente.
+     * Invoca o construtor da superclasse para garantir a cópia correta da hierarquia.
+     *
+     * @param outro Instância de PlanoPremiumTop a ser copiada.
+     */
     public PlanoPremiumTop(PlanoPremiumTop outro) {
         super(outro);
         this.nomePlano = "PlanoPremiumTop";
     }
+    
 
     /**
      * Calcula os pontos atribuídos a um utilizador deste plano.
