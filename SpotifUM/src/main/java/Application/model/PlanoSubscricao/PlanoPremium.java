@@ -32,6 +32,11 @@ public abstract class PlanoPremium extends PlanoSubscricao {
         this.albuns = new ArrayList<>();
     }
 
+    public PlanoPremium(PlanoPremium outra){
+        this.playlists = outra.getPlaylists();
+        this.albuns = outra.getAlbuns();
+    }
+
     /**
      * Guarda uma nova playlist na conta do utilizador.
      * 

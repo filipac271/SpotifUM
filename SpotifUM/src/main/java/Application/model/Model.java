@@ -176,15 +176,6 @@ public class Model {
     }
 
     /**
-     * @brief Substitui (ou insere) um utilizador na tabela.
-     * 
-     * @param u Objeto User a inserir.
-     */
-    public void setUser(User u) {
-        userTable.put(u.getNome(), u);
-    }
-
-    /**
      * @brief Remove um utilizador da base de dados.
      * 
      * @param username Nome de utilizador.
@@ -228,7 +219,7 @@ public class Model {
         LocalDate data = LocalDate.now();
         user.addHistorico(musica, data);
         double pontosAtuais = user.getPontos();
-        PlanoSubscricao plano = user.getPlano();
+        PlanoSubscricao plano = user.getPlano(); //Aqui GetPlano pode dar copia que n há crise
         double pontosAtualizados = plano.calculaPontos(pontosAtuais);
         user.setPontos(pontosAtualizados);
         return letra;
@@ -242,31 +233,9 @@ public class Model {
      */
     public String getUserPlano(String username) {
         User user = getUser(username);
-        return user.getPlano().getNome();
+        return user.getPlano().getNome(); //Aqui GetPlano pode dar copia que n há crise
     }
 
-
-    /**
-     * @brief Obtém as playlists associadas ao plano do utilizador (assume que é PlanoPremium).
-     * 
-     * @param username Nome de utilizador.
-     * @return Lista de playlists do plano.
-     */
-    public List<Playlist> getUserPlanoPlaylist(String username) {
-        User user = getUser(username);
-        return ((PlanoPremium) user.getPlano()).getPlaylists();
-    }
-
-    /**
-     * @brief Obtém os álbuns associados ao plano do utilizador (assume que é PlanoPremium).
-     * 
-     * @param username Nome de utilizador.
-     * @return Lista de álbuns do plano.
-     */
-    public List<Album> getUserPlanoAlbuns(String username) {
-        User user = getUser(username);
-        return ((PlanoPremium) user.getPlano()).getAlbuns();
-    }
 
     /**
      * @brief Retorna uma instância de plano de subscrição com base na opção fornecida.
@@ -274,7 +243,7 @@ public class Model {
      * @param planoOption Opção numérica (1 - Free, 2 - Premium Base, 3 - Premium Top).
      * @return Instância do plano correspondente, ou null se inválido.
      */
-    public PlanoSubscricao getPlanoByOption(int planoOption) {
+    private PlanoSubscricao getPlanoByOption(int planoOption) {
         switch (planoOption) {
             case 1:
                 return new PlanoFree();
