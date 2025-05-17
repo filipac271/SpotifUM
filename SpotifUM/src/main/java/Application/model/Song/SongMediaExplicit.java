@@ -68,7 +68,7 @@ public class SongMediaExplicit extends SongMultimedia implements Explicito {
         } else {
             int numRep = getNumRep();
             setNumRep(numRep + 1);
-            return "⚠️ Conteúdo explícito ⚠️\n" + getLetra();
+            return "\n/////////////////Música/////////////////" + getLetra() + "\n////////////////////////////////////////";
         }
     }
 }

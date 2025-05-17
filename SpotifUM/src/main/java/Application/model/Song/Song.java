@@ -104,7 +104,7 @@ public class Song implements Serializable {
 
     /** @return Letra da música. */
     public String getLetra() {
-        return letra;
+        return letra ;
     }
 
     /** @return Pauta (partitura) da música. */
@@ -208,7 +208,7 @@ public class Song implements Serializable {
      */
     public String getReproducao() {
         this.numRep++;
-        return this.letra;
+        return "\n/////////////////Música/////////////////" + this.letra + "\n////////////////////////////////////////";
     }
 
     /**

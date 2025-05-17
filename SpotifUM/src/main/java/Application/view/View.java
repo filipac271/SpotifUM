@@ -140,13 +140,12 @@ public class View {
         System.out.println(" A iniciar sessao... ");
         System.out.println(" Digite o seu Username: ");
         String username = getOpcaoString(sc);
-
         while (!(controller.userExists(username) && !username.isEmpty())) {
             System.out.println(" Utilizador não existe!");
             System.out.println(" Insira um nome de utilizador existente, se quiser sair prima Enter");
             username=getOpcaoString(sc);
         }
-        if(! username.isEmpty() ) {
+        if(!username.isEmpty()) {
 
             System.out.println(" Digite a sua Password: ");
             String password = getOpcaoString(sc);
@@ -176,7 +175,6 @@ public class View {
             return;
         }
 
-        System.out.println(" Escolhe novo plano:");
         int option = createPlanoMenu(sc);
 
         String novoPlano = controller.changeUserPlan(username, option);
