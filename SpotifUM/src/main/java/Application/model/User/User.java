@@ -6,7 +6,10 @@ import java.util.stream.Collectors;
 import java.util.ArrayList;
 import java.time.LocalDate;
 
+import Application.model.PlanoSubscricao.PlanoFree;
 import Application.model.PlanoSubscricao.PlanoPremium;
+import Application.model.PlanoSubscricao.PlanoPremiumBase;
+import Application.model.PlanoSubscricao.PlanoPremiumTop;
 import Application.model.PlanoSubscricao.PlanoSubscricao;
 import Application.model.Song.Song;
 
@@ -53,15 +56,15 @@ public class User implements Serializable {
      * @param plano Plano de subscrição.
      */
     public User(String nome, String username, String password, String email,
-                String morada, int age, PlanoSubscricao plano) {
+                String morada, int age,int planoOption) {
         this.nome = nome;
         this.username = username;
         this.password = password;
         this.email = email;
         this.morada = morada;
         this.age = age;
+        this.plano = getPlanoByOption(planoOption);
         this.pontos = plano.calculaPontos(0);
-        this.plano = plano;
         this.historico = new ArrayList<>();
     }
 
@@ -204,6 +207,26 @@ public class User implements Serializable {
             }
         }
     }
+
+     /**
+     * @brief Retorna uma instância de plano de subscrição com base na opção fornecida.
+     * 
+     * @param planoOption Opção numérica (1 - Free, 2 - Premium Base, 3 - Premium Top).
+     * @return Instância do plano correspondente, ou null se inválido.
+     */
+    public PlanoSubscricao getPlanoByOption(int planoOption) {
+        switch (planoOption) {
+            case 1:
+                return new PlanoFree();
+            case 2:
+                return new PlanoPremiumBase();
+            case 3:
+                return new PlanoPremiumTop();
+            default:
+                return null;
+        }
+    }
+
 
     /**
      * @brief Adiciona uma música ao histórico do utilizador.

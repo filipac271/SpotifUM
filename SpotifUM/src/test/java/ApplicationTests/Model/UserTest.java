@@ -23,7 +23,7 @@ public class UserTest {
 
         // Criar um plano e um user
         PlanoSubscricao plano = new PlanoFree();
-        User user = new User("Joao", "JotaJota", "password123", "joao@gmail.com", "rua do Faial", 19, plano);
+        User user = new User("Joao", "JotaJota", "password123", "joao@gmail.com", "rua do Faial", 19, 1);
 
         // Verificações dos campos básicos
         assertEquals("Joao", user.getNome());

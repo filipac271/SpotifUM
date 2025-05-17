@@ -160,8 +160,7 @@ public class Model {
     public void addUser(String username, String nome, String password, String email,
                         String morada, int age, int planoOption) {
 
-        PlanoSubscricao plano = getPlanoByOption(planoOption);
-        User user = new User(nome, username, password, email, morada, age, plano);
+        User user = new User(nome, username, password, email, morada, age, planoOption);
         userTable.put(username, user);
     }
 
@@ -225,36 +224,6 @@ public class Model {
         return letra;
     }
 
-    /**
-     * @brief Obtém o nome do plano de subscrição de um utilizador.
-     * 
-     * @param username Nome de utilizador.
-     * @return Nome do plano de subscrição.
-     */
-    public String getUserPlano(String username) {
-        User user = getUser(username);
-        return user.getPlano().getNome(); //Aqui GetPlano pode dar copia que n há crise
-    }
-
-
-    /**
-     * @brief Retorna uma instância de plano de subscrição com base na opção fornecida.
-     * 
-     * @param planoOption Opção numérica (1 - Free, 2 - Premium Base, 3 - Premium Top).
-     * @return Instância do plano correspondente, ou null se inválido.
-     */
-    private PlanoSubscricao getPlanoByOption(int planoOption) {
-        switch (planoOption) {
-            case 1:
-                return new PlanoFree();
-            case 2:
-                return new PlanoPremiumBase();
-            case 3:
-                return new PlanoPremiumTop();
-            default:
-                return null;
-        }
-    }
 
     /**
      * @brief Altera o plano de subscrição de um utilizador.
@@ -266,32 +235,28 @@ public class Model {
      * @param planoString Nome do plano atual (para verificação).
      * @return true se a alteração foi feita, false se já estava no mesmo plano.
      */
-    public boolean changeUserPlano(String username, int planoInt, String planoString) {
+    public String changeUserPlano(String username, int planoInt) {
         User user = getUser(username);
-        String planoPresente = getUserPlano(username);
+        String planoPresente =  user.getPlano().getNome();
+        PlanoSubscricao novoPlano =user.getPlanoByOption(planoInt);
+        if (planoPresente.equals(novoPlano.getNome())) return "";
 
-        if (planoPresente.equals(planoString)) return false;
-
-        PlanoSubscricao pNew = getPlanoByOption(planoInt);
-
-        if (planoInt == 1) {
-            user.setPlano(pNew);
-            return true;
-        }
-
-        if (!planoPresente.equals("PlanoFree")) {
+        if( !(planoPresente.equals("PlanoFree")) )
+        {
             List<Playlist> playlists = ((PlanoPremium) user.getPlano()).getPlaylists(); 
             List<Album> albums = ((PlanoPremium) user.getPlano()).getAlbuns(); 
 
-            PlanoPremium pPremium = (PlanoPremium) pNew;
-            pPremium.setPlaylists(playlists);
-            pPremium.setAlbuns(albums);
-            user.setPlano(pPremium);
-            return true;
-        } else {
-            user.setPlano(pNew);
-            return true;
+            PlanoPremium novoplano=(PlanoPremium) novoPlano;
+            novoplano.setPlaylists(playlists);
+            novoplano.setAlbuns(albums);
+            user.setPlano(novoplano);
         }
+        else
+        {
+             user.setPlano(novoPlano);
+        }
+
+        return novoPlano.getNome();
     }
 
     /**
