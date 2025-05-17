@@ -83,7 +83,7 @@ public class View {
                 option = sc.nextLine();
             }
         }
-        return option;
+       return option.trim();
     }
 
     /**
@@ -264,7 +264,7 @@ public class View {
      * @return O nome da música criada.
      */
     private String criarMusica(Scanner sc, String interprete, String editora) {
-        System.out.print(" Digite o nome: ");
+        System.out.print(" Digite o nome da Música: ");
         String nomeMusica = getOpcaoString(sc);
 
         System.out.print(" Digite a letra: ");
@@ -295,6 +295,12 @@ public class View {
         return nomeMusica;
     }
 
+        /**
+         Apresenta as opções do menu para criar ou modificar um álbum
+          e lê o input do user (qual opção escolheu).
+        @param sc Scanner utilizado para ler os inputs do utilizador.
+        @return opcao número correspondente à ação que o utilizador quer realizar.
+         */
     private int AlbumMenu(Scanner sc)
     {
         System.out.println("\n-------Album-------");
@@ -305,11 +311,12 @@ public class View {
         return opcao;
     }
     /**
-     * Apresenta o menu para criação de um álbum, perguntando ao utilizador o nome, artista e número de músicas.
-     * Para cada música, invoca o método criarMusica para recolher os dados e adiciona a música ao álbum.
-     * 
-     * @param sc Scanner para leitura de inputs do utilizador.
-     */
+         Apresenta o menu para criação ou modificação de um álbum.
+        O utilizador pode escolher entre criar um novo álbum ou modificar um existente.
+        Na opção de modificação, é possível adicionar músicas ao álbum,
+        com a possibilidade de sair do menu a qualquer momento.
+        @param sc Scanner utilizado para ler os inputs do utilizador.
+    */
     private void createModifyAlbumMenu(Scanner sc) {
         int opcao=AlbumMenu(sc);
         int r = 1;
@@ -320,19 +327,32 @@ public class View {
         }
         else if (opcao==2)
         {
-            System.out.println(" Prima 1 para remover uma música.");
-            System.out.println(" Prima 2 para adicionar uma música.");
-            System.out.println(" Prima 3 para sair.");
-            int acao=getOpcao(sc, 1, 3);
-            while(acao!=3 && r == 1)
+            System.out.println(" Prima 1 para adicionar uma música.");
+            System.out.println(" Prima 2 para sair.");
+            int acao=getOpcao(sc, 1, 2);
+            while(acao!=2 && r == 1)
             {
-                r = modifyAlbum(sc, acao);
-                
+                r = modifyAlbum(sc);
+                if(r==1)
+                {
+                    System.out.println(" Prima 1 para adicionar uma música.");
+                    System.out.println(" Prima 2 para sair.");
+                    acao=getOpcao(sc, 1, 2);
+                    r = modifyAlbum(sc);
+                }
             }
         }
         
     }
 
+    /**
+        Permite ao utilizador criar um novo álbum.
+        O utilizador introduz o número de músicas, nome do álbum, nome do artista e editora.
+        Em seguida, é chamado o método criarMusica para criar cada música com os dados fornecidos.
+        Cada música é adicionada ao álbum utilizando o método  controller.addToAlbum.
+        No final, é apresentada uma mensagem com o resumo da criação do álbum.
+        @param sc Scanner utilizado para ler os inputs do utilizador.
+    */
     private void createAlbumMenu(Scanner sc)
     {
         System.out.println(" Digite o número de musicas do album: ");
@@ -360,8 +380,19 @@ public class View {
          System.out.println(" O album " + nome + " de " + artista + " foi criado tendo um total de " + numMusicas + " músicas.");
 
     }
+ 
+    /**
+        Modifica um álbum existente conforme a ação indicada.
+        O método pede ao utilizador o nome do álbum e verifica se este existe.
+        Se premir Enter em vez de escrever o nome do Álbum, a operação é cancelada.
+        De seguida, permite adicionar uma nova música ao álbum, recolhendo os dados necessários.
+        
+        @param sc Scanner para leitura da input do utilizador.
+        @return int Retorna 0 se o utilizador decidir sair/cancelar a operação ,
+        ou 1 se a operação foi concluída (mesmo que não altere o álbum).
+    */
 
-    public int modifyAlbum(Scanner sc, int acao)
+    private int modifyAlbum(Scanner sc)
     {
             System.out.println(" Digite o nome do Album: (Digita Enter caso queira sair do menu)");
             String nomeAlbum = getOpcaoString(sc);
@@ -371,17 +402,6 @@ public class View {
                 System.out.println("Album Não Existe! "); 
                 return 1;
             }
-            if(acao==1)
-            {
-                imprimePlaylistAlbum(nomeAlbum,"album");
-                System.out.println(" Qual o número da música que deseja remover: (Digita 0 caso queira sair do menu) ");
-                int nMusicas=controller.nMusicas(nomeAlbum);
-                int opcao=getOpcao(sc, 0,nMusicas );
-                if(opcao == 0)return 0;
-                controller.removeMusicaAlbum(nomeAlbum, opcao);
-            }
-            else if (acao==2)
-            {
                 String interprete = controller.getInterpreteByAlbum(nomeAlbum);
                 String editora = controller.getEditoraByAlbum(nomeAlbum);
                 String nomeMusica=criarMusica(sc,interprete,editora);
@@ -389,8 +409,8 @@ public class View {
                if(!v)
                {
                     System.out.println("Não foi possível adicionar a música!" );
+                    return 1;
                }
-            }
             return 1;
     }
 
