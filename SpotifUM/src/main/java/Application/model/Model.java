@@ -22,6 +22,7 @@ import Application.model.Song.SongMultimedia;
 import Application.model.User.Historico;
 import Application.model.User.User;
 import Application.model.Album.Album;
+import Application.model.PlanoSubscricao.PlanoPremium;
 import Application.model.PlanoSubscricao.PlanoSubscricao;
 import Application.exceptions.zeroGenresListen;
 import Application.exceptions.zeroInterpretesListen;
@@ -32,7 +33,7 @@ import Application.exceptions.zeroUsersWithPoints;
 /**
  * @class Model
  * @brief Classe responsável por gerir e manter os dados centrais da aplicação,
- * incluindo utilizadores, playlists, músicas e álbuns.
+ *        incluindo utilizadores, playlists, músicas e álbuns.
  */
 public class Model {
 
@@ -51,8 +52,8 @@ public class Model {
     /**
      * @brief Construtor da classe Model.
      *
-     * Tenta carregar os dados persistidos de utilizadores, playlists,
-     * músicas e álbuns. Caso falhe, inicializa mapas vazios.
+     *        Tenta carregar os dados persistidos de utilizadores, playlists,
+     *        músicas e álbuns. Caso falhe, inicializa mapas vazios.
      */
     public Model() {
         try {
@@ -74,9 +75,10 @@ public class Model {
     }
 
     /**
-     * @brief Salva todos os dados (utilizadores, playlists, músicas, álbuns) no sistema de persistência.
+     * @brief Salva todos os dados (utilizadores, playlists, músicas, álbuns) no
+     *        sistema de persistência.
      *
-     * Função que chama os métodos de salvar para users, playlists e songs
+     *        Função que chama os métodos de salvar para users, playlists e songs
      */
     public void saveAll() {
         try {
@@ -96,43 +98,71 @@ public class Model {
         }
     }
 
-        /**
-     * @brief Reconcilia objetos de músicas dentro de álbuns e playlists com os objetos da tabela de músicas.
+    /**
+     * @brief Reconcilia objetos de músicas dentro de álbuns e playlists com os
+     *        objetos da tabela de músicas.
      *
-     * Garante que as instâncias de músicas em álbuns e playlists sejam consistentes
-     * com as instâncias armazenadas em songTable.
+     *        Garante que as instâncias de músicas em álbuns e playlists sejam
+     *        consistentes
+     *        com as instâncias armazenadas em songTable.
      */
     private void reconciliarAlbunsEPlaylistsComSongs() {
         // Reconcilia álbuns
         for (Album album : albumTable.values()) {
             List<Song> novasMusicas = album.getAlbum().stream()
-                .map(m -> songTable.getOrDefault(m.getNome(), m)) 
-                .collect(Collectors.toList());
-            album.setAlbum(novasMusicas); 
+                    .map(m -> songTable.getOrDefault(m.getNome(), m))
+                    .collect(Collectors.toList());
+            album.setAlbum(novasMusicas);
         }
 
         // Reconcilia playlists
         for (Playlist playlist : playlistTable.values()) {
             List<Song> novasMusicas = playlist.getMusicas().stream()
-                .map(m -> songTable.getOrDefault(m.getNome(), m))
-                .collect(Collectors.toList());
-            playlist.setMusicas(novasMusicas); 
+                    .map(m -> songTable.getOrDefault(m.getNome(), m))
+                    .collect(Collectors.toList());
+            playlist.setMusicas(novasMusicas);
         }
+
+        // Reconcilia planos dos utilizadores
+        for (User user : userTable.values()) {
+            PlanoSubscricao planoOriginal = user.getPlano();
+
+            if (planoOriginal instanceof PlanoPremium premiumOriginal) {
+                // Faz uma cópia atualizável do plano
+                PlanoPremium planoRecon = (PlanoPremium) premiumOriginal;
+
+                // Reconcilia playlists
+                List<Playlist> playlistsRecon = planoRecon.getPlaylists().stream()
+                        .map(p -> playlistTable.getOrDefault(p.getNome(), p))
+                        .collect(Collectors.toList());
+                planoRecon.setPlaylists(playlistsRecon);
+
+                // Reconcilia álbuns
+                List<Album> albunsRecon = planoRecon.getAlbuns().stream()
+                        .map(a -> albumTable.getOrDefault(a.getNome(), a))
+                        .collect(Collectors.toList());
+                planoRecon.setAlbuns(albunsRecon);
+
+                // Atualiza o plano no utilizador
+                user.setPlano(planoRecon);
+            }
+        }
+
     }
 
     /**
      * @brief Construtor alternativo que permite injeção direta das tabelas.
      * 
      * @param playlists Mapa de playlists.
-     * @param songs Mapa de músicas.
-     * @param users Mapa de utilizadores.
-     * @param albums Mapa de álbuns.
+     * @param songs     Mapa de músicas.
+     * @param users     Mapa de utilizadores.
+     * @param albums    Mapa de álbuns.
      */
     public Model(Map<String, Playlist> playlists,
-                Map<String, Song> songs,
-                Map<String, User> users,
-                Map<String, Album> albums){
-            
+            Map<String, Song> songs,
+            Map<String, User> users,
+            Map<String, Album> albums) {
+
         this.playlistTable = new HashMap<>(playlists);
         this.songTable = new HashMap<>(songs);
         this.userTable = new HashMap<>(users);
@@ -144,16 +174,16 @@ public class Model {
     /**
      * @brief Adiciona um novo utilizador à base de dados.
      * 
-     * @param username Nome de utilizador.
-     * @param nome Nome completo.
-     * @param password Palavra-passe.
-     * @param email Email.
-     * @param morada Morada.
-     * @param age Idade.
+     * @param username    Nome de utilizador.
+     * @param nome        Nome completo.
+     * @param password    Palavra-passe.
+     * @param email       Email.
+     * @param morada      Morada.
+     * @param age         Idade.
      * @param planoOption Opção do plano de subscrição.
      */
     public void addUser(String username, String nome, String password, String email,
-                        String morada, int age, int planoOption) {
+            String morada, int age, int planoOption) {
 
         User user = new User(nome, username, password, email, morada, age, planoOption);
         userTable.put(username, user);
@@ -192,9 +222,9 @@ public class Model {
     /**
      * @brief Registra a reprodução de uma música por um utilizador.
      * 
-     * Atualiza o histórico e os pontos do utilizador com base no plano.
+     *        Atualiza o histórico e os pontos do utilizador com base no plano.
      * 
-     * @param music Nome da música.
+     * @param music    Nome da música.
      * @param username Nome do utilizador.
      * @return Letra da música (pode variar com idade e tipo de música).
      */
@@ -213,45 +243,43 @@ public class Model {
         LocalDate data = LocalDate.now();
         user.addHistorico(musica, data);
         double pontosAtuais = user.getPontos();
-        PlanoSubscricao plano = user.getPlano(); 
+        PlanoSubscricao plano = user.getPlano();
         double pontosAtualizados = plano.calculaPontos(pontosAtuais);
         user.setPontos(pontosAtualizados);
         return letra;
     }
 
-
     /**
      * @brief Altera o plano de subscrição de um utilizador.
      * 
-     * Preserva playlists e álbuns caso o utilizador já esteja num plano premium.
+     *        Preserva playlists e álbuns caso o utilizador já esteja num plano
+     *        premium.
      * 
-     * @param username Nome de utilizador.
-     * @param planoInt Identificador do novo plano (1, 2 ou 3).
+     * @param username    Nome de utilizador.
+     * @param planoInt    Identificador do novo plano (1, 2 ou 3).
      * @param planoString Nome do plano atual (para verificação).
      * @return true se a alteração foi feita, false se já estava no mesmo plano.
      */
     public String changeUserPlano(String username, int planoInt) {
         User user = getUser(username);
-        String planoPresente =  user.getPlano().getNome();
-        PlanoSubscricao novoPlano =user.getPlanoByOption(planoInt);
-        if (planoPresente.equals(novoPlano.getNome())) return "";
-        if(planoInt == 1){
+        String planoPresente = user.getPlano().getNome();
+        PlanoSubscricao novoPlano = user.getPlanoByOption(planoInt);
+        if (planoPresente.equals(novoPlano.getNome()))
+            return "";
+        if (planoInt == 1) {
             user.setPlano(novoPlano);
             return novoPlano.getNome();
         }
-        if( !(planoPresente.equals("PlanoFree")) )
-        {
+        if (!(planoPresente.equals("PlanoFree"))) {
             PlanoSubscricao planoCopy = user.getPlano();
-            List<Playlist> playlists = planoCopy.getPlaylists(); 
-            List<Album> albums = planoCopy.getAlbuns(); 
+            List<Playlist> playlists = planoCopy.getPlaylists();
+            List<Album> albums = planoCopy.getAlbuns();
 
             novoPlano.setPlaylists(playlists);
             novoPlano.setAlbuns(albums);
             user.setPlano(novoPlano);
-        }
-        else
-        {
-             user.setPlano(novoPlano);
+        } else {
+            user.setPlano(novoPlano);
         }
 
         return novoPlano.getNome();
@@ -280,25 +308,24 @@ public class Model {
         return u.getPlano().getNome();
     }
 
-
-
     // === Song ===
 
-        /**
+    /**
      * @brief Adiciona uma nova música à tabela de músicas.
      * 
-     * Cria uma instância do tipo de música apropriado com base nos parâmetros `isExplicit` e `isMedia`.
+     *        Cria uma instância do tipo de música apropriado com base nos
+     *        parâmetros `isExplicit` e `isMedia`.
      * 
-     * @param nome Nome da música.
+     * @param nome       Nome da música.
      * @param interprete Nome do intérprete.
-     * @param editora Nome da editora.
-     * @param letra Letra da música.
-     * @param pauta Pauta musical.
-     * @param genero Género musical.
-     * @param duracao Duração da música (em segundos).
+     * @param editora    Nome da editora.
+     * @param letra      Letra da música.
+     * @param pauta      Pauta musical.
+     * @param genero     Género musical.
+     * @param duracao    Duração da música (em segundos).
      * @param isExplicit Indica se a música é explícita ("s" para sim).
-     * @param isMedia Indica se é música multimédia ("s" para sim).
-     * @param url URL do conteúdo multimédia, se aplicável.
+     * @param isMedia    Indica se é música multimédia ("s" para sim).
+     * @param url        URL do conteúdo multimédia, se aplicável.
      */
     public void addSong(String nome, String interprete, String editora, String letra, String pauta,
             String genero, int duracao, String isExplicit, String isMedia, String url) {
@@ -359,17 +386,20 @@ public class Model {
 
     /**
      * @brief Adiciona uma nova playlist à tabela de playlists.
-    * 
-    * Se for temática, cria uma PlaylistTematica, caso contrário cria uma PlaylistUser.
-    * 
-    * @param nomeP Nome da playlist.
-    * @param publica Indica se a playlist é pública.
-    * @param musicas Lista de músicas a adicionar.
-    * @param tematica Indica se a playlist é temática.
-    * @param genero Género associado (apenas para playlists temáticas).
-    * @param duracaoMaxima Duração máxima da playlist (apenas para playlists temáticas).
-    */
-    public void addPlaylist(String nomeP, boolean publica, List<Song> musicas, boolean tematica, String genero, int duracaoMaxima) {
+     * 
+     *        Se for temática, cria uma PlaylistTematica, caso contrário cria uma
+     *        PlaylistUser.
+     * 
+     * @param nomeP         Nome da playlist.
+     * @param publica       Indica se a playlist é pública.
+     * @param musicas       Lista de músicas a adicionar.
+     * @param tematica      Indica se a playlist é temática.
+     * @param genero        Género associado (apenas para playlists temáticas).
+     * @param duracaoMaxima Duração máxima da playlist (apenas para playlists
+     *                      temáticas).
+     */
+    public void addPlaylist(String nomeP, boolean publica, List<Song> musicas, boolean tematica, String genero,
+            int duracaoMaxima) {
         Playlist playlist;
         if (tematica) {
             // usa PlaylistTematica
@@ -380,71 +410,72 @@ public class Model {
         }
         playlistTable.put(nomeP, playlist);
     }
-    
+
     /**
      * @brief Adiciona uma música existente a uma playlist existente.
-    * 
-    * @param nomeP Nome da playlist.
-    * @param nomeM Nome da música.
-    */
+     * 
+     * @param nomeP Nome da playlist.
+     * @param nomeM Nome da música.
+     */
     public void addToPlaylist(String nomeP, String nomeM) {
         Song musica = songTable.get(nomeM);
         playlistTable.get(nomeP).adicionarMusica(musica);
     }
-    
+
     /**
      * @brief Obtém uma playlist pelo nome.
-    * 
-    * @param name Nome da playlist.
-    * @return Playlist correspondente ou null se não existir.
-    */
+     * 
+     * @param name Nome da playlist.
+     * @return Playlist correspondente ou null se não existir.
+     */
     private Playlist getPlaylist(String name) {
         return playlistTable.get(name);
     }
-    
+
     /**
      * @brief Remove uma playlist da tabela.
-    * 
-    * @param name Nome da playlist.
-    * @return true se a playlist foi removida, false se não existia.
-    */
+     * 
+     * @param name Nome da playlist.
+     * @return true se a playlist foi removida, false se não existia.
+     */
     public boolean removePlaylist(String name) {
         return playlistTable.remove(name) != null;
     }
-    
+
     /**
      * @brief Verifica se uma playlist existe.
-    * 
-    * @param name Nome da playlist.
-    * @return true se existir, false caso contrário.
-    */
+     * 
+     * @param name Nome da playlist.
+     * @return true se existir, false caso contrário.
+     */
     public boolean playlistExists(String name) {
         return playlistTable.containsKey(name);
     }
-    
+
     /**
      * @brief Verifica se uma playlist é acessível por um determinado utilizador.
-    * 
-    * @param username Nome de utilizador.
-    * @param nome Nome da playlist.
-    * @return true se a playlist for pública ou guardada pelo utilizador, false caso contrário.
-    */
+     * 
+     * @param username Nome de utilizador.
+     * @param nome     Nome da playlist.
+     * @return true se a playlist for pública ou guardada pelo utilizador, false
+     *         caso contrário.
+     */
     public boolean playlistAcessivel(String username, String nome) {
         if (getPlaylist(nome).getPublica()) {
             return true;
         } else {
             Playlist p = getPlaylist(nome);
             User user = getUser(username);
-            PlanoSubscricao plano = user.getPlano(); 
+            PlanoSubscricao plano = user.getPlano();
             return plano.playlistGuardada(p);
         }
     }
-    
+
     /**
      * @brief Cria uma playlist aleatória com todas as músicas existentes.
-    * 
-    * @return Uma String com o nome da PlaylistRandom criada e armazenada.
-    */
+     * 
+     * @return Uma String com o nome da PlaylistRandom criada e armazenada.
+     */
     public String createPlaylistRandom() {
         List<Song> todasAsMusicas = new ArrayList<>(songTable.values());
         Collections.shuffle(todasAsMusicas);
@@ -452,14 +483,14 @@ public class Model {
         playlistTable.put(playlist.getNome(), playlist);
         return playlist.getNome();
     }
-    
+
     /**
      * @brief Obtém os nomes das primeiras N músicas de uma playlist.
-    * 
-    * @param nomeP Nome da playlist.
-    * @param n Número de músicas a listar.
-    * @return Lista com os nomes das músicas.
-    */
+     * 
+     * @param nomeP Nome da playlist.
+     * @param n     Número de músicas a listar.
+     * @return Lista com os nomes das músicas.
+     */
     public List<String> getNomeMusicas(String nomeP, int n) {
         List<String> nomeMusicas = new ArrayList<>();
         Playlist p = getPlaylist(nomeP);
@@ -468,14 +499,14 @@ public class Model {
         }
         return nomeMusicas;
     }
-    
+
     /**
      * @brief Troca duas músicas de posição numa playlist.
-    * 
-    * @param nomeP Nome da playlist.
-    * @param i Índice da primeira música.
-    * @param index Índice da segunda música.
-    */
+     * 
+     * @param nomeP Nome da playlist.
+     * @param i     Índice da primeira música.
+     * @param index Índice da segunda música.
+     */
     public void trocaMusicas(String nomeP, int i, int index) {
         Playlist p = getPlaylist(nomeP);
         Song s1 = p.getNMusica(index);
@@ -483,20 +514,20 @@ public class Model {
         p.adicionarMusicaIndex(s1, i);
         playlistTable.replace(nomeP, p);
     }
-    
+
     /**
      * @brief Ordena uma playlist com base na opção fornecida.
-    * 
-    * @param nomeP Nome da playlist.
-    * @param op Opção de ordenação:
-    *           1 - Nome da música A-Z
-    *           2 - Nome da música Z-A
-    *           3 - Nome do intérprete A-Z
-    *           4 - Nome do intérprete Z-A
-    */
+     * 
+     * @param nomeP Nome da playlist.
+     * @param op    Opção de ordenação:
+     *              1 - Nome da música A-Z
+     *              2 - Nome da música Z-A
+     *              3 - Nome do intérprete A-Z
+     *              4 - Nome do intérprete Z-A
+     */
     public void ordenarPlaylist(String nomeP, int op) {
         Playlist playlist = getPlaylist(nomeP);
-    
+
         switch (op) {
             case 1: // Nome da música A-Z
                 playlist.getMusicas().sort((s1, s2) -> s1.getNome().compareToIgnoreCase(s2.getNome()));
@@ -515,52 +546,50 @@ public class Model {
         }
         playlistTable.replace(nomeP, playlist);
     }
-    
+
     /**
      * @brief Guarda uma playlist no plano premium de um utilizador.
-    * 
-    * @param username Nome de utilizador.
-    * @param nome Nome da playlist a guardar.
-    */
+     * 
+     * @param username Nome de utilizador.
+     * @param nome     Nome da playlist a guardar.
+     */
     public void guardarPlaylistUser(String username, String nome) {
         Playlist playlist = getPlaylist(nome);
         User user = getUser(username);
         PlanoSubscricao plano = user.getPlano();
-       
         plano.guardarPlaylist(playlist);
         user.setPlano(plano);
     }
-    
+
     /**
      * @brief Obtém o número de músicas numa playlist.
-    * 
-    * @param nome Nome da playlist.
-    * @return Número de músicas na playlist.
-    */
+     * 
+     * @param nome Nome da playlist.
+     * @return Número de músicas na playlist.
+     */
     public int getPlaylistTamanho(String nome) {
         Playlist playlist = getPlaylist(nome);
         return playlist.tamanho();
     }
-    
+
     /**
      * @brief Obtém o nome de uma música numa determinada posição da playlist.
-    * 
-    * @param nome Nome da playlist.
-    * @param index Índice da música.
-    * @return Nome da música nessa posição.
-    */
+     * 
+     * @param nome  Nome da playlist.
+     * @param index Índice da música.
+     * @return Nome da música nessa posição.
+     */
     public String getPlaylistNMusica(String nome, int index) {
         Playlist playlist = getPlaylist(nome);
         return playlist.getNMusica(index).getNome();
     }
-    
 
     // === Album ===
 
     /**
      * @brief Adiciona um novo álbum vazio à tabela de álbuns.
      * 
-     * @param nome Nome do álbum.
+     * @param nome    Nome do álbum.
      * @param artista Nome do artista.
      */
     public void addAlbum(String nome, String artista) {
@@ -614,13 +643,13 @@ public class Model {
      * @brief Guarda um álbum no plano premium de um utilizador.
      * 
      * @param username Nome de utilizador.
-     * @param nome Nome do álbum a guardar.
+     * @param nome     Nome do álbum a guardar.
      */
     public void guardarAlbumUser(String username, String nome) {
         Album album = getAlbum(nome);
         User user = getUser(username);
         PlanoSubscricao plano = user.getPlano();
-       
+
         plano.guardarAlbum(album);
         user.setPlano(plano);
     }
@@ -639,7 +668,7 @@ public class Model {
     /**
      * @brief Obtém o nome de uma música numa posição específica do álbum.
      * 
-     * @param name Nome do álbum.
+     * @param name  Nome do álbum.
      * @param index Índice da música.
      * @return Nome da música nessa posição.
      */
@@ -648,16 +677,15 @@ public class Model {
         return album.getNMusica(index).getNome();
     }
 
-
     // Querys
 
     // Query 1- Qual a música mais reproduzida?
     /**
-    * @brief Retorna a música mais reproduzida.
-    * 
-    * @return String com a representação da música mais reproduzida.
-    * @throws zeroSongsListen se nenhuma música tiver sido reproduzida.
-    */
+     * @brief Retorna a música mais reproduzida.
+     * 
+     * @return String com a representação da música mais reproduzida.
+     * @throws zeroSongsListen se nenhuma música tiver sido reproduzida.
+     */
     public String musicaMaisOuvida() {
         Song maisReproduzida = null;
         int maiorNumRep = -1;
@@ -670,7 +698,8 @@ public class Model {
             }
         }
 
-        if(maisReproduzida == null)throw new zeroSongsListen();
+        if (maisReproduzida == null)
+            throw new zeroSongsListen();
         return maisReproduzida.toString();
     }
 
@@ -702,7 +731,8 @@ public class Model {
             }
         }
 
-        if(interpreteMaisOuvido == null) throw new zeroInterpretesListen();
+        if (interpreteMaisOuvido == null)
+            throw new zeroInterpretesListen();
         return interpreteMaisOuvido;
     }
 
@@ -711,13 +741,15 @@ public class Model {
     // Consideramos que cada musica só se conte uma vez mesmo o user ouvindo-a
     // várias vezes
     /**
-    * @brief Retorna o utilizador que ouviu mais músicas num intervalo de tempo (ou desde sempre).
-    * 
-    * @param dataInicio Data de início do intervalo.
-    * @param dataFim Data de fim do intervalo.
-    * @return String com a representação do utilizador que mais músicas ouviu.
-    * @throws zeroSongsListen se nenhum utilizador tiver ouvido músicas no intervalo.
-    */
+     * @brief Retorna o utilizador que ouviu mais músicas num intervalo de tempo (ou
+     *        desde sempre).
+     * 
+     * @param dataInicio Data de início do intervalo.
+     * @param dataFim    Data de fim do intervalo.
+     * @return String com a representação do utilizador que mais músicas ouviu.
+     * @throws zeroSongsListen se nenhum utilizador tiver ouvido músicas no
+     *                         intervalo.
+     */
     public String userMaisMusicasOuvidas(LocalDate dataInicio, LocalDate dataFim) {
         User userMaisMusicas = null;
         int maiorNumMusicas = 0;
@@ -738,11 +770,11 @@ public class Model {
 
     // Query 4- Qual o Utilizador com mais pontos?
     /**
-    * @brief Retorna o utilizador com mais pontos acumulados.
-    * 
-    * @return String com a representação do utilizador com mais pontos.
-    * @throws zeroUsersWithPoints se não houver utilizadores com pontos.
-    */
+     * @brief Retorna o utilizador com mais pontos acumulados.
+     * 
+     * @return String com a representação do utilizador com mais pontos.
+     * @throws zeroUsersWithPoints se não houver utilizadores com pontos.
+     */
     public String userMaisPontos() {
         User userMaisPontos = null;
         double maiorNumPontos = -1;
@@ -761,11 +793,11 @@ public class Model {
 
     // Query 5- Qual o tipo de música mais reproduzida?
     /**
-    * @brief Retorna o género musical mais reproduzido.
-    * 
-    * @return Nome do género musical mais ouvido.
-    * @throws zeroGenresListen se nenhum género tiver sido escutado.
-    */
+     * @brief Retorna o género musical mais reproduzido.
+     * 
+     * @return Nome do género musical mais ouvido.
+     * @throws zeroGenresListen se nenhum género tiver sido escutado.
+     */
     public String generoMaisOuvido() {
 
         Map<String, Integer> generos = new HashMap<>();
@@ -794,10 +826,10 @@ public class Model {
 
     // Query 6 - Quantas playlists públicas existem?
     /**
-    * @brief Conta o número de playlists públicas existentes.
-    * 
-    * @return Número de playlists públicas.
-    */
+     * @brief Conta o número de playlists públicas existentes.
+     * 
+     * @return Número de playlists públicas.
+     */
     public int numPlaylistsPublicas() {
         int numPublicas = 0;
 
@@ -813,11 +845,11 @@ public class Model {
 
     // Query 7 - Qual o utilizador com mais playlists?
     /**
-    * @brief Retorna o utilizador com mais playlists criadas.
-    * 
-    * @return String com a representação do utilizador com mais playlists.
-    * @throws zeroUsersWithPlaylists se nenhum utilizador tiver playlists.
-    */
+     * @brief Retorna o utilizador com mais playlists criadas.
+     * 
+     * @return String com a representação do utilizador com mais playlists.
+     * @throws zeroUsersWithPlaylists se nenhum utilizador tiver playlists.
+     */
     public String userMaisPlaylists() {
         User userMaisPlaylists = null;
         int maisPlaylists = 0;
@@ -836,15 +868,17 @@ public class Model {
 
     // RECOMENDADOR
     /**
-    * @brief Gera uma playlist recomendada para o utilizador com base no histórico.
-    * 
-    * @param username Nome de utilizador.
-    * @param opcao Define o tipo de músicas: 1 - todas, 2 - apenas explícitas.
-    * @param ngeneros Número de géneros especificados.
-    * @param generos String com os géneros separados por espaço (ex: "rock pop jazz").
-    * @param segundos Duração máxima total da playlist recomendada (0 para sem limite).
-    * @return Uma playlist com músicas recomendadas.
-    */
+     * @brief Gera uma playlist recomendada para o utilizador com base no histórico.
+     * 
+     * @param username Nome de utilizador.
+     * @param opcao    Define o tipo de músicas: 1 - todas, 2 - apenas explícitas.
+     * @param ngeneros Número de géneros especificados.
+     * @param generos  String com os géneros separados por espaço (ex: "rock pop
+     *                 jazz").
+     * @param segundos Duração máxima total da playlist recomendada (0 para sem
+     *                 limite).
+     * @return Uma playlist com músicas recomendadas.
+     */
     public Playlist recomendarMusicas(String username, int opcao, int ngeneros, String generos, int segundos) {
         User user = getUser(username);
         Map<Song, Integer> contagem = new HashMap<>();
@@ -876,7 +910,14 @@ public class Model {
                 if (!generoAceite)
                     continue;
             }
-            contagem.put(musica, contagem.getOrDefault(musica, 0) + 1);
+
+            boolean jaExiste = contagem.keySet().stream()
+                    .anyMatch(s -> s.getNome().equalsIgnoreCase(musica.getNome()));
+
+            if (!jaExiste){
+                contagem.put(musica, contagem.getOrDefault(musica, 0) + 1);
+            }
+
         }
 
         List<Song> ordenadas = contagem.entrySet()
@@ -908,23 +949,26 @@ public class Model {
     }
 
     /**
-    * @brief Cria e guarda automaticamente uma playlist recomendada para o utilizador.
-    * 
-    * @param username Nome de utilizador.
-    * @param opcao Define o tipo de músicas: 1 - todas, 2 - apenas explícitas.
-    * @param ngeneros Número de géneros especificados.
-    * @param generos String com os géneros separados por espaço (ex: "rock pop jazz").
-    * @param segundos Duração máxima total da playlist recomendada (0 para sem limite).
-    * @return Nome da playlist recomendada gerada.
-    */
-    public String playlistRecomendada(String username, int opcao, int ngeneros, String generos, int segundos){
+     * @brief Cria e guarda automaticamente uma playlist recomendada para o
+     *        utilizador.
+     * 
+     * @param username Nome de utilizador.
+     * @param opcao    Define o tipo de músicas: 1 - todas, 2 - apenas explícitas.
+     * @param ngeneros Número de géneros especificados.
+     * @param generos  String com os géneros separados por espaço (ex: "rock pop
+     *                 jazz").
+     * @param segundos Duração máxima total da playlist recomendada (0 para sem
+     *                 limite).
+     * @return Nome da playlist recomendada gerada.
+     */
+    public String playlistRecomendada(String username, int opcao, int ngeneros, String generos, int segundos) {
         Playlist musicasRecomendadas = recomendarMusicas(username, opcao, ngeneros, generos, segundos);
-        
 
+        addPlaylist(musicasRecomendadas.getNome(), musicasRecomendadas.getPublica(), musicasRecomendadas.getMusicas(),
+                false, "", 0);
 
-        addPlaylist(musicasRecomendadas.getNome(), musicasRecomendadas.getPublica(), musicasRecomendadas.getMusicas(),false,"",0);
         guardarPlaylistUser(username, musicasRecomendadas.getNome());
-       
+
         return musicasRecomendadas.getNome();
     }
 
