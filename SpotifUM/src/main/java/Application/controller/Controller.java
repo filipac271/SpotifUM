@@ -121,7 +121,7 @@ public class Controller {
      * @param nome Nome da playlist.
      */
     public void guardarPlaylist(String username, String nome) {
-    model.guardarPlaylistUser(username, nome);
+        model.guardarPlaylistUser(username, nome);
     }
 
     /**
@@ -151,7 +151,7 @@ public class Controller {
      * @return Nome da playlist criada.
      */
     public String createPlaylistRandom() {
-        return model.createPlaylistRandom().getNome();
+        return model.createPlaylistRandom();
     }
 
     /**
@@ -271,7 +271,7 @@ public class Controller {
      * @param n Quantidade de músicas a obter.
      * @return Lista de nomes das músicas.
      */
-    public ArrayList<String> getNomeMusicas(String nomeP, int n) {
+    public List<String> getNomeMusicas(String nomeP, int n) {
         return model.getNomeMusicas(nomeP, n);
 
     }

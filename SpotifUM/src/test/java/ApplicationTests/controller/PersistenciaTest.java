@@ -12,7 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
-import Application.controller.Persistencia;
+import Application.model.Persistencia;
 import Application.model.Album.Album;
 import Application.model.PlanoSubscricao.PlanoFree;
 import Application.model.Playlist.Playlist;
