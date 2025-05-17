@@ -27,7 +27,6 @@ import Application.model.PlanoSubscricao.PlanoPremium;
 import Application.model.PlanoSubscricao.PlanoPremiumBase;
 import Application.model.PlanoSubscricao.PlanoPremiumTop;
 import Application.model.PlanoSubscricao.PlanoSubscricao;
-import Application.controller.Persistencia;
 import Application.exceptions.zeroGenresListen;
 import Application.exceptions.zeroInterpretesListen;
 import Application.exceptions.zeroSongsListen;
@@ -472,7 +471,7 @@ public class Model {
         } else {
             Playlist p = getPlaylist(nome);
             User user = getUser(username);
-            PlanoSubscricao plano = user.getPlano(); 
+            PlanoSubscricao plano = user.getPlano(); // Fazer copia aqui n parece causar problemas ao return  
             PlanoPremium pPremium = (PlanoPremium) plano; 
             return pPremium.playlistGuardada(p);
         }
@@ -481,14 +480,14 @@ public class Model {
     /**
      * @brief Cria uma playlist aleatória com todas as músicas existentes.
     * 
-    * @return Uma instância de PlaylistRandom criada e armazenada.
+    * @return Uma String com o nome da PlaylistRandom criada e armazenada.
     */
-    public PlaylistRandom createPlaylistRandom() {
+    public String createPlaylistRandom() {
         List<Song> todasAsMusicas = new ArrayList<>(songTable.values());
         Collections.shuffle(todasAsMusicas);
         PlaylistRandom playlist = new PlaylistRandom("random", todasAsMusicas, false);
         playlistTable.put(playlist.getNome(), playlist);
-        return playlist;
+        return playlist.getNome();
     }
     
     /**
@@ -498,8 +497,8 @@ public class Model {
     * @param n Número de músicas a listar.
     * @return Lista com os nomes das músicas.
     */
-    public ArrayList<String> getNomeMusicas(String nomeP, int n) {
-        ArrayList<String> nomeMusicas = new ArrayList<>();
+    public List<String> getNomeMusicas(String nomeP, int n) {
+        List<String> nomeMusicas = new ArrayList<>();
         Playlist p = getPlaylist(nomeP);
         for (int i = 0; i < n; i++) {
             nomeMusicas.add(p.getNMusica(i).getNome());
@@ -600,9 +599,10 @@ public class Model {
     public void setPlaylistGuardada(String nomeP, String username) {
         User user = getUser(username);
         Playlist playlist = getPlaylist(nomeP);
-        PlanoSubscricao plano = user.getPlano();
+        PlanoSubscricao plano = user.getPlano(); //Aqui devolve copia e depois fazemos set da copia
         PlanoPremium pPremium = (PlanoPremium) plano; 
         pPremium.guardarPlaylist(playlist);
+        //user.setPlano(pPremium);
     }
     
 
@@ -670,9 +670,10 @@ public class Model {
     public void guardarAlbumUser(String username, String nome) {
         Album album = getAlbum(nome);
         User user = getUser(username);
-        PlanoSubscricao plano = user.getPlano();
+        PlanoSubscricao plano = user.getPlano(); //Mandar copia
         PlanoPremium pPremium = (PlanoPremium) plano;
         pPremium.guardarAlbum(album);
+        //user.setPlano(pPremium);
     }
 
     /**
@@ -974,10 +975,10 @@ public class Model {
         addPlaylist(musicasRecomendadas.getNome(), musicasRecomendadas.getPublica(), musicasRecomendadas.getMusicas(),false,"",0);
 
         User user = getUser(username);
-        PlanoSubscricao p = user.getPlano();
+        PlanoSubscricao p = user.getPlano();//Mandar Copia
         PlanoPremium pPremium = (PlanoPremium) p; 
         pPremium.guardarPlaylist(getPlaylist(musicasRecomendadas.getNome()));
-
+        //user.setPlano(pPremium);
         return musicasRecomendadas.getNome();
     }
 

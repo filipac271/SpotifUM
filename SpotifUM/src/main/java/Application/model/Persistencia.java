@@ -1,4 +1,4 @@
-package Application.controller;
+package Application.model;
 
 /**
  * @file Persistencia.java
