@@ -379,6 +379,8 @@ public class Controller {
         return model.changeUserPlano(username, planoInt);
     }
 
+    
+
     /**
      * @brief Obtém o plano atual de um utilizador.
      * @param username Nome do utilizador.
