@@ -27,7 +27,9 @@ public class View {
      * Exibe o menu principal da aplicação com as opções disponíveis.
      */
     private void mainMenu() {
-        System.out.println("\n 1. Iniciar Sessão");
+        System.out.println("\n BEM VINDO/A AO SPOTIFUM !! ");
+        System.out.println("  ___________________________ ");
+        System.out.println(" 1. Iniciar Sessão");
         System.out.println(" 2. Criar conta");
         System.out.println(" 3. Criar Álbum");
         System.out.println(" 4. Estatísticas da App");
@@ -53,7 +55,7 @@ public class View {
                 sc.nextLine(); // Consome o newline
                 if (option < min || option > max) {
                     option = -1;
-                    System.out.println("Insira um número entre " + min + " e " + max + "!");
+                    System.out.println(" Insira um número entre " + min + " e " + max + "!");
                 }
             } catch (Exception e) {
                 optionError();
@@ -135,21 +137,25 @@ public class View {
      * @param sc Scanner para leitura de inputs do utilizador.
      */
     private void logInUserMenu(Scanner sc) {
-        System.out.println("A iniciar sessao");
-        System.out.println("Digite o seu Username: ");
+        System.out.println(" A iniciar sessao... ");
+        System.out.println(" Digite o seu Username: ");
         String username = getOpcaoString(sc);
 
-        if (!(controller.userExists(username))) {
-            System.out.println("Utilizador não existe!");
+        while (!(controller.userExists(username) && !username.isEmpty())) {
+            System.out.println(" Utilizador não existe!");
+            System.out.println(" Insira um nome de utilizador existente, se quiser sair prima Enter");
+            username=getOpcaoString(sc);
         }
-        else {
-            System.out.println("Digite a sua Password: ");
+        if(! username.isEmpty() ) {
+
+            System.out.println(" Digite a sua Password: ");
             String password = getOpcaoString(sc);
-            if (!controller.authenticUser(username, password)) {
-                System.out.println("Password ou nome de Utilizador estão errados!");
+            while(!controller.authenticUser(username, password) && !password.isEmpty()) {
+                System.out.println(" Password está errada! Insira novamente ou prima Enter para sair");
+                password=getOpcaoString(sc);
             }
-            else {
-                System.out.println("\nBem vindo de volta " + username);
+           if(!password.isEmpty()) {
+                System.out.println(" Bem vindo de volta " + username);
                 userMenu(sc, username);
             }
         }
@@ -162,22 +168,22 @@ public class View {
      * @param sc Scanner para leitura de inputs do utilizador.
      */
     private void changePlanMenu(Scanner sc) {
-        System.out.print("Introduz o teu username: ");
+        System.out.print(" Introduz o teu username: ");
         String username = getOpcaoString(sc);
 
-        if (!controller.userExists(username)) {
-            System.out.println("Utilizador não encontrado.");
+        while (!controller.userExists(username)) {
+            System.out.println(" Utilizador não encontrado.");
             return;
         }
 
-        System.out.println("Escolhe novo plano:");
+        System.out.println(" Escolhe novo plano:");
         int option = createPlanoMenu(sc);
 
         String novoPlano = controller.changeUserPlan(username, option);
         if (!novoPlano.equals("")) {
-            System.out.println("Plano alterado com sucesso para " + novoPlano + ".");
+            System.out.println(" Plano alterado com sucesso para " + novoPlano + ".");
         } else {
-            System.out.println("O plano escolhido é o mesmo que já está assinado.");
+            System.out.println(" O plano escolhido é o mesmo que já está assinado.");
         }
     }
 
@@ -188,10 +194,10 @@ public class View {
      * @return Número correspondente ao plano selecionado.
      */
     private int createPlanoMenu(Scanner sc) {
-        System.out.println("\nEscolha o seu plano:");
-        System.out.println("\n1.Plano Free");
-        System.out.println("\n2.Plano Premium Base");
-        System.out.println("\n3.Plano Premium Top");
+        System.out.println("\n Escolha o seu plano:");
+        System.out.println(" 1.Plano Free");
+        System.out.println(" 2.Plano Premium Base");
+        System.out.println(" 3.Plano Premium Top");
         int option = getOpcao(sc, 1, 3);
         return option;
     }
@@ -203,32 +209,37 @@ public class View {
      * @param sc Scanner para leitura de inputs do utilizador.
      */
     private void createUserMenu(Scanner sc) {
-        System.out.println("Digite o seu Nome: ");
+        System.out.println(" Digite o seu Nome: ");
         String nome = getOpcaoString(sc);
-        System.out.println("Crie um username único: ");
+        System.out.println(" Crie um username único: ");
         String username = getOpcaoString(sc);
 
         while (controller.userExists(username) && !username.isEmpty()) {
-            System.out.println("Este username já existe! Escolha outro:  (Se quiser sair prima Enter) ");
+            System.out.println(" Este username já existe! Escolha outro:  (Se quiser sair prima Enter) ");
             username = getOpcaoString(sc);
         }
-
-
-        System.out.println("Crie uma password: ");
+        if (username.isEmpty()) return;
+         
+        System.out.println(" Crie uma password: ");
         String password = getOpcaoString(sc);
-        System.out.println("Digite o seu Email: ");
+        System.out.println(" Digite o seu Email: ");
         String email = getOpcaoString(sc);
-        System.out.println("Digite a sua Morada: ");
+        System.out.println(" Digite a sua Morada: ");
         String morada = getOpcaoString(sc);
-        System.out.println("Digite a sua Idade: ");
+        System.out.println(" Digite a sua Idade: ");
         int age = getOpcao(sc, 0, Integer.MAX_VALUE);
         
 
         int planoOption = createPlanoMenu(sc);
         controller.addUser(nome, username, password, email, morada, age, planoOption);
 
-        System.out.println("A sua conta foi criada com sucesso " + nome);
-        System.out.println("Nome: " + nome + "\nUsername: " + username + "\nEmail: " + email + "\nMorada: " + morada);
+        System.out.println(" A sua conta foi criada com sucesso " + nome);
+        System.out.println(" Nome: " + nome + 
+                         "\n Username: " + username + 
+                         "\n Email: " + email +
+                         "\n Morada: " + morada + 
+                         "\n Idade: " + 
+                         "\n Plano: "+controller.getPlanoByUser(username));
     }
 
 
@@ -261,13 +272,13 @@ public class View {
         System.out.print(" Digite a duração (em segundos): ");
         int duracao = getOpcao(sc, 1, Integer.MAX_VALUE);
 
-        System.out.print(" A musica é explicita? (s/n) ");
-        String isExplicit = getOpcaoString(sc);
+        System.out.print(" A musica é explicita?  1- SIM  2- NÃO ");
+        int isExplicit = getOpcao(sc,1,2);
 
-        System.out.print(" A musica têm video? (s/n) ");
-        String isMedia = getOpcaoString(sc);
+        System.out.print(" A musica têm video?  1-SIM  2-NÃO ");
+        int isMedia = getOpcao(sc,1,2);
         String url = "";
-        if (isMedia.equals("s")) {
+        if (isMedia==1) {
             System.out.print(" Digite o url do video da musica: ");
             url = getOpcaoString(sc);
         }
@@ -286,38 +297,38 @@ public class View {
     private void createAlbumMenu(Scanner sc) {
         System.out.println("\n-------Criar um album-------");
 
-        System.out.println("Digite o número de musicas do album: ");
+        System.out.println(" Digite o número de musicas do album: ");
         int numMusicas = getOpcao(sc, 1, Integer.MAX_VALUE);
-        System.out.println("Digite o nome do Album: ");
+        System.out.println(" Digite o nome do Album: ");
         String nome = getOpcaoString(sc);
-        System.out.println("Digite o artista do Album: ");
+        System.out.println(" Digite o artista do Album: ");
         String artista = getOpcaoString(sc);
         controller.addAlbum(nome, artista);
         String nomeMusica;
         for (int i = 0; i < numMusicas; i++) {
-            System.out.println("Música " + (i + 1) + ":");
+            System.out.println(" Música " + (i + 1) + ":");
             nomeMusica = criarMusica(sc);
             int v = controller.addToAlbum(nome, nomeMusica);
             if (v == 0) {
-                System.out.println("Musica não existente");
+                System.out.println(" Musica não existente");
                 i--;
             }
         }
-        System.out.println("O album " + nome + " de " + artista + " foi criado tendo um total de " + numMusicas + " músicas.");
+        System.out.println(" O album " + nome + " de " + artista + " foi criado tendo um total de " + numMusicas + " músicas.");
     }
 
     /**
      * Método simples que exibe mensagem de saída da aplicação.
      */
     private void out() {
-        System.out.println("A sair...");
+        System.out.println(" A sair...");
     }
 
     /**
      * Método para mostrar mensagem de erro quando a opção inserida for inválida.
      */
     private void optionError() {
-        System.out.println("Entrada inválida. Tente novamente.");
+        System.out.println(" Entrada inválida. Tente novamente.");
     }
 
     /**
@@ -355,20 +366,20 @@ public class View {
      * @param username Nome do utilizador autenticado.
      */
     private void createUserFreeMenu(Scanner sc, Controller controller, String username) {
-        System.out.println("\nTemos as melhores músicas para ouvir!");
-        System.out.println("\nPressione 1 para ouvir música");
-        System.out.println("\nPressione 2 para sair");
+        System.out.println("\n Temos as melhores músicas para ouvir!");
+        System.out.println("\n Pressione 1 para ouvir música");
+        System.out.println("\n Pressione 2 para sair");
+        System.out.println(" Para mais opções dê upgrade do plano!");
 
         int opcao = getOpcao(sc, 1, 2);
 
         if (opcao==1) {
             String nomePlaylist = controller.createPlaylistRandom();
             reproduzirSequencial(sc, username, nomePlaylist, true);
-        } else if (opcao==2) {
+        } 
+        else if (opcao==2) {
             out();
-        } else {
-            System.out.println("Opção inválida. Para mais opções dê upgrade do plano!");
-        }
+        } 
     }
 
     /**
@@ -378,16 +389,16 @@ public class View {
      */
     private void opcoesPremiumMenu(String tipo) {
         System.out.println("\n||||||||||||||||||||||||||||||||||");
-        System.out.println("\nPressione 1 para ouvir");
-        System.out.println("\nPressione 2 para adicionar uma playlist à sua biblioteca");
-        System.out.println("\nPressione 3 para adicionar um album à sua biblioteca");
-        System.out.println("\nPressione 4 para criar uma playlist");
+        System.out.println("\n Pressione 1 para ouvir");
+        System.out.println("\n Pressione 2 para adicionar uma playlist à sua biblioteca");
+        System.out.println("\n Pressione 3 para adicionar um album à sua biblioteca");
+        System.out.println("\n Pressione 4 para criar uma playlist");
 
         if (tipo.equals("B")) {
-            System.out.println("\nPressione 5 para sair");
+            System.out.println("\n Pressione 5 para sair");
         } else if (tipo.equals("T")) {
-            System.out.println("\nPressione 5 para gerar uma playlist");
-            System.out.println("\nPressione 6 para sair");
+            System.out.println("\n Pressione 5 para gerar uma playlist");
+            System.out.println("\n Pressione 6 para sair");
         }
     }
 
@@ -399,7 +410,7 @@ public class View {
      * @param sc Scanner para leitura da entrada do utilizador.
      */
     private void adicionarPlaylistAlbum(String username, String tipo, Scanner sc) {
-        System.out.println("\nQual " + tipo + " deseja adicionar? (Pressione Enter caso queira voltar atrás)");
+        System.out.println("\n Qual " + tipo + " deseja adicionar? (Pressione Enter caso queira voltar atrás)");
         String nome = getOpcaoString(sc);
         if (nome.isEmpty())
             return;
@@ -503,10 +514,10 @@ public class View {
     private void createOuvirMenu(Scanner sc, Controller controller, String username) {
         while (true) {
             System.out.println("\n||||||||||||||||||||||||||||||||||");
-            System.out.println("\nPressione 1 para ouvir música");
-            System.out.println("\nPressione 2 para ouvir uma playlist");
-            System.out.println("\nPressione 3 para ouvir um album");
-            System.out.println("\nPressione 4 para voltar atrás");
+            System.out.println("\n Pressione 1 para ouvir música");
+            System.out.println("\n Pressione 2 para ouvir uma playlist");
+            System.out.println("\n Pressione 3 para ouvir um album");
+            System.out.println("\n Pressione 4 para voltar atrás");
             int opcao = getOpcao(sc, 1, 4);
             String nome;
             int aleatorio;
@@ -534,7 +545,7 @@ public class View {
                     nome = menuOuvir(sc, "album", username);
                     if (nome.equals(""))
                         break;
-                    System.out.println("\nReproduzir aleatoriamente? \n 1-Sim  2-Não");
+                    System.out.println("\n Reproduzir aleatoriamente? \n 1-Sim  2-Não");
                     aleatorio = getOpcao(sc, 1, 2);
                     if (aleatorio == 1) {
                         reproduzirAleatorio(sc, username, nome, false);
@@ -563,13 +574,13 @@ public class View {
      * @return Nome válido do conteúdo ou string vazia caso o utilizador queira voltar atrás.
      */
     private String menuOuvir(Scanner sc, String tipo, String username) {
-        System.out.println("\nQual " + tipo + " deseja ouvir? (Pressione Enter caso queira voltar atrás)");
+        System.out.println("\n Qual " + tipo + " deseja ouvir? (Pressione Enter caso queira voltar atrás)");
         String nome = getOpcaoString(sc);
         if (nome.isEmpty())
             return "";
         while (!this.controller.validaAudicao(username, tipo, nome)) {
             System.out.println(tipo + " não existe");
-            System.out.println("\nQual " + tipo + " deseja ouvir? (Pressione Enter caso queira voltar atrás)");
+            System.out.println(" Qual " + tipo + " deseja ouvir? (Pressione Enter caso queira voltar atrás)");
             nome = getOpcaoString(sc);
             if (nome.isEmpty())
                 return "";
@@ -584,11 +595,11 @@ public class View {
      * @return Inteiro correspondente à opção escolhida.
      */
     private int perguntarContinuar(Scanner sc) {
-        System.out.println("\n1 - Avançar Música ");
-        System.out.println("\n2 - Próxima Música");
-        System.out.println("\n3 - Retroceder ");
-        System.out.println("\n4 - Recomeçar ");
-        System.out.println("\n5 - Sair");
+        System.out.println("\n 1 - Avançar Música ");
+        System.out.println(" 2 - Próxima Música");
+        System.out.println(" 3 - Retroceder ");
+        System.out.println(" 4 - Recomeçar ");
+        System.out.println(" 5 - Sair");
         int opcao = getOpcao(sc, 1, 5);
         return opcao;
     }
@@ -602,31 +613,31 @@ public class View {
      */
     private void criarPlaylistMenu(Scanner sc, String username) {
         System.out.println("\n-------Criar uma playlist-------\n");
-        System.out.println("Nome da Playlist:");
+        System.out.println(" Nome da Playlist:");
         String nomeP = getOpcaoString(sc);
-        System.out.println("Tornar playlist pública? (s/n)");
-        String publica = getOpcaoString(sc);
-        System.out.println("Quantas músicas pretende adicionar:");
+        System.out.println(" Tornar playlist pública? 1-SIM 2-NÃO");
+        int publica = getOpcao(sc,1,2);
+        System.out.println(" Quantas músicas pretende adicionar:");
         int nMusicas = getOpcao(sc, 1, Integer.MAX_VALUE);
-        System.out.println("Quer limite máximo de tempo e um género específico na playlist? (s/n)");
-        String limiteTempoGenero = getOpcaoString(sc);
+        System.out.println(" Quer limite máximo de tempo e um género específico na playlist? 1-SIM 2-NÃO");
+        int limiteTempoGenero = getOpcao(sc,1,2);
         int limiteTempo = 0;
         String genero = "";
-        if (limiteTempoGenero.equals("s")) {
-            System.out.println("Limite máximo de tempo:");
+        if (limiteTempoGenero==1) {
+            System.out.println(" Limite máximo de tempo:");
             limiteTempo = getOpcao(sc, 1, Integer.MAX_VALUE);
-            System.out.println("Género da Playlist:");
+            System.out.println(" Género da Playlist:");
             genero = getOpcaoString(sc);
         }
         controller.addPlaylist(nomeP, publica, limiteTempoGenero, genero, limiteTempo);
         String nomeM;
         int i, v;
         for (i = 0; i < nMusicas; i++) {
-            System.out.println("Nome da Música Nº: " + (i + 1));
+            System.out.println(" Nome da Música Nº: " + (i + 1));
             nomeM = getOpcaoString(sc);
             v = controller.addToPlaylist(nomeP, nomeM);
             if (v == 0) {
-                System.out.println("Música não existe!");
+                System.out.println(" Música não existe!");
                 i--;
             }
         }
@@ -643,19 +654,19 @@ public class View {
      * @param sc Scanner para leitura da entrada do utilizador.
      */
     private void ordenarPlaylist(String nomeP, int nMusicas, Scanner sc) {
-        System.out.println("De que forma quer ordenar a playlist ?");
-        System.out.println("1- Nome da música  a-z");
-        System.out.println("2- Nome da música z-a");
-        System.out.println("3- Nome do interprete a-z");
-        System.out.println("4- Nome do interprete z-a");
-        System.out.println("5- Quero decidir uma ordem especifica");
+        System.out.println(" De que forma quer ordenar a playlist ?");
+        System.out.println(" 1- Nome da música  a-z");
+        System.out.println(" 2- Nome da música z-a");
+        System.out.println(" 3- Nome do interprete a-z");
+        System.out.println(" 4- Nome do interprete z-a");
+        System.out.println(" 5- Quero decidir uma ordem especifica");
         int op = getOpcao(sc, 1, 5);
     
         int index;
         if (op == 5) {
             imprimePlaylist(nomeP, nMusicas);
             for (int i = 0; i < nMusicas; i++) {
-                System.out.println("Qual a " + i + "ª música?");
+                System.out.println(" Qual a " + i + "ª música?");
                 index = getOpcao(sc, 1, nMusicas);
                 controller.trocaMusicas(nomeP, i, index - 1);
             }
@@ -671,10 +682,10 @@ public class View {
      * @param n Número de músicas na playlist.
      */
     private void imprimePlaylist(String nomeP, int n) {
-        System.out.println("Ordem das músicas atual:");
+        System.out.println(" Ordem das músicas atual:");
         int i = 1;
         for (String s : this.controller.getNomeMusicas(nomeP, n)) {
-            System.out.println("\nNº " + i + ": " + s);
+            System.out.println(" Nº " + i + ": " + s);
             i++;
         }
     }
@@ -744,9 +755,9 @@ public class View {
             String st;
         
             if (opcao == 4) {
-                System.out.print("Introduza a data de início (YYYY-MM-DD): ");
+                System.out.print(" Introduza a data de início (YYYY-MM-DD): ");
                 dataInicio = LocalDate.parse(getOpcaoString(sc));
-                System.out.print("Introduza a data de fim (YYYY-MM-DD): ");
+                System.out.print(" Introduza a data de fim (YYYY-MM-DD): ");
                 dataFim = LocalDate.parse(getOpcaoString(sc));
             }
             switch (opcao) {
@@ -776,7 +787,7 @@ public class View {
                 case 9:
                     return;
                 default:
-                    System.out.println("Opção inválida.");
+                    System.out.println(" Opção inválida.");
                     break;
             }
         }
@@ -791,24 +802,25 @@ public class View {
      * @param username Nome do utilizador autenticado.
      */
     private void recomendadorMenu(Scanner sc, Controller controller, String username) {
-        System.out.println("Sê bem vindo/a ao teu recomendador personalizado do SpotifUM!");
-        System.out.println("\nPressiona 1 para obteres uma playlist personalizada com as tuas músicas favoritas!");
-        System.out.println("\nPressiona 2 caso queiras apenas ouvir música explícita ;-)");
-    
-        int opcao = getOpcao(sc, 1, 2);
+        System.out.println("\n Sê bem vindo/a ao teu recomendador personalizado do SpotifUM!");
+        System.out.println(" Pressiona 1 para obteres uma playlist personalizada com as tuas músicas favoritas!");
+        System.out.println(" Pressiona 2 caso queiras apenas ouvir música explícita ;-)");
+        System.out.println(" Pressione 3 para sair");
+
+        int opcao = getOpcao(sc, 1, 3);
         int segundos = 0;
         String generos = "";
         int ngeneros = 0;
     
         if (opcao == 1 || opcao == 2) {
-            System.out.println("\nCaso queiras que a tua playlist tenha um tempo máximo, insere-o (em segundos):");
-            System.out.println("Caso contrário, insere 0 (zero).");
+            System.out.println(" Caso queiras que a tua playlist tenha um tempo máximo, insere-o (em segundos):");
+            System.out.println(" Caso contrário, insere 0 (zero).");
         
             segundos =getOpcao(sc, 0, Integer.MAX_VALUE);
         
             System.out.println("\nCaso queiras que a tua playlist inclua apenas certos géneros, insere-os separados por espaços:");
-            System.out.println("Exemplo: rock pop jazz");
-            System.out.println("Se não quiseres restringir géneros, pressiona Enter.");
+            System.out.println(" Exemplo: rock pop jazz");
+            System.out.println(" Se não quiseres restringir géneros, pressiona Enter.");
         
             generos = getOpcaoString(sc);
             if (!generos.isEmpty()) {
@@ -818,10 +830,10 @@ public class View {
             String playlistName = controller.gerarPlaylistRecomendada(username, opcao, ngeneros, generos, segundos);
         
             System.out.println("\nPlaylist gerada com sucesso!");
-            System.out.println("Nome: " + playlistName);
+            System.out.println(" Nome: " + playlistName);
         
         } else {
-            System.out.println("Opção inválida. A voltar ao menu principal...");
+            System.out.println(" A voltar ao menu principal...");
         }
     }
     

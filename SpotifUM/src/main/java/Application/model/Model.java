@@ -302,12 +302,12 @@ public class Model {
      * @param url URL do conteúdo multimédia, se aplicável.
      */
     public void addSong(String nome, String interprete, String editora, String letra, String pauta,
-            String genero, int duracao, String isExplicit, String isMedia, String url) {
+            String genero, int duracao, int isExplicit, int isMedia, String url) {
 
         Song song;
 
-        boolean media = isMedia.equalsIgnoreCase("s");
-        boolean explicit = isExplicit.equalsIgnoreCase("s");
+        boolean media = isMedia==1;
+        boolean explicit = isExplicit==1;
 
         if (media) {
             if (explicit) {
