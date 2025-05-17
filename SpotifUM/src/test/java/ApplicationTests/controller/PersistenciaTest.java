@@ -47,7 +47,7 @@ public class PersistenciaTest {
 
     @Test
     public void testLoadUsersWhenFileExists() throws IOException, ClassNotFoundException {
-        Map<String, User> users = Map.of("user1", new User("user1", "JotaJota", "password123", "joao@gmail.com", "rua do Faial", 19, new PlanoFree()));
+        Map<String, User> users = Map.of("user1", new User("user1", "JotaJota", "password123", "joao@gmail.com", "rua do Faial", 19, 1));
         Persistencia.saveUsers(users);
 
         Map<String, User> loadedUsers = Persistencia.loadUsers();

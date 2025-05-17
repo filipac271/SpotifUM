@@ -385,8 +385,8 @@ public class Controller {
      * @param planoString Nome do plano.
      * @return true se alterado com sucesso.
      */
-    public boolean changeUserPlan(String username, int planoInt, String planoString){
-        return model.changeUserPlano(username, planoInt, planoString);
+    public String changeUserPlan(String username, int planoInt){
+        return model.changeUserPlano(username, planoInt);
     }
 
     /**
