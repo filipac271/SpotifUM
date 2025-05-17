@@ -250,15 +250,9 @@ public class View {
      * @param sc Scanner para leitura de inputs do utilizador.
      * @return O nome da música criada.
      */
-    private String criarMusica(Scanner sc) {
+    private String criarMusica(Scanner sc, String interprete, String editora) {
         System.out.print(" Digite o nome: ");
         String nomeMusica = getOpcaoString(sc);
-
-        System.out.print(" Digite o intérprete: ");
-        String interprete = getOpcaoString(sc);
-
-        System.out.print(" Digite a editora: ");
-        String editora = getOpcaoString(sc);
 
         System.out.print(" Digite a letra: ");
         String letra = getOpcaoString(sc);
@@ -303,11 +297,13 @@ public class View {
         String nome = getOpcaoString(sc);
         System.out.println(" Digite o artista do Album: ");
         String artista = getOpcaoString(sc);
+        System.out.println(" Digite a editora do Album: ");
+        String editora = getOpcaoString(sc);
         controller.addAlbum(nome, artista);
         String nomeMusica;
         for (int i = 0; i < numMusicas; i++) {
             System.out.println(" Música " + (i + 1) + ":");
-            nomeMusica = criarMusica(sc);
+            nomeMusica = criarMusica(sc,artista,editora);
             int v = controller.addToAlbum(nome, nomeMusica);
             if (v == 0) {
                 System.out.println(" Musica não existente");
