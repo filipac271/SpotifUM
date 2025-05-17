@@ -544,6 +544,7 @@ public class Model {
             default:
                 break;
         }
+
         playlistTable.replace(nomeP, playlist);
     }
 
