@@ -27,8 +27,9 @@ public class View {
      * Exibe o menu principal da aplicação com as opções disponíveis.
      */
     private void mainMenu() {
-        System.out.println("\n BEM VINDO/A AO SPOTIFUM !! ");
-        System.out.println("  ___________________________ ");
+        System.out.println("\n   BEM VINDO/A AO SPOTIFUM ! ");
+        System.out.println(" _____________________________");
+        System.out.println();
         System.out.println(" 1. Iniciar Sessão");
         System.out.println(" 2. Criar conta");
         System.out.println(" 3. Criar Álbum");
@@ -140,12 +141,13 @@ public class View {
         System.out.println(" A iniciar sessao... ");
         System.out.println(" Digite o seu Username: ");
         String username = getOpcaoString(sc);
-        while (!(controller.userExists(username) && !username.isEmpty())) {
+
+        while (!(controller.userExists(username)) && !(username.isEmpty())) {
             System.out.println(" Utilizador não existe!");
             System.out.println(" Insira um nome de utilizador existente, se quiser sair prima Enter");
             username=getOpcaoString(sc);
         }
-        if(!username.isEmpty()) {
+        if(! (username.isEmpty()) ) {
 
             System.out.println(" Digite a sua Password: ");
             String password = getOpcaoString(sc);
@@ -170,7 +172,7 @@ public class View {
         System.out.print(" Introduz o teu username: ");
         String username = getOpcaoString(sc);
 
-        while (!controller.userExists(username)) {
+        while (!(controller.userExists(username))) {
             System.out.println(" Utilizador não encontrado.");
             return;
         }
