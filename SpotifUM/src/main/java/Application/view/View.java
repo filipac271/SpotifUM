@@ -177,7 +177,6 @@ public class View {
             return;
         }
 
-        System.out.println(" Escolhe novo plano:");
         int option = createPlanoMenu(sc);
 
         String novoPlano = controller.changeUserPlan(username, option);
