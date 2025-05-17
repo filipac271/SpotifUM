@@ -56,6 +56,11 @@ public abstract class PlanoPremium extends PlanoSubscricao {
         this.albuns.add(album);
     }
 
+    /**
+     * Confirma se uma determinada playlist existe na conta do utilizador.
+     * 
+     * @param p A playlist que é para ser confirmada.
+     */
     public boolean playlistGuardada(Playlist p) {
 
         return this.playlists.contains(p);
