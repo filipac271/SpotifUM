@@ -69,7 +69,7 @@ public class SongMultimedia extends Song {
      */
     @Override 
     public String getLetra() {
-        return videoUrl + "\n" + "_".repeat(videoUrl.length()) + "\n" + super.getLetra();
+        return "\nLink:" + videoUrl + "\n\n" + super.getLetra();
     }
 
     /**
