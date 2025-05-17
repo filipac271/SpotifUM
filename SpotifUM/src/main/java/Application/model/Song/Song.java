@@ -208,7 +208,7 @@ public class Song implements Serializable {
      */
     public String getReproducao() {
         this.numRep++;
-        return "\n/////////////////Música/////////////////" + this.letra + "\n////////////////////////////////////////";
+        return "\n/////////////////Música/////////////////\n" + this.letra + "\n////////////////////////////////////////";
     }
 
     /**

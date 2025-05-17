@@ -312,7 +312,7 @@ public class View {
      */
     private void createModifyAlbumMenu(Scanner sc) {
         int opcao=AlbumMenu(sc);
-    
+        int r = 1;
         if(opcao==1)
         {
             createAlbumMenu(sc);
@@ -324,9 +324,10 @@ public class View {
             System.out.println(" Prima 2 para adicionar uma música.");
             System.out.println(" Prima 3 para sair.");
             int acao=getOpcao(sc, 1, 3);
-            while(acao!=3)
+            while(acao!=3 && r == 1)
             {
-                modifyAlbum(sc, acao);
+                r = modifyAlbum(sc, acao);
+                
             }
         }
         
@@ -360,32 +361,37 @@ public class View {
 
     }
 
-    public void modifyAlbum(Scanner sc, int acao)
+    public int modifyAlbum(Scanner sc, int acao)
     {
-            System.out.println(" Digite o nome do Album: ");
+            System.out.println(" Digite o nome do Album: (Digita Enter caso queira sair do menu)");
             String nomeAlbum = getOpcaoString(sc);
+            if (nomeAlbum.isEmpty()) return 0;
             if(!controller.albumExists(nomeAlbum))
             {
                 System.out.println("Album Não Existe! "); 
-                return;
+                return 1;
             }
             if(acao==1)
             {
                 imprimePlaylistAlbum(nomeAlbum,"album");
-                System.out.println(" Qual o número da música que deseja remover : ");
+                System.out.println(" Qual o número da música que deseja remover: (Digita 0 caso queira sair do menu) ");
                 int nMusicas=controller.nMusicas(nomeAlbum);
-                int opcao=getOpcao(sc, 1,nMusicas );
+                int opcao=getOpcao(sc, 0,nMusicas );
+                if(opcao == 0)return 0;
                 controller.removeMusicaAlbum(nomeAlbum, opcao);
             }
             else if (acao==2)
             {
-               String nomeMusica=criarMusica(sc);
-               boolean v = controller.addToAlbum(nomeAlbum, nomeMusica);
+                String interprete = controller.getInterpreteByAlbum(nomeAlbum);
+                String editora = controller.getEditoraByAlbum(nomeAlbum);
+                String nomeMusica=criarMusica(sc,interprete,editora);
+                boolean v = controller.addToAlbum(nomeAlbum, nomeMusica);
                if(!v)
                {
                     System.out.println("Não foi possível adicionar a música!" );
                }
             }
+            return 1;
     }
 
     /**

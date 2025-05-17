@@ -422,6 +422,8 @@ public class Model {
         playlistTable.get(nomeP).adicionarMusica(musica);
     }
 
+
+
     /**
      * @brief Obtém uma playlist pelo nome.
      * 
@@ -514,6 +516,29 @@ public class Model {
         
         return nomeMusicas;
     }
+
+    /**
+     * Devolve o nome do artista (intérprete) associado a um álbum.
+     *
+     * @param nomeA Nome do álbum.
+     * @return Nome do artista do álbum.
+     * @throws NullPointerException se o álbum não existir.
+     */
+    public String getInterpreteByAlbum(String nomeA){
+        return getAlbum(nomeA).getArtista();
+    }
+
+    /**
+     * Devolve o nome da editora da primeira música de um álbum.
+     *
+     * @param nomeA Nome do álbum.
+     * @return Nome da editora da primeira música do álbum.
+     * @throws NullPointerException se o álbum ou a música não existirem.
+     */
+    public String getEditoraByAlbum(String nomeA){
+        return getAlbum(nomeA).getNMusica(0).getEditora();
+    }
+
 
     /**
      * @brief Troca duas músicas de posição numa playlist.
@@ -704,7 +729,7 @@ public class Model {
     public void removeMusicAlbum(String nome, int index)
     {
         Album a=getAlbum(nome);
-        Song s= a.getNMusica(index);
+        Song s= a.getNMusica(index-1);
         a.removeSong(s);
     }
 

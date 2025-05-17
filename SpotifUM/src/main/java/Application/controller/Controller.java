@@ -152,6 +152,27 @@ public class Controller {
     }
 
     /**
+     * Obtém o nome do intérprete associado a um álbum.
+     *
+     * @param nomeA Nome do álbum.
+     * @return Nome do intérprete do álbum, ou {@code null} se não existir.
+     */
+    public String getInterpreteByAlbum(String nomeA){
+        return model.getInterpreteByAlbum(nomeA);
+    }
+
+    /**
+     * Obtém o nome da editora associada a um álbum.
+     *
+     * @param nomeA Nome do álbum.
+     * @return Nome da editora do álbum, ou {@code null} se não existir.
+     */
+    public String getEditoraByAlbum(String nomeA){
+        return model.getEditoraByAlbum(nomeA);
+    }
+
+
+    /**
      * @brief Verifica se uma playlist existe.
      * @param name Nome da playlist.
      * @return true se existir, false caso contrário.
