@@ -122,14 +122,29 @@ public class Album implements Serializable {
         return album.remove(song);
     }
 
-    public int tamanho(){
+    /**
+     * @brief Obtém o número de músicas no álbum.
+     * 
+     * @return O número total de músicas presentes na lista `album`.
+     */
+    public int tamanho() {
         return album.size();
     }
     
-    public Song getNMusica(int n){
+    /**
+     * @brief Obtém a música na posição especificada.
+     * 
+     * Retorna a música localizada no índice `n` da lista `album`.
+     *
+     * @param n Índice da música a obter (começa em 0).
+     * @return A música na posição `n`.
+     * @throws IndexOutOfBoundsException Se o índice estiver fora dos limites da lista.
+     */
+    public Song getNMusica(int n) {
         return album.get(n);
-
     }
+    
+
     /**
      * Representação textual do álbum.
      * 

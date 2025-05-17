@@ -98,24 +98,57 @@ public class PlanoFree extends PlanoSubscricao {
         return "Plano Free\n(Sem playlists ou álbuns guardados)";
     }
 
+    /**
+     * @brief Obtém a lista de playlists.
+     * 
+     * Método não suportado neste plano. Lança uma exceção ao ser invocado.
+     *
+     * @return Nunca retorna, pois lança uma exceção.
+     * @throws UnsupportedOperationException Sempre que este método é chamado.
+     */
     @Override
     public List<Playlist> getPlaylists() {
         throw new UnsupportedOperationException("Este plano não suporta playlists.");
     }
 
+    /**
+     * @brief Obtém a lista de álbuns.
+     * 
+     * Método não suportado neste plano. Lança uma exceção ao ser invocado.
+     *
+     * @return Nunca retorna, pois lança uma exceção.
+     * @throws UnsupportedOperationException Sempre que este método é chamado.
+     */
     @Override
     public List<Album> getAlbuns() {
         throw new UnsupportedOperationException("Este plano não suporta álbuns.");
     }
 
+    /**
+     * @brief Define a lista de playlists.
+     * 
+     * Método não suportado neste plano. Lança uma exceção ao ser invocado.
+     *
+     * @param playlists A lista de playlists (não utilizada).
+     * @throws UnsupportedOperationException Sempre que este método é chamado.
+     */
     @Override
     public void setPlaylists(List<Playlist> playlists) {
         throw new UnsupportedOperationException("Este plano não suporta playlists.");
     }
 
+    /**
+     * @brief Define a lista de álbuns.
+     * 
+     * Método não suportado neste plano. Lança uma exceção ao ser invocado.
+     *
+     * @param albuns A lista de álbuns (não utilizada).
+     * @throws UnsupportedOperationException Sempre que este método é chamado.
+     */
     @Override
     public void setAlbuns(List<Album> albuns) {
         throw new UnsupportedOperationException("Este plano não suporta álbuns.");
     }
+
 
 }

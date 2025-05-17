@@ -33,7 +33,13 @@ public class PlanoPremiumTop extends PlanoPremium {
         return (0.025 * pontos + pontos);
     }
 
-
+    /**
+     * @brief Cria uma cópia deste objeto.
+     * 
+     * Método de clonagem que retorna uma nova instância de PlanoPremiumTop com os mesmos dados.
+     *
+     * @return Uma nova instância de PlanoPremiumTop, cópia desta.
+     */
     @Override
     public PlanoPremiumTop clone(){
         return new PlanoPremiumTop(this);
