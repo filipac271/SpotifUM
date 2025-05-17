@@ -121,7 +121,7 @@ public class User implements Serializable {
      * @return Plano de subscrição do utilizador.
      */
     public PlanoSubscricao getPlano() {
-        return this.plano;
+        return this.plano.clone();
     }
 
     /**

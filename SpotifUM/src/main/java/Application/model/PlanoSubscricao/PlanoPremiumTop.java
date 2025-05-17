@@ -15,6 +15,11 @@ public class PlanoPremiumTop extends PlanoPremium {
         this.nomePlano = "PlanoPremiumTop";
     }
 
+    public PlanoPremiumTop(PlanoPremiumTop outro) {
+        super(outro);
+        this.nomePlano = "PlanoPremiumTop";
+    }
+
     /**
      * Calcula os pontos atribuídos a um utilizador deste plano.
      * Se os pontos forem zero, retorna 100(quando é feito o login pela primeira vez). 
@@ -27,4 +32,11 @@ public class PlanoPremiumTop extends PlanoPremium {
         if (pontos == 0) return 100;
         return (0.025 * pontos + pontos);
     }
+
+
+    @Override
+    public PlanoPremiumTop clone(){
+        return new PlanoPremiumTop(this);
+    }
+    
 }

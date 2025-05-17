@@ -22,10 +22,6 @@ import Application.model.Song.SongMultimedia;
 import Application.model.User.Historico;
 import Application.model.User.User;
 import Application.model.Album.Album;
-import Application.model.PlanoSubscricao.PlanoFree;
-import Application.model.PlanoSubscricao.PlanoPremium;
-import Application.model.PlanoSubscricao.PlanoPremiumBase;
-import Application.model.PlanoSubscricao.PlanoPremiumTop;
 import Application.model.PlanoSubscricao.PlanoSubscricao;
 import Application.exceptions.zeroGenresListen;
 import Application.exceptions.zeroInterpretesListen;
@@ -217,7 +213,7 @@ public class Model {
         LocalDate data = LocalDate.now();
         user.addHistorico(musica, data);
         double pontosAtuais = user.getPontos();
-        PlanoSubscricao plano = user.getPlano(); //Aqui GetPlano pode dar copia que n há crise
+        PlanoSubscricao plano = user.getPlano(); 
         double pontosAtualizados = plano.calculaPontos(pontosAtuais);
         user.setPontos(pontosAtualizados);
         return letra;
@@ -239,16 +235,19 @@ public class Model {
         String planoPresente =  user.getPlano().getNome();
         PlanoSubscricao novoPlano =user.getPlanoByOption(planoInt);
         if (planoPresente.equals(novoPlano.getNome())) return "";
-
+        if(planoInt == 1){
+            user.setPlano(novoPlano);
+            return novoPlano.getNome();
+        }
         if( !(planoPresente.equals("PlanoFree")) )
         {
-            List<Playlist> playlists = ((PlanoPremium) user.getPlano()).getPlaylists(); 
-            List<Album> albums = ((PlanoPremium) user.getPlano()).getAlbuns(); 
+            PlanoSubscricao planoCopy = user.getPlano();
+            List<Playlist> playlists = planoCopy.getPlaylists(); 
+            List<Album> albums = planoCopy.getAlbuns(); 
 
-            PlanoPremium novoplano=(PlanoPremium) novoPlano;
-            novoplano.setPlaylists(playlists);
-            novoplano.setAlbuns(albums);
-            user.setPlano(novoplano);
+            novoPlano.setPlaylists(playlists);
+            novoPlano.setAlbuns(albums);
+            user.setPlano(novoPlano);
         }
         else
         {
@@ -436,9 +435,8 @@ public class Model {
         } else {
             Playlist p = getPlaylist(nome);
             User user = getUser(username);
-            PlanoSubscricao plano = user.getPlano(); // Fazer copia aqui n parece causar problemas ao return  
-            PlanoPremium pPremium = (PlanoPremium) plano; 
-            return pPremium.playlistGuardada(p);
+            PlanoSubscricao plano = user.getPlano(); 
+            return plano.playlistGuardada(p);
         }
     }
     
@@ -528,8 +526,9 @@ public class Model {
         Playlist playlist = getPlaylist(nome);
         User user = getUser(username);
         PlanoSubscricao plano = user.getPlano();
-        PlanoPremium pPremium = (PlanoPremium) plano; 
-        pPremium.guardarPlaylist(playlist);
+       
+        plano.guardarPlaylist(playlist);
+        user.setPlano(plano);
     }
     
     /**
@@ -553,21 +552,6 @@ public class Model {
     public String getPlaylistNMusica(String nome, int index) {
         Playlist playlist = getPlaylist(nome);
         return playlist.getNMusica(index).getNome();
-    }
-    
-    /**
-     * @brief Guarda uma playlist no plano premium de um utilizador.
-    * 
-    * @param nomeP Nome da playlist.
-    * @param username Nome de utilizador.
-    */
-    public void setPlaylistGuardada(String nomeP, String username) {
-        User user = getUser(username);
-        Playlist playlist = getPlaylist(nomeP);
-        PlanoSubscricao plano = user.getPlano(); //Aqui devolve copia e depois fazemos set da copia
-        PlanoPremium pPremium = (PlanoPremium) plano; 
-        pPremium.guardarPlaylist(playlist);
-        //user.setPlano(pPremium);
     }
     
 
@@ -635,10 +619,10 @@ public class Model {
     public void guardarAlbumUser(String username, String nome) {
         Album album = getAlbum(nome);
         User user = getUser(username);
-        PlanoSubscricao plano = user.getPlano(); //Mandar copia
-        PlanoPremium pPremium = (PlanoPremium) plano;
-        pPremium.guardarAlbum(album);
-        //user.setPlano(pPremium);
+        PlanoSubscricao plano = user.getPlano();
+       
+        plano.guardarAlbum(album);
+        user.setPlano(plano);
     }
 
     /**
@@ -937,13 +921,10 @@ public class Model {
         Playlist musicasRecomendadas = recomendarMusicas(username, opcao, ngeneros, generos, segundos);
         
 
-        addPlaylist(musicasRecomendadas.getNome(), musicasRecomendadas.getPublica(), musicasRecomendadas.getMusicas(),false,"",0);
 
-        User user = getUser(username);
-        PlanoSubscricao p = user.getPlano();//Mandar Copia
-        PlanoPremium pPremium = (PlanoPremium) p; 
-        pPremium.guardarPlaylist(getPlaylist(musicasRecomendadas.getNome()));
-        //user.setPlano(pPremium);
+        addPlaylist(musicasRecomendadas.getNome(), musicasRecomendadas.getPublica(), musicasRecomendadas.getMusicas(),false,"",0);
+        guardarPlaylistUser(username, musicasRecomendadas.getNome());
+       
         return musicasRecomendadas.getNome();
     }
 

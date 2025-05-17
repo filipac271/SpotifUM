@@ -38,8 +38,8 @@ public class UserTest {
         // Verificação dos pontos atribuídos pelo plano (deve ser com delta para doubles)
         assertEquals(plano.calculaPontos(0), user.getPontos(), 0.001);
 
-        // Verificação da instância do plano (referência igual, não clone)
-        assertSame(plano, user.getPlano());
+        // Verificação da instância do plano 
+        assertNotSame(plano, user.getPlano());
 
         // Verificação do histórico (deve estar inicializado como lista vazia)
         assertNotNull(user.getHistorico());
