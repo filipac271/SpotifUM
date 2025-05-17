@@ -8,8 +8,8 @@ package Application.model;
 import java.util.Map;
 
 /**
-  * @brief Classe com métodos utilitários genéricos.
-  */
+ * @brief Classe com métodos utilitários genéricos.
+ */
 public class Utils {
     /**
      * @brief Imprime no terminal todos os pares chave-valor de um mapa.
@@ -22,5 +22,16 @@ public class Utils {
         for (Map.Entry<K, V> entry : map.entrySet()) {
             System.out.println(entry.getKey() + " => " + entry.getValue());
         }
+    }
+
+    /**
+     * @brief Retorna uma representação do "endereço" de um objeto (baseado no
+     *        identityHashCode).
+     *
+     * @param obj O objeto.
+     * @return Uma string representando o "endereço".
+     */
+    public static void getObjectAddress(Object obj) {
+        System.out.println("0x" + Integer.toHexString(System.identityHashCode(obj)));
     }
 }

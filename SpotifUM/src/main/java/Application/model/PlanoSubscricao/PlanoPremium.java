@@ -2,6 +2,7 @@ package Application.model.PlanoSubscricao;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import Application.model.Album.Album;
 import Application.model.Playlist.Playlist;
 
@@ -56,6 +57,7 @@ public abstract class PlanoPremium extends PlanoSubscricao {
     }
 
     public boolean playlistGuardada(Playlist p) {
+
         return this.playlists.contains(p);
 
     }
