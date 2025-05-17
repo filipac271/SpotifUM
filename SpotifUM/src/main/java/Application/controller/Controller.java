@@ -441,7 +441,7 @@ public class Controller {
      * @param username Nome do utilizador.
      */
     public void addPlaylistToUser(String nomeP, String username) {
-        model.setPlaylistGuardada(nomeP, username);
+        model.guardarPlaylistUser(nomeP, username);
     }
 
     // ==== QUERIES ===========

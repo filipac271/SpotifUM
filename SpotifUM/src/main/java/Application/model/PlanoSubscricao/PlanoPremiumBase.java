@@ -17,6 +17,12 @@ public class PlanoPremiumBase extends PlanoPremium {
         this.nomePlano = "PlanoPremiumBase"; 
     }
 
+    public PlanoPremiumBase(PlanoPremiumBase outro) {  
+        super(outro);
+        this.nomePlano = "PlanoPremiumBase"; 
+    }
+
+
     /**
      * Calcula os pontos atribuídos com base nos pontos atuais.
      * 
@@ -28,5 +34,10 @@ public class PlanoPremiumBase extends PlanoPremium {
         return pontos + 10;
     }
 
+
+    @Override
+    public PlanoPremiumBase clone(){
+        return new PlanoPremiumBase(this);
+    }
 
 }

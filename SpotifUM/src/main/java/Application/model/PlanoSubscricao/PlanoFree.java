@@ -1,5 +1,7 @@
 package Application.model.PlanoSubscricao;
 
+import java.util.List;
+
 import Application.model.Album.Album;
 import Application.model.Playlist.Playlist;
 
@@ -84,6 +86,36 @@ public class PlanoFree extends PlanoSubscricao {
     @Override
     public PlanoFree clone() {
         return new PlanoFree();
+    }
+
+
+    /**
+     * {@inheritDoc}
+     * Apenas mostra o nome do plano, pois não tem conteúdos associados.
+     */
+    @Override
+    public String toString() {
+        return "Plano Free\n(Sem playlists ou álbuns guardados)";
+    }
+
+    @Override
+    public List<Playlist> getPlaylists() {
+        throw new UnsupportedOperationException("Este plano não suporta playlists.");
+    }
+
+    @Override
+    public List<Album> getAlbuns() {
+        throw new UnsupportedOperationException("Este plano não suporta álbuns.");
+    }
+
+    @Override
+    public void setPlaylists(List<Playlist> playlists) {
+        throw new UnsupportedOperationException("Este plano não suporta playlists.");
+    }
+
+    @Override
+    public void setAlbuns(List<Album> albuns) {
+        throw new UnsupportedOperationException("Este plano não suporta álbuns.");
     }
 
 }

@@ -1,6 +1,10 @@
 package Application.model.PlanoSubscricao;
 
 import java.io.Serializable;
+import java.util.List;
+
+import Application.model.Album.Album;
+import Application.model.Playlist.Playlist;
 
 /**
  * Classe abstrata que define a estrutura base de um plano de subscrição.
@@ -31,7 +35,30 @@ public abstract class PlanoSubscricao implements Serializable {
     public abstract boolean podeAvancarRetroceder();
 
 
+
+
+    public abstract int numPlaylists();
+
+    public abstract void guardarPlaylist(Playlist p) ;
+
+    public abstract boolean playlistGuardada(Playlist p);
+   
+    public abstract void guardarAlbum(Album a) ;
+   
     
+    public abstract List<Playlist> getPlaylists();
+
+    public abstract List<Album> getAlbuns();
+
+    public abstract void setPlaylists(List<Playlist> playlists);
+
+    public abstract void setAlbuns(List<Album> albuns);
+
+    @Override
+    public abstract String toString();
+
+
+
 
     /**
      * Obtém o nome do plano de subscrição.
@@ -41,4 +68,8 @@ public abstract class PlanoSubscricao implements Serializable {
     public String getNome() {
         return this.nomePlano;
     }
+
+
+     
+    public abstract PlanoSubscricao clone();
 }
