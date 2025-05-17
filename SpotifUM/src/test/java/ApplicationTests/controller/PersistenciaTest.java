@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 
 import Application.model.Persistencia;
 import Application.model.Album.Album;
-import Application.model.PlanoSubscricao.PlanoFree;
 import Application.model.Playlist.Playlist;
 import Application.model.Playlist.PlaylistUser;
 import Application.model.Song.Song;

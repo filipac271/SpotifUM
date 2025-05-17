@@ -248,6 +248,8 @@ public class View {
      * e depois adiciona a música através do controller.
      * 
      * @param sc Scanner para leitura de inputs do utilizador.
+     * @param interprete Artista da musica.
+     * @param editora Editora da musica.
      * @return O nome da música criada.
      */
     private String criarMusica(Scanner sc, String interprete, String editora) {
@@ -364,14 +366,14 @@ public class View {
     private void createUserFreeMenu(Scanner sc, Controller controller, String username) {
         System.out.println("\n Temos as melhores músicas para ouvir!");
         System.out.println("\n Pressione 1 para ouvir música");
-        System.out.println("\n Pressione 2 para sair");
+        System.out.println(" Pressione 2 para sair");
         System.out.println(" Para mais opções dê upgrade do plano!");
 
         int opcao = getOpcao(sc, 1, 2);
 
         if (opcao==1) {
             String nomePlaylist = controller.createPlaylistRandom();
-            reproduzirSequencial(sc, username, nomePlaylist, true);
+            reproduzirSequencial(sc, username, nomePlaylist, true,true);
         } 
         else if (opcao==2) {
             out();
@@ -463,13 +465,14 @@ public class View {
      * @param username Nome do utilizador.
      * @param nome Nome da playlist ou álbum.
      * @param serPlaylist Indica se o nome corresponde a uma playlist (true) ou álbum (false).
+     * @param serFree Indica se o user.
      */
-    private void reproduzirSequencial(Scanner sc, String username, String nome, boolean serPlaylist) {
+    private void reproduzirSequencial(Scanner sc, String username, String nome, boolean serPlaylist, boolean serFree) {
         int[] index = new int[]{0};
         while (index[0] != -2) {
             String letraIndex = controller.letraDaMusicaNa_Playlist_Album(username, nome, index, serPlaylist);
             System.out.println(letraIndex);
-            int select = perguntarContinuar(sc);
+            int select = perguntarContinuar(sc,serFree);
             index[0] = controller.proximaMusica(sc, index[0], select);
         }
     }
@@ -495,7 +498,7 @@ public class View {
                 String letraIndex = controller.letraDaMusicaNa_Playlist_Album(username, nome, ordemIndex, serPlaylist);
                 System.out.println(letraIndex);
             }
-            int select = perguntarContinuar(sc);
+            int select = perguntarContinuar(sc,false);
             index[0] = controller.proximaMusica(sc, index[0], select);
         }
     }
@@ -534,7 +537,7 @@ public class View {
                     if (aleatorio == 1) {
                         reproduzirAleatorio(sc, username, nome, true);
                     } else if (aleatorio == 2) {
-                        reproduzirSequencial(sc, username, nome, true);
+                        reproduzirSequencial(sc, username, nome, true,false);
                     }
                     break;
                 case 3:
@@ -546,7 +549,7 @@ public class View {
                     if (aleatorio == 1) {
                         reproduzirAleatorio(sc, username, nome, false);
                     } else if (aleatorio == 2) {
-                        reproduzirSequencial(sc, username, nome, false);
+                        reproduzirSequencial(sc, username, nome, false,false);
                     }
                     break;
                 case 4:
@@ -588,17 +591,32 @@ public class View {
      * Apresenta as opções para o utilizador Premium controlar a reprodução da música.
      * 
      * @param sc Scanner para leitura da entrada do utilizador.
+     * @param serFree boolean para verificar se pode-se ou não aceder a certas features.
      * @return Inteiro correspondente à opção escolhida.
      */
-    private int perguntarContinuar(Scanner sc) {
-        System.out.println("\n 1 - Avançar Música ");
-        System.out.println(" 2 - Próxima Música");
-        System.out.println(" 3 - Retroceder ");
-        System.out.println(" 4 - Recomeçar ");
-        System.out.println(" 5 - Sair");
-        int opcao = getOpcao(sc, 1, 5);
+    private int perguntarContinuar(Scanner sc, boolean serFree) {
+        int opcao;
+    
+        if (serFree) {
+            System.out.println("\n 1 - Próxima Música");
+            System.out.println(" 2 - Sair");
+            opcao = getOpcao(sc, 1,2);
+            if(opcao == 1){
+                opcao = 2;
+            }else if(opcao == 2)opcao = 5;
+
+        } else {
+            System.out.println("\n 1 - Avançar Música");
+            System.out.println(" 2 - Próxima Música");
+            System.out.println(" 3 - Retroceder");
+            System.out.println(" 4 - Recomeçar");
+            System.out.println(" 5 - Sair");
+            opcao = getOpcao(sc, 1, 5);
+        }
+    
         return opcao;
     }
+    
     
     /**
      * Menu para criar uma nova playlist, incluindo opções de nome, privacidade, número de músicas,
