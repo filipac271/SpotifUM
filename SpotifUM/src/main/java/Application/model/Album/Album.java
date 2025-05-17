@@ -143,7 +143,14 @@ public class Album implements Serializable {
     public Song getNMusica(int n) {
         return album.get(n);
     }
-    
+
+
+    public boolean contemMusica(String musica)
+    {
+        return album.stream()
+        .anyMatch(s -> s.getNome().equalsIgnoreCase(musica));
+    }
+
 
     /**
      * Representação textual do álbum.

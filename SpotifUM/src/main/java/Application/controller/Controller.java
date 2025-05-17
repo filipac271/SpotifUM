@@ -63,6 +63,11 @@ public class Controller {
         return false;
     }
 
+    public void removeMusicaAlbum(String nome, int index)
+    {
+        model.removeMusicAlbum( nome, index);
+    }
+
     /**
      * @brief Verifica se um álbum existe.
      * @param name Nome do álbum.
@@ -87,15 +92,24 @@ public class Controller {
      * @param nomeM Nome da música.
      * @return 1 se adicionado com sucesso, 0 caso o álbum não exista.
      */
-    public int addToAlbum(String nomeA, String nomeM) {
-        if (albumExists(nomeA)) {
+    public boolean addToAlbum(String nomeA, String nomeM) {
+        if (albumExists(nomeA) && songExists(nomeM)) {
             model.addToAlbum(nomeA, nomeM);
-            return 1;
+            return true;
         } else {
-            return 0;
+            return false;
         }
     }
 
+    public boolean musicaPertence(String nomeA, String nomeM)
+    {
+        return model.musicaPertenceAlbum(nomeA,nomeM);
+    }
+
+    public int nMusicas(String nome)
+    {
+        return model.getAlbumTamanho(nome);
+    }
 
     // ==== PLAYLISTS =========
 
@@ -261,8 +275,8 @@ public class Controller {
      * @param n Quantidade de músicas a obter.
      * @return Lista de nomes das músicas.
      */
-    public List<String> getNomeMusicas(String nomeP, int n) {
-        return model.getNomeMusicas(nomeP, n);
+    public List<String> getNomeMusicas(String nome, String tipo) {
+        return model.getNomeMusicas(nome, tipo);
 
     }
 
