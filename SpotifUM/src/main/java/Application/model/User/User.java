@@ -10,6 +10,11 @@ import Application.model.PlanoSubscricao.PlanoPremium;
 import Application.model.PlanoSubscricao.PlanoSubscricao;
 import Application.model.Song.Song;
 
+/**
+ * @class User
+ * @brief Representa um utilizador da aplicação, com dados pessoais,
+ * histórico de músicas e plano de subscrição.
+ */
 public class User implements Serializable {
 
     private String nome;
@@ -22,6 +27,9 @@ public class User implements Serializable {
     private PlanoSubscricao plano;
     private List<Historico> historico;
 
+    /**
+     * @brief Construtor por defeito. Inicializa os campos com valores padrão.
+     */
     public User() {
         this.nome = "";
         this.username = "";
@@ -32,11 +40,20 @@ public class User implements Serializable {
         this.pontos = 0;
         this.plano = null;
         this.historico = new ArrayList<>();
-
     }
 
+    /**
+     * @brief Construtor parametrizado.
+     * @param nome Nome do utilizador.
+     * @param username Nome de utilizador.
+     * @param password Palavra-passe.
+     * @param email Endereço de email.
+     * @param morada Morada do utilizador.
+     * @param age Idade do utilizador.
+     * @param plano Plano de subscrição.
+     */
     public User(String nome, String username, String password, String email,
-            String morada, int age, PlanoSubscricao plano) {
+                String morada, int age, PlanoSubscricao plano) {
         this.nome = nome;
         this.username = username;
         this.password = password;
@@ -46,9 +63,12 @@ public class User implements Serializable {
         this.pontos = plano.calculaPontos(0);
         this.plano = plano;
         this.historico = new ArrayList<>();
-
     }
 
+    /**
+     * @brief Construtor de cópia.
+     * @param user Outro objeto User a ser copiado.
+     */
     public User(User user) {
         this.nome = user.getNome();
         this.username = user.getUsername();
@@ -61,76 +81,99 @@ public class User implements Serializable {
         this.historico = user.getHistorico();
     }
 
-    public String getNome() {
-        return this.nome;
+    /// @return Nome do utilizador.
+    public String getNome() { 
+        return this.nome; 
     }
 
-    public String getUsername() {
-        return this.username;
+    /// @return Username do utilizador.
+    public String getUsername() { 
+        return this.username; 
     }
 
-    public String getPassword() {
-        return this.password;
+    /// @return Palavra-passe do utilizador.
+    public String getPassword() { 
+        return this.password; 
     }
 
-    public String getEmail() {
-        return this.email;
+    /// @return Email do utilizador.
+    public String getEmail() { 
+        return this.email; 
     }
 
-    public String getMorada() {
-        return this.morada;
+    /// @return Morada do utilizador.
+    public String getMorada() { 
+        return this.morada; 
     }
 
-    public int getAge() {
-        return this.age;
+    /// @return Idade do utilizador.
+    public int getAge() { 
+        return this.age; 
     }
 
-    public double getPontos() {
-        return this.pontos;
-    }
+    /// @return Pontuação do utilizador.
+    public double getPontos() { return this.pontos; }
 
+    /**
+     * @return Plano de subscrição do utilizador.
+     */
     public PlanoSubscricao getPlano() {
         return this.plano;
     }
 
+    /**
+     * @return Lista de histórico de músicas (clonada).
+     */
     public List<Historico> getHistorico() {
         return this.historico.stream()
-                .map(h -> h.clone())
+                .map(Historico::clone)
                 .collect(Collectors.toList());
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    /// @param nome Novo nome a ser definido.
+    public void setNome(String nome){ 
+        this.nome = nome; 
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    /// @param username Novo username.
+    public void setUsername(String username) { 
+        this.username = username; 
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    /// @param password Nova palavra-passe.
+    public void setPassword(String password) { 
+        this.password = password; 
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    /// @param email Novo email.
+    public void setEmail(String email) { 
+        this.email = email; 
     }
 
-    public void setMorada(String morada) {
-        this.morada = morada;
+    /// @param morada Nova morada.
+    public void setMorada(String morada) { 
+        this.morada = morada; 
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    /// @param age Nova idade.
+    public void setAge(int age) { 
+        this.age = age; 
     }
 
-    public void setPontos(double pontos) {
-        this.pontos = pontos;
+    /// @param pontos Nova pontuação.
+    public void setPontos(double pontos) { 
+        this.pontos = pontos; 
     }
 
-    public void setPlano(PlanoSubscricao plano) {
-        this.plano = plano;
+    /// @param plano Novo plano de subscrição.
+    public void setPlano(PlanoSubscricao plano) { 
+        this.plano = plano; 
     }
 
+    /**
+     * @brief Retorna o número de playlists permitido pelo plano.
+     * @return Número de playlists.
+     */
     public int getNumPlaylists() {
         if (plano instanceof PlanoPremium) {
             return ((PlanoPremium) plano).numPlaylists();
@@ -138,8 +181,13 @@ public class User implements Serializable {
             return 1;
         }
     }
-    
 
+    /**
+     * @brief Conta o número de músicas ouvidas entre duas datas.
+     * @param dataInicio Data de início.
+     * @param dataFim Data de fim.
+     * @return Número de músicas ouvidas no intervalo, ou total se dataInicio for null.
+     */
     public int numMusicasOuvidas(LocalDate dataInicio, LocalDate dataFim) {
         if (dataInicio == null) {
             return this.historico.size();
@@ -157,16 +205,29 @@ public class User implements Serializable {
         }
     }
 
+    /**
+     * @brief Adiciona uma música ao histórico do utilizador.
+     * @param song Música a ser adicionada.
+     * @param data Data de audição.
+     */
     public void addHistorico(Song song, LocalDate data) {
         Historico h = new Historico(song, data);
         this.historico.add(h);
     }
 
+    /**
+     * @brief Cria uma cópia do objeto User.
+     * @return Novo objeto User clonado.
+     */
     @Override
     public User clone() {
         return new User(this);
-    };
+    }
 
+    /**
+     * @brief Representação textual do utilizador.
+     * @return String com os dados do utilizador.
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -177,7 +238,6 @@ public class User implements Serializable {
                 .append(", pontos: ").append(this.pontos)
                 .append(" plano: ").append(this.getPlano().getNome())
                 .append("]");
-
         return sb.toString();
     }
 
