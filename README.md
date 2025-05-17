@@ -22,6 +22,20 @@
 
 Este script irá compilar o projeto com Gradle e executar a aplicação automaticamente.
 
+## ✅ Como correr os testes
+
+1. No terminal, navega até à pasta do projeto (se ainda não estiveres nela):
+   ```bash
+   cd SpotifUM
+   ```
+
+2. Corre os testes com o seguinte comando:
+   ```bash
+   ./runTest.sh
+   ```
+
+Este script executa a suíte de testes definida no projeto utilizando Gradle.
+
 ## 📁 Estrutura do Projeto
 
 ```
@@ -29,8 +43,12 @@ SpotifUM/
 ├── build.gradle
 ├── settings.gradle
 ├── runProgram.sh
+├── runTest.sh
 ├── src/
-│   └── main/
+│   ├── main/
+│   │   └── java/
+│   │       └── ...
+│   └── test/
 │       └── java/
 │           └── ...
 └── README.md
