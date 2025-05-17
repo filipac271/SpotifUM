@@ -49,6 +49,14 @@ public class PlaylistUser extends Playlist {
       return new PlaylistUser(this);
    }
 
+   /**
+    * @brief Retorna uma representação textual da playlist.
+    * 
+    * Gera uma string detalhada com o nome da playlist, visibilidade (pública ou privada),
+    * número total de músicas, duração total em segundos e uma listagem das músicas com os respetivos nomes.
+    *
+    * @return String com a representação formatada da playlist.
+    */
    @Override
    public String toString() {
       StringBuilder sb = new StringBuilder();
@@ -57,12 +65,10 @@ public class PlaylistUser extends Playlist {
       sb.append("Número de músicas: ").append(musicas.size()).append("\n");
       sb.append("Duração total: ").append(getDuracaoTotal()).append(" segundos\n");
       sb.append("Músicas:\n");
-
-      for (int i = 0; i < musicas.size(); i++) {
-         sb.append("  ").append(i + 1).append(". ").append(musicas.get(i).getNome()).append("\n");
+         for (int i = 0; i < musicas.size(); i++) {
+            sb.append("  ").append(i + 1).append(". ").append(musicas.get(i).getNome()).append("\n");
       }
-
-      return sb.toString();
-   }
+            return sb.toString();
+   } 
 
 }

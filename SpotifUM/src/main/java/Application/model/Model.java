@@ -562,6 +562,7 @@ public class Model {
         
         playlist.setMusicas(songs);
         playlistTable.put(nomeP, playlist);
+
     }
 
     /**

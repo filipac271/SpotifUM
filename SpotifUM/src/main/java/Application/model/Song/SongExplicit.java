@@ -44,7 +44,7 @@ public class SongExplicit extends Song implements Explicito {
      */
     @Override
     public String getLetra() {
-        return "⚠️ Conteúdo explícito ⚠️\n" + super.getLetra();
+        return "\n⚠️ Conteúdo explícito ⚠️\n" + super.getLetra();
     }
 
     /**
@@ -61,7 +61,7 @@ public class SongExplicit extends Song implements Explicito {
         } else {
             int numRep = getNumRep();
             setNumRep(numRep + 1);
-            return getLetra();
+            return "\n/////////////////Música/////////////////" + getLetra() + "\n////////////////////////////////////////";
         }
     }
 }

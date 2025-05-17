@@ -17,6 +17,14 @@ public class PlanoPremiumBase extends PlanoPremium {
         this.nomePlano = "PlanoPremiumBase"; 
     }
 
+    /**
+     * @brief Construtor por cópia da classe PlanoPremiumBase.
+     * 
+     * Cria uma nova instância de PlanoPremiumBase copiando os dados de outra instância.
+     * Chama o construtor da superclasse para garantir a cópia correta da hierarquia.
+     *
+     * @param outro A instância de PlanoPremiumBase a ser copiada.
+     */
     public PlanoPremiumBase(PlanoPremiumBase outro) {  
         super(outro);
         this.nomePlano = "PlanoPremiumBase"; 
@@ -34,7 +42,13 @@ public class PlanoPremiumBase extends PlanoPremium {
         return pontos + 10;
     }
 
-
+    /**
+     * @brief Cria uma cópia deste objeto.
+     * 
+     * Método de clonagem que retorna uma nova instância de PlanoPremiumBase com os mesmos dados.
+     *
+     * @return Uma nova instância de PlanoPremiumBase, cópia desta.
+     */
     @Override
     public PlanoPremiumBase clone(){
         return new PlanoPremiumBase(this);
