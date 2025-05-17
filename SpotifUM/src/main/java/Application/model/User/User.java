@@ -170,7 +170,7 @@ public class User implements Serializable {
 
     /// @param plano Novo plano de subscrição.
     public void setPlano(PlanoSubscricao plano) { 
-        this.plano = plano; 
+        this.plano = plano.clone(); 
     }
 
     /**
