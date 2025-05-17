@@ -5,7 +5,7 @@ import Application.model.Playlist.Playlist;
 
 /**
  * Classe que representa o plano de subscrição gratuito ("Free").
- * Herda de {@link PlanoSubscricao}. CONFIRMAR ISTO
+ * Herda de {@link PlanoSubscricao}. 
  */
 public class PlanoFree extends PlanoSubscricao {
     
@@ -45,23 +45,45 @@ public class PlanoFree extends PlanoSubscricao {
         return 0;
     }
 
-    public void guardarPlaylist(Playlist p)
-    {
+    /**
+     * Tenta guardar uma playlist, mas este plano não permite essa operação.
+     *
+     * @param p A playlist a guardar.
+     * @throws UnsupportedOperationException Sempre que é chamado, pois este plano não permite guardar playlists.
+     */
+    public void guardarPlaylist(Playlist p) {
         throw new UnsupportedOperationException("Este plano não suporta guardar playlists.");
     }
 
-    public void guardarAlbum(Album a) 
-    {
+    /**
+     * Tenta guardar um álbum, mas este plano não permite essa operação.
+     *
+     * @param a O álbum a guardar.
+     * @throws UnsupportedOperationException Sempre que é chamado, pois este plano não permite guardar álbuns.
+     */
+    public void guardarAlbum(Album a) {
         throw new UnsupportedOperationException("Este plano não suporta guardar playlists.");
     }
 
-    public boolean playlistGuardada(Playlist p)
-    {
+    /**
+     * Verifica se uma playlist está guardada, mas este plano não suporta essa funcionalidade.
+     *
+     * @param p A playlist a verificar.
+     * @return Nunca retorna, pois sempre lança exceção.
+     * @throws UnsupportedOperationException Sempre que é chamado, pois este plano não permite guardar playlists.
+     */
+    public boolean playlistGuardada(Playlist p) {
         throw new UnsupportedOperationException("Este plano não suporta guardar playlists.");
     }
 
+    /**
+     * Cria e devolve uma nova instância de PlanoFree.
+     *
+     * @return Uma nova instância do plano gratuito.
+     */
     @Override
-    public PlanoFree clone(){
+    public PlanoFree clone() {
         return new PlanoFree();
     }
+
 }

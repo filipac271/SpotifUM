@@ -122,14 +122,11 @@ public class Album implements Serializable {
         return album.remove(song);
     }
 
-    public int tamanho()
-    {
+    public int tamanho(){
         return album.size();
     }
     
-    public Song getNMusica(int n)
-    {
-        // return album.get(n).clone();
+    public Song getNMusica(int n){
         return album.get(n);
 
     }
@@ -158,11 +155,17 @@ public class Album implements Serializable {
     }
 
 
-
+    /**
+     * Cria e devolve uma cópia (clone) deste objeto Album.
+     *
+     * @return Uma nova instância de Album com os mesmos dados deste objeto.
+     */
     @Override
-    public Album clone(){
+    public Album clone() {
         return new Album(this);
     }
+
+
 
 
 

@@ -38,7 +38,6 @@ public class PlaylistTematica extends Playlist {
 
     }
 
- 
 
     /**
      * Construtor por omissão.

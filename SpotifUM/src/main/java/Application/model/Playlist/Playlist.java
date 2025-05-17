@@ -89,18 +89,13 @@ public abstract class Playlist implements Serializable{
      * @return Lista de músicas .
      */
     public List<Song> getMusicas() {
-
         return new ArrayList<>(musicas);
-
     }
 
 
 
-    public Song getNMusica(int n)
-    {
-       
+    public Song getNMusica(int n){
         return musicas.get(n);
-
     }
 
     /**

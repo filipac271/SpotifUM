@@ -91,6 +91,12 @@ public abstract class PlanoPremium extends PlanoSubscricao {
         return new ArrayList<>(this.albuns);
     }
 
+    /**
+     * Define a lista de playlists guardadas pelo utilizador com plano premium.
+     * Se o argumento for {@code null}, a lista é inicializada como vazia.
+     *
+     * @param playlists Lista de playlists a guardar.
+     */
     public void setPlaylists(List<Playlist> playlists) {
         if (playlists == null) {
             this.playlists = new ArrayList<>();
@@ -98,7 +104,13 @@ public abstract class PlanoPremium extends PlanoSubscricao {
             this.playlists = new ArrayList<>(playlists);
         }
     }
-
+    
+    /**
+     * Define a lista de álbuns guardados pelo utilizador com plano premium.
+     * Se o argumento for {@code null}, a lista é inicializada como vazia.
+     *
+     * @param albuns Lista de álbuns a guardar.
+     */
     public void setAlbuns(List<Album> albuns) {
         if (albuns == null) {
             this.albuns = new ArrayList<>();
@@ -106,23 +118,30 @@ public abstract class PlanoPremium extends PlanoSubscricao {
             this.albuns = new ArrayList<>(albuns);
         }
     }
-
+    
+    /**
+     * Devolve uma representação textual do plano premium do utilizador,
+     * incluindo as playlists e os álbuns guardados.
+     *
+     * @return Uma string formatada com o nome do plano e os conteúdos guardados.
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Plano Premium\n");
-
+    
         sb.append("Playlists guardadas (").append(playlists.size()).append("):\n");
         for (int i = 0; i < playlists.size(); i++) {
             sb.append("  ").append(i + 1).append(". ").append(playlists.get(i).getNome()).append("\n");
         }
-
+    
         sb.append("Álbuns guardados (").append(albuns.size()).append("):\n");
         for (int i = 0; i < albuns.size(); i++) {
             sb.append("  ").append(i + 1).append(". ").append(albuns.get(i).getNome()).append("\n");
         }
-
+    
         return sb.toString();
     }
+    
 
 }
