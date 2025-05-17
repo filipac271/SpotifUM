@@ -162,21 +162,11 @@ public class Controller {
      * @param genero Género principal.
      * @param duracaoMaxima Duração máxima da playlist.
      */
-    public void addPlaylist(String nomeP, String publicaS,String tematica,String genero,int duracaoMaxima) {
-        boolean publica;
-        boolean tema_Tempo;
-        if (publicaS.equals("s")) {
-            publica = true;
-        } else {
-            publica = false;
-        }
-        if (tematica.equals("s")) {
-            tema_Tempo = true;
-        } else {
-            tema_Tempo = false;
-        }
+    public void addPlaylist(String nomeP, int publica,int tematica,String genero,int duracaoMaxima) {
+        boolean publicaB= (publica==1);
+        boolean tema_Tempo = (tematica==1);
 
-        model.addPlaylist(nomeP, publica,new ArrayList<>(),tema_Tempo,genero,duracaoMaxima);
+        model.addPlaylist(nomeP, publicaB,new ArrayList<>(),tema_Tempo,genero,duracaoMaxima);
     }
 
     /**
@@ -349,7 +339,7 @@ public class Controller {
      * @param url URL do ficheiro da música.
      */
     public void addSong(String nomeMusica, String interprete, String editora, String letra, String pauta, String genero,
-            int duracao, String isExplicit, String isMedia, String url) {
+            int duracao, int isExplicit, int isMedia, String url) {
         model.addSong(nomeMusica, interprete, editora, letra, pauta, genero, duracao, isExplicit, isMedia, url);
     }
 
