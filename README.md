@@ -1,6 +1,9 @@
 # Programação Orientada a Objetos (2024/2025)
 
 
+#### 📊 Nota Final: 17 valores
+
+
 
 ## 📦 Requisitos
 
@@ -59,7 +62,7 @@ SpotifUM/
 O SpotifUM é uma aplicação desenvolvida para a gestão de músicas e listas de reprodução, permitindo aos utilizadores ouvir, organizar e explorar conteúdos musicais de forma prática.
 
 
-*Desenvolvido por:*
+*✍️ Desenvolvido por:*
 
 * Diogo José Ribeiro e Ribeiro - A106906 - DIOGO4810
 * Carolina Silva Martins - A107285 - Carolllina
